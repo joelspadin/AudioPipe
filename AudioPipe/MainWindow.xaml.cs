@@ -32,6 +32,7 @@ namespace AudioPipe
         public MainWindow()
         {
             InitializeComponent();
+            UpdateLatency();
 
             _trayIcon.Invoked += TrayIcon_Invoked;
             DeviceService.DefaultCaptureDeviceChanged += DeviceService_DefaultCaptureDeviceChanged;
@@ -79,6 +80,11 @@ namespace AudioPipe
             {
                 await this.HideWithAnimation();
             }
+        }
+
+        private void UpdateLatency()
+        {
+            _pipeManager.Latency = Properties.Settings.Default.Latency;
         }
 
         private void UpdateViewModel()

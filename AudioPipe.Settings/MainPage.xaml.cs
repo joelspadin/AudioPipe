@@ -22,6 +22,8 @@ namespace AudioPipe.Settings
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public Settings Settings { get; } = new Settings();
+
         public MainPage()
         {
             this.InitializeComponent();

@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AudioPipe")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Copyright © Joel Spadin 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

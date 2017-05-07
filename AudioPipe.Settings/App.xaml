@@ -5,4 +5,21 @@
     xmlns:local="using:AudioPipe.Settings"
     RequestedTheme="Light">
 
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <local:ValueToMillisecondsConverter x:Key="millisecondsConverter" />
+
+            <Style x:Key="OutputTextBlockStyle" BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                <Setter Property="Margin" Value="8,8,0,0"/>
+            </Style>
+
+            <Style x:Key="SubTextBlockStyle" BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+            </Style>
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+
 </Application>

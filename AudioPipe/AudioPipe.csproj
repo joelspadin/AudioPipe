@@ -70,6 +70,7 @@
     <Compile Include="Extensions\ObservableCollectionExtensions.cs" />
     <Compile Include="Extensions\VisualExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="PipeInitException.cs" />
     <Compile Include="PipeManager.cs" />
     <Compile Include="Services\AccentColorService.cs" />

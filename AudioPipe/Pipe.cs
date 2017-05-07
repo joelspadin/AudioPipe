@@ -10,7 +10,8 @@ namespace AudioPipe
 {
     public class Pipe : IDisposable
     {
-        public const int DefaultLatency = 5;
+        public const int MinLatency = 2;
+        public const int DefaultLatency = 10;
 
         public MMDevice CaptureDevice { get; }
         public MMDevice OutputDevice { get; }
@@ -27,12 +28,17 @@ namespace AudioPipe
                 throw new ArgumentException($"{nameof(capture)} and {nameof(output)} cannot both be {capture.FriendlyName}");
             }
 
+            if (latency < MinLatency)
+            {
+                throw new ArgumentException("Latency is too low.", nameof(latency));
+            }
+
             CaptureDevice = capture;
             OutputDevice = output;
 
             try
             {
-                _capture = new WasapiLoopbackCapture(latency)
+                _capture = new WasapiLoopbackCapture(latency / 2)
                 {
                     Device = CaptureDevice
                 };
@@ -47,7 +53,7 @@ namespace AudioPipe
             {
                 var source = new SoundInSource(_capture) { FillWithZeros = true };
 
-                _output = new WasapiOut(false, AudioClientShareMode.Shared, latency)
+                _output = new WasapiOut(false, AudioClientShareMode.Shared, latency / 2)
                 {
                     Device = OutputDevice
                 };

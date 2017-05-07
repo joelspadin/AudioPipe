@@ -10,19 +10,27 @@ namespace AudioPipe
 {
     public class PipeManager : IDisposable
     {
-        public int Latency { get; set; }
+        public int Latency
+        {
+            get => _latency;
+            set
+            {
+                var newLatency = Math.Max(value, Pipe.MinLatency);
+                if (newLatency != _latency)
+                {
+                    _latency = newLatency;
+                    Restart();
+                }
+            }
+        }
 
+        private int _latency = Pipe.DefaultLatency;
         private Pipe _pipe;
 
         public MMDevice CurrentOutput
         {
             get => _pipe?.OutputDevice ?? DeviceService.DefaultCaptureDevice;
             set => SetOutputDevice(value);
-        }
-
-        public PipeManager(int latency = Pipe.DefaultLatency)
-        {
-            Latency = latency;
         }
 
         public void Start()
@@ -33,6 +41,13 @@ namespace AudioPipe
         public void Stop()
         {
             _pipe?.Stop();
+        }
+
+        public void Restart()
+        {
+            var device = CurrentOutput;
+            SetOutputDevice(null);
+            SetOutputDevice(device);
         }
 
         public void SetOutputDevice(MMDevice output)

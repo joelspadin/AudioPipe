@@ -5,9 +5,83 @@
     xmlns:local="using:AudioPipe.Settings"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" RequestedTheme="Dark">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot>
+            <PivotItem Header="Settings" HorizontalContentAlignment="Left">
+                <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
+                        <Slider
+                            x:Name="Latency"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Value="{x:Bind Settings.Latency}"
+                            Header="Latency"
+                            Width="280"
+                            Minimum="2"
+                            Maximum="80"
+                            SmallChange="2"
+                            StepFrequency="2"
+                            TickFrequency="20"
+                            TickPlacement="Outside" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Text="{x:Bind Latency.Value, Converter={StaticResource millisecondsConverter}, Mode=OneWay}"
+                            Style="{StaticResource OutputTextBlockStyle}"
+                            VerticalAlignment="Bottom"
+                            Margin="8,8,16,16" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="Performance"
+                            Style="{StaticResource SubTextBlockStyle}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Text="Stability"
+                            Style="{StaticResource SubTextBlockStyle}"
+                            HorizontalAlignment="Right" />
+                    </Grid>
+
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="About">
+                <StackPanel>
+                    <RichTextBlock Margin="0,0,0,16">
+                        <Paragraph>
+                            AudioPipe is open source software provided under the MIT license.
+                        </Paragraph>
+                        <Paragraph>
+                            <Hyperlink NavigateUri="https://github.com/ChaosinaCan/AudioPipe">https://github.com/ChaosinaCan/AudioPipe</Hyperlink>
+                        </Paragraph>
+                    </RichTextBlock>
+
+                    <TextBlock
+                        Text="Third Party Contributions"
+                        Style="{StaticResource SubtitleTextBlockStyle}" />
+                    <TextBlock>
+                        <Hyperlink NavigateUri="https://github.com/filoe/cscore">CSCore .NET Audio Library</Hyperlink> (Ms-PL license)
+                    </TextBlock>
+                    <TextBlock>
+                        <Hyperlink NavigateUri="https://github.com/File-New-Project/EarTrumpet">Ear Trumpet</Hyperlink> (MIT license)
+                    </TextBlock>
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>
