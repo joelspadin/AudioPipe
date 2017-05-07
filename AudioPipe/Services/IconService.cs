@@ -78,9 +78,9 @@ namespace AudioPipe.Services
         /// <param name="imageSize">The size of the image in pixels</param>
         /// <param name="symbolSize">The size of the symbol in pixels. Use 0 to match the image size.</param>
         /// <returns></returns>
-        public static Icon CreateIcon(int charcode, int imageSize = 16, int symbolSize = 0)
+        public static Icon CreateIcon(int charCode, int imageSize = 16, int symbolSize = 0)
         {
-            using (var bitmap = CreateBitmap(charcode, imageSize, symbolSize))
+            using (var bitmap = CreateBitmap(charCode, imageSize, symbolSize))
             {
                 return CreateIconFromBitmap(bitmap);
             }
@@ -160,7 +160,6 @@ namespace AudioPipe.Services
             public SymbolInfo(Symbol symbol)
                 : this((int)symbol)
             {
-
             }
         }
 
@@ -188,7 +187,6 @@ namespace AudioPipe.Services
             public IconInfo(Symbol symbol, int size = 16)
                 : this((int)symbol, size)
             {
-
             }
         }
 
@@ -197,7 +195,6 @@ namespace AudioPipe.Services
             IntPtr hdc,    // DC handle
             int nCharExtra // extra-space value
         );
-
 
         #region Icon Structures
         [StructLayout(LayoutKind.Sequential)]

@@ -79,7 +79,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Setings.
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string ContextMenuSettingsTitle {
             get {
@@ -93,6 +93,42 @@ namespace AudioPipe.Properties {
         public static string DefaultDeviceText {
             get {
                 return ResourceManager.GetString("DefaultDeviceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to connect to destination device. Is another program using it?.
+        /// </summary>
+        public static string ErrorDestinationDeviceBusy {
+            get {
+                return ResourceManager.GetString("ErrorDestinationDeviceBusy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to connect to source device. Is another program using it?.
+        /// </summary>
+        public static string ErrorSourceDeviceBusy {
+            get {
+                return ResourceManager.GetString("ErrorSourceDeviceBusy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot Create Pipe.
+        /// </summary>
+        public static string ErrorTitleCannotCreatePipe {
+            get {
+                return ResourceManager.GetString("ErrorTitleCannotCreatePipe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AudioPipe.
+        /// </summary>
+        public static string TrayIconText {
+            get {
+                return ResourceManager.GetString("TrayIconText", resourceCulture);
             }
         }
     }

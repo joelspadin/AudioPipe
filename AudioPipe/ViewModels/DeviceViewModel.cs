@@ -23,11 +23,16 @@ namespace AudioPipe.ViewModels
         }
 
         public string DeviceName => IsDefault ? Properties.Resources.DefaultDeviceText : Device.FriendlyName;
-        public bool IsDefault => DeviceService.Equals(Device, DeviceService.GetDefaultCaptureDevice());
+        public bool IsDefault => DeviceService.Equals(Device, DeviceService.DefaultCaptureDevice);
 
         public DeviceViewModel(MMDevice device)
         {
             Device = device;
+        }
+
+        public void RefreshName()
+        {
+            RaisePropertyChanged(nameof(DeviceName));
         }
     }
 }

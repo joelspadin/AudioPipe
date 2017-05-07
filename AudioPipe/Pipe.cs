@@ -1,14 +1,10 @@
-﻿using AudioPipe.Services;
+﻿using AudioPipe.Properties;
+using AudioPipe.Services;
 using CSCore.CoreAudioAPI;
 using CSCore.SoundIn;
 using CSCore.SoundOut;
 using CSCore.Streams;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace AudioPipe
 {
@@ -36,26 +32,30 @@ namespace AudioPipe
 
             try
             {
-                _capture = new WasapiLoopbackCapture(latency);
-                _capture.Device = CaptureDevice;
+                _capture = new WasapiLoopbackCapture(latency)
+                {
+                    Device = CaptureDevice
+                };
                 _capture.Initialize();
             }
             catch (CoreAudioAPIException ex)
             {
-                throw new PipeInitException("Failed to connect to source device. Is another program using it?", ex);
+                throw new PipeInitException(Resources.ErrorSourceDeviceBusy, ex);
             }
 
             try
             {
                 var source = new SoundInSource(_capture) { FillWithZeros = true };
 
-                _output = new WasapiOut(false, AudioClientShareMode.Shared, latency);
-                _output.Device = OutputDevice;
+                _output = new WasapiOut(false, AudioClientShareMode.Shared, latency)
+                {
+                    Device = OutputDevice
+                };
                 _output.Initialize(source);
             }
             catch (CoreAudioAPIException ex)
             {
-                throw new PipeInitException("Failed to connect to destination device. Is another program using it?", ex);
+                throw new PipeInitException(Resources.ErrorDestinationDeviceBusy, ex);
             }
 
             _inputVolume = AudioEndpointVolume.FromDevice(CaptureDevice);

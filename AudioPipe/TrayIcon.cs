@@ -1,28 +1,25 @@
-﻿using AudioPipe.Services;
+﻿using AudioPipe.Properties;
+using AudioPipe.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Windows.ApplicationModel.AppService;
 
 namespace AudioPipe
 {
-    class TrayIcon : IDisposable
+    public class TrayIcon : IDisposable
     {
-        public event Action Invoked = delegate {};
+        public event Action Invoked;
 
         private readonly System.Windows.Forms.NotifyIcon _trayIcon;
-        private AppServiceConnection _appServiceConnection;
-
-        private System.Drawing.Icon _pipeInactiveIcon;
-        private System.Drawing.Icon _pipeActiveIcon;
+        private readonly System.Drawing.Icon _pipeInactiveIcon;
+        private readonly System.Drawing.Icon _pipeActiveIcon;
 
         public TrayIcon()
         {
-            _trayIcon = new System.Windows.Forms.NotifyIcon();
-            _trayIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
+            _trayIcon = new System.Windows.Forms.NotifyIcon()
+            {
+                ContextMenu = new System.Windows.Forms.ContextMenu()
+            };
 
             // TODO: adjust size based on system DPI?
             _pipeActiveIcon = IconService.CreateIcon((int)IconService.Symbol.Headphone);
@@ -32,17 +29,17 @@ namespace AudioPipe
             {
                 new MenuItem
                 {
-                    Text = AudioPipe.Properties.Resources.ContextMenuSettingsTitle,
+                    Text = Resources.ContextMenuSettingsTitle,
                     Click = SettingsItem_Click,
                 },
                 new MenuItem
                 {
-                    Text = AudioPipe.Properties.Resources.ContextMenuAboutTitle,
+                    Text = Resources.ContextMenuAboutTitle,
                     Click = AboutItem_Click,
                 },
                 new MenuItem
                 {
-                    Text = AudioPipe.Properties.Resources.ContextMenuExitTitle,
+                    Text = Resources.ContextMenuExitTitle,
                     Click = ExitItem_Click,
                 },
             });
@@ -50,7 +47,7 @@ namespace AudioPipe
             _trayIcon.MouseClick += TrayIcon_MouseClick;
             _trayIcon.ContextMenu.Popup += ContextMenu_Popup;
             _trayIcon.Icon = _pipeInactiveIcon;
-            _trayIcon.Text = "AudioPipe";
+            _trayIcon.Text = Resources.TrayIconText;
             _trayIcon.Visible = true;
         }
 
@@ -61,14 +58,13 @@ namespace AudioPipe
 
         private void ContextMenu_Popup(object sender, EventArgs e)
         {
-
         }
 
         private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                Invoked.Invoke();
+                Invoked?.Invoke();
             }
         }
 
@@ -91,13 +87,8 @@ namespace AudioPipe
 
         private void ExitItem_Click(object sender, EventArgs e)
         {
-            if (_appServiceConnection != null)
-            {
-                _appServiceConnection.Dispose();
-            }
-
             _trayIcon.Visible = false;
-            _trayIcon.Dispose();
+            Dispose();
 
             Application.Current.Shutdown();
         }

@@ -32,7 +32,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <ListBox x:Name="LayoutRoot"
-             ItemsSource="{Binding Devices, Mode=OneWay}"
+             ItemsSource="{Binding DevicesView, Mode=OneWay}"
              SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"
              SelectionChanged="LayoutRoot_SelectionChanged"
              ScrollViewer.VerticalScrollBarVisibility="Auto"

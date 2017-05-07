@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace AudioPipe
 {
     public class PipeManager : IDisposable
@@ -17,7 +16,7 @@ namespace AudioPipe
 
         public MMDevice CurrentOutput
         {
-            get => _pipe?.OutputDevice ?? DeviceService.GetDefaultCaptureDevice();
+            get => _pipe?.OutputDevice ?? DeviceService.DefaultCaptureDevice;
             set => SetOutputDevice(value);
         }
 
@@ -42,7 +41,7 @@ namespace AudioPipe
             {
                 _pipe?.Dispose();
 
-                var defaultDevice = DeviceService.GetDefaultCaptureDevice();
+                var defaultDevice = DeviceService.DefaultCaptureDevice;
                 if (output == null || DeviceService.Equals(output, defaultDevice))
                 {
                     _pipe = null;

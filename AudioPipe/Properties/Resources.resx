@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ContextMenuSettingsTitle" xml:space="preserve">
-    <value>Setings</value>
+    <value>Settings</value>
   </data>
   <data name="ContextMenuAboutTitle" xml:space="preserve">
     <value>About</value>
@@ -128,5 +128,17 @@
   </data>
   <data name="DefaultDeviceText" xml:space="preserve">
     <value>No Pipe</value>
+  </data>
+  <data name="ErrorDestinationDeviceBusy" xml:space="preserve">
+    <value>Failed to connect to destination device. Is another program using it?</value>
+  </data>
+  <data name="ErrorSourceDeviceBusy" xml:space="preserve">
+    <value>Failed to connect to source device. Is another program using it?</value>
+  </data>
+  <data name="ErrorTitleCannotCreatePipe" xml:space="preserve">
+    <value>Cannot Create Pipe</value>
+  </data>
+  <data name="TrayIconText" xml:space="preserve">
+    <value>AudioPipe</value>
   </data>
 </root>

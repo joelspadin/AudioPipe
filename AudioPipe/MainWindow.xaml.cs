@@ -16,6 +16,7 @@ using AudioPipe.Extensions;
 using AudioPipe.Services;
 using AudioPipe.ViewModels;
 using System.Diagnostics;
+using CSCore.CoreAudioAPI;
 
 namespace AudioPipe
 {
@@ -24,24 +25,22 @@ namespace AudioPipe
     /// </summary>
     public partial class MainWindow : Window
     {
-        private AppViewModel _viewModel;
-
-
-        private TrayIcon _trayIcon = new TrayIcon();
-        private PipeManager _pipeManager = new PipeManager();
+        private readonly AppViewModel _viewModel;
+        private readonly TrayIcon _trayIcon = new TrayIcon();
+        private readonly PipeManager _pipeManager = new PipeManager();
 
         public MainWindow()
         {
             InitializeComponent();
 
             _trayIcon.Invoked += TrayIcon_Invoked;
+            DeviceService.DefaultCaptureDeviceChanged += DeviceService_DefaultCaptureDeviceChanged;
 
             _viewModel = new AppViewModel();
             DataContext = _viewModel;
 
             CreateAndHideWindow();
         }
-
 
         private void CreateAndHideWindow()
         {
@@ -71,7 +70,6 @@ namespace AudioPipe
                 Topmost = true;
                 SizeToContent = SizeToContent.WidthAndHeight;
                 scrollviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-
             }
         }
 
@@ -86,7 +84,19 @@ namespace AudioPipe
         private void UpdateViewModel()
         {
             _viewModel.Refresh();
-            _viewModel.SelectedDevice = _viewModel.Devices.FirstOrDefault(d => DeviceService.Equals(d.Device, _pipeManager.CurrentOutput));
+            SelectDevice(_pipeManager.CurrentOutput);
+        }
+
+        private void SelectDevice(MMDevice device)
+        {
+            if (device == null)
+            {
+                _viewModel.SelectedDevice = _viewModel.Devices.FirstOrDefault(d => d.IsDefault);
+            }
+            else
+            {
+                _viewModel.SelectedDevice = _viewModel.Devices.FirstOrDefault(d => DeviceService.Equals(d.Device, device));
+            }
         }
 
         private void Window_Closing(object sender, EventArgs e)
@@ -149,7 +159,7 @@ namespace AudioPipe
             switch (taskbarState.TaskbarPosition)
             {
                 case TaskbarPosition.Left:
-                    Left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor());
+                    Left = taskbarState.TaskbarBounds.Right / this.DpiWidthFactor();
                     Top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - Height;
                     break;
                 case TaskbarPosition.Right:
@@ -158,7 +168,7 @@ namespace AudioPipe
                     break;
                 case TaskbarPosition.Top:
                     Left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - Width;
-                    Top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor());
+                    Top = taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor();
                     break;
                 case TaskbarPosition.Bottom:
                     Left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - Width;
@@ -182,7 +192,21 @@ namespace AudioPipe
                 _viewModel.SelectedDevice = _viewModel.Devices.FirstOrDefault(d => d.IsDefault);
             }
 
-            var pipeActive = _pipeManager.CurrentOutput != DeviceService.GetDefaultCaptureDevice();
+            UpdateTrayIcon();
+        }
+
+        private void DeviceService_DefaultCaptureDeviceChanged()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                UpdateViewModel();
+                UpdateTrayIcon();
+            });
+        }
+
+        private void UpdateTrayIcon()
+        {
+            var pipeActive = _pipeManager.CurrentOutput != DeviceService.DefaultCaptureDevice;
             _trayIcon.SetPipeActive(pipeActive);
         }
     }
