@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioPipe", "AudioPipe\AudioPipe.csproj", "{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2D597DE1-96A9-495E-8F6F-C0C29470407A}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioPipe.Settings", "AudioPipe.Settings\AudioPipe.Settings.csproj", "{3279F34B-760B-49C0-9EA8-7E772446D927}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Debug|ARM.Build.0 = Debug|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Debug|x64.Build.0 = Debug|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Debug|x86.Build.0 = Debug|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Release|ARM.ActiveCfg = Release|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Release|ARM.Build.0 = Release|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Release|x64.Build.0 = Release|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}.Release|x86.Build.0 = Release|Any CPU
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|ARM.ActiveCfg = Debug|ARM
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|ARM.Build.0 = Debug|ARM
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|ARM.Deploy.0 = Debug|ARM
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|x64.ActiveCfg = Debug|x64
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|x64.Build.0 = Debug|x64
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|x64.Deploy.0 = Debug|x64
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|x86.ActiveCfg = Debug|x86
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|x86.Build.0 = Debug|x86
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Debug|x86.Deploy.0 = Debug|x86
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|Any CPU.ActiveCfg = Release|x86
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|ARM.ActiveCfg = Release|ARM
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|ARM.Build.0 = Release|ARM
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|ARM.Deploy.0 = Release|ARM
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x64.ActiveCfg = Release|x64
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x64.Build.0 = Release|x64
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x64.Deploy.0 = Release|x64
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x86.ActiveCfg = Release|x86
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x86.Build.0 = Release|x86
+		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
