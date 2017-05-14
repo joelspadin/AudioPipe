@@ -17,9 +17,23 @@ namespace AudioPipe
         public MMDevice OutputDevice { get; }
         public PlaybackState PlaybackState => _output?.PlaybackState ?? PlaybackState.Stopped;
 
+        public bool MuteSource
+        {
+            get => _muteSource;
+            set
+            {
+                _muteSource = value;
+                if (PlaybackState == PlaybackState.Playing)
+                {
+                    _inputVolume.IsMuted = _muteSource;
+                }
+            }
+        }
+
         private AudioEndpointVolume _inputVolume;
         private WasapiLoopbackCapture _capture;
         private WasapiOut _output;
+        private bool _muteSource;
 
         public Pipe(MMDevice capture, MMDevice output, int latency = DefaultLatency)
         {
@@ -78,7 +92,7 @@ namespace AudioPipe
             {
                 _capture.Start();
                 _output.Play();
-                _inputVolume.IsMuted = true;
+                _inputVolume.IsMuted = MuteSource;
             }
         }
 

@@ -3,6 +3,26 @@
                     xmlns:vsm="clr-namespace:System.Windows;assembly=PresentationFramework"
                     xmlns:local="clr-namespace:AudioPipe.Resources">
 
+    <Style TargetType="ListBox">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource WindowForeground}" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Grid>
+                        <ScrollViewer x:Name="ScrollViewer">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="ListBoxItem">
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
@@ -31,8 +51,8 @@
                             </vsm:VisualStateGroup>
                         </vsm:VisualStateManager.VisualStateGroups>
 
-                        <Rectangle x:Name="selectFill" Opacity="0" Fill="{DynamicResource ItemSelected}" IsHitTestVisible="False" />
-                        <Rectangle x:Name="hoverFill" Opacity="0" Fill="{DynamicResource ItemHighlight}" IsHitTestVisible="False" />
+                        <Rectangle x:Name="selectFill" Opacity="0" Fill="{DynamicResource DeviceItemSelected}" IsHitTestVisible="False" />
+                        <Rectangle x:Name="hoverFill" Opacity="0" Fill="{DynamicResource DeviceItemHighlight}" IsHitTestVisible="False" />
 
                         <ContentPresenter x:Name="contentPresenter"
                                           Content="{TemplateBinding Content}"

@@ -139,9 +139,13 @@ namespace AudioPipe.Services
         // https://docs.microsoft.com/en-us/windows/uwp/style/segoe-ui-symbol-font
         public enum Symbol
         {
+            Bluetooth = 0xE702,
             Speaker = 0xE7F5,
             Headphone = 0xE7F6,
             IncidentTriangle = 0xE814,
+            Audio = 0xE8D6,
+            Streaming = 0xE93E,
+            Headset = 0xE95B,
             Error = 0xEA39,
             CircleFill = 0xEA3B,
         }

@@ -17,8 +17,6 @@ namespace AudioPipe.Extensions
         private const double ShowDuration = 0.2;
         private const double HideDuration = 0.1;
 
-        //private static Storyboard storyboard = null;
-
         public static async Task HideWithAnimation(this Window window)
         {
             var duration = new Duration(TimeSpan.FromSeconds(HideDuration));

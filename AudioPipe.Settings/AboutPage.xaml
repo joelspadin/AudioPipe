@@ -1,0 +1,30 @@
+﻿<UserControl
+    x:Class="AudioPipe.Settings.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AudioPipe.Settings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <RichTextBlock Margin="0,0,0,16">
+            <Paragraph>
+                AudioPipe is open source software provided under the MIT license.
+            </Paragraph>
+            <Paragraph>
+                <Hyperlink NavigateUri="https://github.com/ChaosinaCan/AudioPipe">https://github.com/ChaosinaCan/AudioPipe</Hyperlink>
+            </Paragraph>
+        </RichTextBlock>
+
+        <TextBlock
+            Text="Credits"
+            Style="{StaticResource SubtitleTextBlockStyle}" />
+        <TextBlock>
+            <Hyperlink NavigateUri="https://github.com/filoe/cscore">CSCore .NET Audio Library</Hyperlink> (Ms-PL license)
+        </TextBlock>
+        <TextBlock>
+            <Hyperlink NavigateUri="https://github.com/File-New-Project/EarTrumpet">Ear Trumpet</Hyperlink> (MIT license)
+        </TextBlock>
+    </StackPanel>
+</UserControl>

@@ -9,6 +9,8 @@ namespace AudioPipe
     public class TrayIcon : IDisposable
     {
         public event Action Invoked;
+        public event Action SettingsClicked;
+        public event Action AboutClicked;
 
         private readonly System.Windows.Forms.NotifyIcon _trayIcon;
         private readonly System.Drawing.Icon _pipeInactiveIcon;
@@ -45,7 +47,6 @@ namespace AudioPipe
             });
 
             _trayIcon.MouseClick += TrayIcon_MouseClick;
-            _trayIcon.ContextMenu.Popup += ContextMenu_Popup;
             _trayIcon.Icon = _pipeInactiveIcon;
             _trayIcon.Text = Resources.TrayIconText;
             _trayIcon.Visible = true;
@@ -54,10 +55,6 @@ namespace AudioPipe
         public void SetPipeActive(bool active)
         {
             _trayIcon.Icon = active ? _pipeActiveIcon : _pipeInactiveIcon;
-        }
-
-        private void ContextMenu_Popup(object sender, EventArgs e)
-        {
         }
 
         private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -82,7 +79,7 @@ namespace AudioPipe
 
         private void AboutItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            AboutClicked?.Invoke();
         }
 
         private void ExitItem_Click(object sender, EventArgs e)
@@ -95,7 +92,7 @@ namespace AudioPipe
 
         private void SettingsItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            SettingsClicked?.Invoke();
         }
 
         public void Dispose()

@@ -1,0 +1,66 @@
+﻿<UserControl
+    x:Class="AudioPipe.Settings.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AudioPipe.Settings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <Grid Style="{StaticResource SettingItem}">
+            <ToggleSwitch
+                x:Name="MuteSource"
+                Header="Mute source device when pipe is active"
+                IsOn="{x:Bind Settings.MuteSource}" />
+        </Grid>
+
+        <Grid Style="{StaticResource SettingItem}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Slider
+                x:Name="Latency"
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Width="280"
+                Header="Latency"
+                Value="{x:Bind Settings.Latency}"
+                Minimum="2"
+                Maximum="80"
+                SmallChange="2"
+                StepFrequency="2"
+                TickFrequency="10"
+                TickPlacement="None" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{x:Bind Latency.Value, Converter={StaticResource millisecondsConverter}, Mode=OneWay}"
+                Style="{StaticResource OutputTextBlockStyle}"
+                VerticalAlignment="Bottom"
+                Margin="8,8,16,16" />
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="Performance"
+                Style="{StaticResource SubTextBlockStyle}" />
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="Stability"
+                Style="{StaticResource SubTextBlockStyle}"
+                HorizontalAlignment="Right" />
+        </Grid>
+
+    </StackPanel>
+</UserControl>

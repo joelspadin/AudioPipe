@@ -26,21 +26,35 @@ namespace AudioPipe
     public partial class MainWindow : Window
     {
         private readonly AppViewModel _viewModel;
-        private readonly TrayIcon _trayIcon = new TrayIcon();
         private readonly PipeManager _pipeManager = new PipeManager();
+
+        private TrayIcon _trayIcon;
+        private SettingsWindow _settingsWindow;
 
         public MainWindow()
         {
             InitializeComponent();
-            UpdateLatency();
+            CreateAndHideWindow();
 
-            _trayIcon.Invoked += TrayIcon_Invoked;
+            UpdateTheme();
+            UpdateLatency();
+            UpdateMuteSource();
+
+            Properties.Settings.Default.PropertyChanged += Settings_PropertyChanged;
             DeviceService.DefaultCaptureDeviceChanged += DeviceService_DefaultCaptureDeviceChanged;
 
             _viewModel = new AppViewModel();
             DataContext = _viewModel;
 
-            CreateAndHideWindow();
+            // If you open the tray icon's context menu before the window has
+            // finished fully loading, it breaks the dispatcher. Defer it to later.
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _trayIcon = new TrayIcon();
+                _trayIcon.Invoked += TrayIcon_Invoked;
+                _trayIcon.SettingsClicked += TrayIcon_SettingsClicked;
+                _trayIcon.AboutClicked += TrayIcon_AboutClicked;
+            }));
         }
 
         private void CreateAndHideWindow()
@@ -84,7 +98,13 @@ namespace AudioPipe
 
         private void UpdateLatency()
         {
+            // TODO: may need to throttle updates to prevent things from breaking.
             _pipeManager.Latency = Properties.Settings.Default.Latency;
+        }
+
+        private void UpdateMuteSource()
+        {
+            _pipeManager.MuteSource = Properties.Settings.Default.MuteSource;
         }
 
         private void UpdateViewModel()
@@ -134,6 +154,16 @@ namespace AudioPipe
             }
         }
 
+        private void TrayIcon_AboutClicked()
+        {
+            ShowSettings(SettingsWindow.Pages.About);
+        }
+
+        private void TrayIcon_SettingsClicked()
+        {
+            ShowSettings(SettingsWindow.Pages.Settings);
+        }
+
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
@@ -144,12 +174,10 @@ namespace AudioPipe
 
         private void UpdateTheme()
         {
-            foreach (var dict in Resources.MergedDictionaries)
+            var globalTheme = ThemeService.FindResourceDictionary(Application.Current.Resources, "Default.xaml");
+            if (globalTheme != null)
             {
-                if (dict.Source.OriginalString.EndsWith("Brushes.xaml"))
-                {
-                    ThemeService.UpdateThemeResources(dict);
-                }
+                ThemeService.UpdateThemeColors(globalTheme);
             }
 
             this.SetBlur(ThemeService.IsWindowTransparencyEnabled);
@@ -208,6 +236,40 @@ namespace AudioPipe
                 UpdateViewModel();
                 UpdateTrayIcon();
             });
+        }
+
+        private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Properties.Settings.Latency):
+                    UpdateLatency();
+                    break;
+
+                case nameof(Properties.Settings.MuteSource):
+                    UpdateMuteSource();
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
+        }
+
+        private void ShowSettings(SettingsWindow.Pages page)
+        {
+            if (_settingsWindow == null)
+            {
+                _settingsWindow = new SettingsWindow();
+                _settingsWindow.Closed += SettingsWindow_Closed;
+            }
+
+            _settingsWindow.SetPage(page);
+            _settingsWindow.Show();
+        }
+
+        private void SettingsWindow_Closed(object sender, EventArgs e)
+        {
+            _settingsWindow.Closed -= SettingsWindow_Closed;
+            _settingsWindow = null;
         }
 
         private void UpdateTrayIcon()

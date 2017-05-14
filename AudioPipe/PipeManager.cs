@@ -24,7 +24,21 @@ namespace AudioPipe
             }
         }
 
+        public bool MuteSource
+        {
+            get => _muteSource;
+            set
+            {
+                _muteSource = value;
+                if (_pipe != null)
+                {
+                    _pipe.MuteSource = _muteSource;
+                }
+            }
+        }
+
         private int _latency = Pipe.DefaultLatency;
+        private bool _muteSource;
         private Pipe _pipe;
 
         public MMDevice CurrentOutput
@@ -48,6 +62,7 @@ namespace AudioPipe
             var device = CurrentOutput;
             SetOutputDevice(null);
             SetOutputDevice(device);
+            _pipe?.Start();
         }
 
         public void SetOutputDevice(MMDevice output)
@@ -63,7 +78,10 @@ namespace AudioPipe
                 }
                 else
                 {
-                    _pipe = new Pipe(defaultDevice, output, Latency);
+                    _pipe = new Pipe(defaultDevice, output, Latency)
+                    {
+                        MuteSource = MuteSource,
+                    };
                 }
             }
         }
@@ -72,7 +90,5 @@ namespace AudioPipe
         {
             _pipe?.Dispose();
         }
-
-        // TODO: what happens if one of the devices gets removed?
     }
 }

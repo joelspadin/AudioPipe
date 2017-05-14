@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="AudioPipe.AboutPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:AudioPipe"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="AboutSection" TargetType="FrameworkElement">
+                <Setter Property="Margin" Value="0,0,0,16" />
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="TextWrapping" Value="Wrap" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel>
+        <StackPanel Style="{StaticResource AboutSection}">
+            <TextBlock>
+                AudioPipe is open source software provided under the MIT license.
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://github.com/ChaosinaCan/AudioPipe">https://github.com/ChaosinaCan/AudioPipe</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel Style="{StaticResource AboutSection}">
+            <TextBlock
+                Text="Credits"
+                Style="{StaticResource SubtitleTextBlockStyle}" />
+            <TextBlock>
+                <Hyperlink NavigateUri="https://github.com/filoe/cscore">CSCore .NET Audio Library</Hyperlink> (Ms-PL license)
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://github.com/File-New-Project/EarTrumpet">Ear Trumpet</Hyperlink> (MIT license)
+            </TextBlock>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

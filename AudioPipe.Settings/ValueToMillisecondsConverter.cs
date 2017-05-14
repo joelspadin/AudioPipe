@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace AudioPipe.Settings
+namespace AudioPipe
 {
     public sealed class ValueToMillisecondsConverter : IValueConverter
     {
@@ -25,7 +25,7 @@ namespace AudioPipe.Settings
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException("Converting from string is not supported.");
+            throw new InvalidOperationException("Converting from string is not supported.");
         }
     }
 }

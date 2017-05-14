@@ -34,5 +34,17 @@ namespace AudioPipe.Properties {
                 this["Latency"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MuteSource {
+            get {
+                return ((bool)(this["MuteSource"]));
+            }
+            set {
+                this["MuteSource"] = value;
+            }
+        }
     }
 }

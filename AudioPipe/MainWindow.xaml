@@ -16,44 +16,39 @@
         Deactivated="Window_Deactivated"
         PreviewKeyDown="Window_PreviewKeyDown"
         Closing="Window_Closing"
-        Foreground="{DynamicResource WindowForeground}"
-        Background="{DynamicResource WindowBackground}"
+        Foreground="{DynamicResource GlassWindowForeground}"
+        Background="{DynamicResource GlassWindowBackground}"
         ResizeMode="NoResize"
-        x:Name="PipeWindow"
+        x:Name="TrayWindow"
         SizeToContent="WidthAndHeight"
         >
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Brushes.xaml" />
-                <ResourceDictionary Source="Resources/ListBoxStyle.xaml" />
-                <ResourceDictionary Source="Resources/ListBoxItemStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="Resources/TrayUI.xaml" />
     </Window.Resources>
-    <ListBox x:Name="LayoutRoot"
-             ItemsSource="{Binding DevicesView, Mode=OneWay}"
-             SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"
-             SelectionChanged="LayoutRoot_SelectionChanged"
-             ScrollViewer.VerticalScrollBarVisibility="Auto"
-             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-             ScrollViewer.CanContentScroll="True"
-             ScrollViewer.PanningMode="VerticalOnly"
-             HorizontalContentAlignment="Stretch"
-             Focusable="False"
-             Margin="0"
-             MaxHeight="600"
-             Width="360"
-             MaxWidth="360"
-             >
+    <ListBox
+        x:Name="LayoutRoot"
+        ItemsSource="{Binding DevicesView, Mode=OneWay}"
+        SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"
+        SelectionChanged="LayoutRoot_SelectionChanged"
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+        ScrollViewer.CanContentScroll="True"
+        ScrollViewer.PanningMode="VerticalOnly"
+        HorizontalContentAlignment="Stretch"
+        Focusable="False"
+        Margin="0"
+        MaxHeight="600"
+        Width="360"
+        MaxWidth="360">
         <ListBox.ItemTemplate>
             <DataTemplate DataType="viewModels:DeviceViewModel">
-                <TextBlock Padding="12"
-                           Text="{Binding DeviceName, Mode=OneWay}"
-                           FontSize="15"
-                           FontFamily="Segoe UI"
-                           FontWeight="Normal"
-                           TextTrimming="WordEllipsis" />
+                <TextBlock
+                    Padding="12"
+                    Text="{Binding DeviceName, Mode=OneWay}"
+                    FontSize="15"
+                    FontFamily="Segoe UI"
+                    FontWeight="Normal"
+                    TextTrimming="WordEllipsis" />
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>

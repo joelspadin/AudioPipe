@@ -10,12 +10,32 @@ namespace AudioPipe.Services
             get { return !SystemParameters.HighContrast && UserSystemPreferencesService.IsTransparencyEnabled; }
         }
 
-        public static void UpdateThemeResources(ResourceDictionary dictionary)
+        public static ResourceDictionary FindResourceDictionary(ResourceDictionary root, string filename)
         {
-            dictionary["WindowBackground"] = new SolidColorBrush(GetWindowBackgroundColor());
+            if (root.Source?.OriginalString.EndsWith(filename) ?? false)
+            {
+                return root;
+            }
 
-            ReplaceBrush(dictionary, "WindowForeground", "ApplicationTextDarkTheme");
-            ReplaceBrushWithOpacity(dictionary, "ItemSelected", "SystemAccent", 0.8);
+            foreach (var dict in root.MergedDictionaries)
+            {
+                var found = FindResourceDictionary(dict, filename);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+
+            return null;
+        }
+
+        public static void UpdateThemeColors(ResourceDictionary dictionary)
+        {
+            dictionary["SystemAccentColor"] = AccentColorService.ActiveSet["SystemAccent"];
+
+            dictionary["GlassWindowBackground"] = new SolidColorBrush(GetWindowBackgroundColor());
+            ReplaceBrush(dictionary, "GlassWindowForeground", "ApplicationTextDarkTheme");
+            ReplaceBrush(dictionary, "DeviceItemHighlight", "DarkListLow");
 
             //System.IO.File.WriteAllLines(@"C:\Users\Joel\Desktop\ThemeColors.txt",
             //    AccentColorService.ActiveSet.GetAllColorNames().Select((name) => $"{AccentColorService.ActiveSet[name]}, {name}")
