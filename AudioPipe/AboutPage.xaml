@@ -40,6 +40,9 @@
             <TextBlock>
                 <Hyperlink NavigateUri="https://github.com/File-New-Project/EarTrumpet">Ear Trumpet</Hyperlink> (MIT license)
             </TextBlock>
+            <TextBlock>
+                <Hyperlink NavigateUri="https://thenounproject.com/term/audio-to-audio/914488/">Icon by Oliviu Stoian</Hyperlink> (CC BY 3.0)
+            </TextBlock>
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -8,3 +8,4 @@ can effectively change the playback device without breaking the game's audio.
 
 AudioPipe uses WASAPI capture via [CSCore](https://github.com/filoe/cscore).
 The UI code is based on [EarTrumpet](https://github.com/File-New-Project/EarTrumpet).
+[The icon](https://thenounproject.com/term/audio-to-audio/914488/) is by Oliviu Stoian.
