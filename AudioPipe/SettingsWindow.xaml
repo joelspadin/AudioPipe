@@ -7,8 +7,9 @@
     xmlns:local="clr-namespace:AudioPipe"
     xmlns:controls="clr-namespace:AudioPipe.Controls"
     xmlns:ext="clr-namespace:AudioPipe.Extensions"
+    xmlns:p="clr-namespace:AudioPipe.Properties"
     mc:Ignorable="d"
-    Title="AudioPipe"
+    Title="{x:Static p:Resources.SettingsTitle}"
     Width="500"
     Height="350"
     MinWidth="400"
@@ -22,10 +23,10 @@
     -->
     <Grid>
         <controls:Pivot x:Name="Pivot">
-            <controls:PivotItem Header="Settings">
+            <controls:PivotItem Header="{x:Static p:Resources.SettingsHeader}">
                 <local:SettingsPage />
             </controls:PivotItem>
-            <controls:PivotItem Header="About">
+            <controls:PivotItem Header="{x:Static p:Resources.AboutHeader}">
                 <local:AboutPage />
             </controls:PivotItem>
         </controls:Pivot>

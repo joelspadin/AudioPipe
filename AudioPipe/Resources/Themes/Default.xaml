@@ -388,7 +388,7 @@
     <SolidColorBrush x:Key="PivotHeaderItemFocusPipeFill" Color="{DynamicResource SystemAccentColor}" />
 
 
-    <!-- Tray window colors -->
+    <!-- Tray window colors (dynamically replaced by ThemeService.cs -->
     <SolidColorBrush x:Key="GlassWindowForeground" Color="{DynamicResource SystemBaseHighColor}" />
     <SolidColorBrush x:Key="GlassWindowBackground" Color="{DynamicResource SystemChromeBlackMediumLowColor}" />
     <SolidColorBrush x:Key="DeviceItemHighlight" Color="{DynamicResource SystemListLowColor}" />

@@ -36,6 +36,7 @@ namespace AudioPipe.Services
             dictionary["GlassWindowBackground"] = new SolidColorBrush(GetWindowBackgroundColor());
             ReplaceBrush(dictionary, "GlassWindowForeground", "ApplicationTextDarkTheme");
             ReplaceBrush(dictionary, "DeviceItemHighlight", "DarkListLow");
+            ReplaceBrush(dictionary, "DeviceItemSelected", "SystemAccent", 0.8);
 
             //System.IO.File.WriteAllLines(@"C:\Users\Joel\Desktop\ThemeColors.txt",
             //    AccentColorService.ActiveSet.GetAllColorNames().Select((name) => $"{AccentColorService.ActiveSet[name]}, {name}")
@@ -63,28 +64,18 @@ namespace AudioPipe.Services
             return color;
         }
 
-        private static void SetBrushWithOpacity(ResourceDictionary dictionary, string name, string immersiveAccentName, double opacity)
-        {
-            var color = AccentColorService.ActiveSet[immersiveAccentName];
-            color.A = (byte)(opacity * 255);
-            ((SolidColorBrush)dictionary[name]).Color = color;
-        }
-
-        private static void SetBrush(ResourceDictionary dictionary, string name, string immersiveAccentName)
-        {
-            SetBrushWithOpacity(dictionary, name, immersiveAccentName, 1.0);
-        }
-
         private static void ReplaceBrush(ResourceDictionary dictionary, string name, string immersiveAccentName)
         {
-            dictionary[name] = new SolidColorBrush(AccentColorService.ActiveSet[immersiveAccentName]);
+            ReplaceBrush(dictionary, name, immersiveAccentName, 1);
         }
 
-        private static void ReplaceBrushWithOpacity(ResourceDictionary dictionary, string name, string immersiveAccentName, double opacity)
+        private static void ReplaceBrush(ResourceDictionary dictionary, string name, string immersiveAccentName, double opacity)
         {
             var color = AccentColorService.ActiveSet[immersiveAccentName];
-            color.A = (byte)(opacity * 255);
-            dictionary[name] = new SolidColorBrush(color);
+            dictionary[name] = new SolidColorBrush(color)
+            {
+                Opacity = opacity
+            };
         }
     }
 }

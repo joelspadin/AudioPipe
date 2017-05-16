@@ -120,9 +120,6 @@
   <data name="ContextMenuSettingsTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="ContextMenuAboutTitle" xml:space="preserve">
-    <value>About</value>
-  </data>
   <data name="ContextMenuExitTitle" xml:space="preserve">
     <value>Exit</value>
   </data>
@@ -140,5 +137,38 @@
   </data>
   <data name="TrayIconText" xml:space="preserve">
     <value>AudioPipe</value>
+  </data>
+  <data name="AboutHeader" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AboutText" xml:space="preserve">
+    <value>AudioPipe is open source software provided under the MIT license.</value>
+  </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="Latency" xml:space="preserve">
+    <value>Latency</value>
+  </data>
+  <data name="MuteSourceWhenPipeIsActive" xml:space="preserve">
+    <value>Mute source device when pipe is active</value>
+  </data>
+  <data name="Performance" xml:space="preserve">
+    <value>Performance</value>
+  </data>
+  <data name="SettingsHeader" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>AudioPipe</value>
+  </data>
+  <data name="Stability" xml:space="preserve">
+    <value>Stability</value>
+  </data>
+  <data name="ToggleOff" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="ToggleOn" xml:space="preserve">
+    <value>On</value>
   </data>
 </root>

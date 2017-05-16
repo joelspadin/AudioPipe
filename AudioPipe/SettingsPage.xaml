@@ -6,6 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:AudioPipe"
              xmlns:controls="clr-namespace:AudioPipe.Controls"
+             xmlns:p="clr-namespace:AudioPipe.Properties"
              mc:Ignorable="d"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="300"
@@ -31,7 +32,9 @@
         <Grid Style="{StaticResource SettingItem}">
             <controls:ToggleSwitch
                 x:Name="MuteSource"
-                Header="Mute source device when pipe is active"
+                Header="{x:Static p:Resources.MuteSourceWhenPipeIsActive}"
+                OnContent="{x:Static p:Resources.ToggleOn}"
+                OffContent="{x:Static p:Resources.ToggleOff}"
                 VerticalContentAlignment="Center"
                 IsOn="{Binding Settings.MuteSource}" />
         </Grid>
@@ -52,7 +55,7 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Width="280"
-                Header="Latency">
+                Header="{x:Static p:Resources.Latency}">
                 <Slider
                     x:Name="Latency"
                     Value="{Binding Settings.Latency}"
@@ -81,13 +84,13 @@
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="0"
-                Text="Performance"
+                Text="{x:Static p:Resources.Performance}"
                 Style="{StaticResource SubTextBlockStyle}" />
 
             <TextBlock
                 Grid.Row="1"
                 Grid.Column="1"
-                Text="Stability"
+                Text="{x:Static p:Resources.Stability}"
                 Style="{StaticResource SubTextBlockStyle}"
                 HorizontalAlignment="Right" />
         </Grid>

@@ -63,9 +63,18 @@ namespace AudioPipe.Properties {
         /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
-        public static string ContextMenuAboutTitle {
+        public static string AboutHeader {
             get {
-                return ResourceManager.GetString("ContextMenuAboutTitle", resourceCulture);
+                return ResourceManager.GetString("AboutHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AudioPipe is open source software provided under the MIT license..
+        /// </summary>
+        public static string AboutText {
+            get {
+                return ResourceManager.GetString("AboutText", resourceCulture);
             }
         }
         
@@ -84,6 +93,15 @@ namespace AudioPipe.Properties {
         public static string ContextMenuSettingsTitle {
             get {
                 return ResourceManager.GetString("ContextMenuSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credits.
+        /// </summary>
+        public static string Credits {
+            get {
+                return ResourceManager.GetString("Credits", resourceCulture);
             }
         }
         
@@ -120,6 +138,78 @@ namespace AudioPipe.Properties {
         public static string ErrorTitleCannotCreatePipe {
             get {
                 return ResourceManager.GetString("ErrorTitleCannotCreatePipe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latency.
+        /// </summary>
+        public static string Latency {
+            get {
+                return ResourceManager.GetString("Latency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mute source device when pipe is active.
+        /// </summary>
+        public static string MuteSourceWhenPipeIsActive {
+            get {
+                return ResourceManager.GetString("MuteSourceWhenPipeIsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Performance.
+        /// </summary>
+        public static string Performance {
+            get {
+                return ResourceManager.GetString("Performance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SettingsHeader {
+            get {
+                return ResourceManager.GetString("SettingsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AudioPipe.
+        /// </summary>
+        public static string SettingsTitle {
+            get {
+                return ResourceManager.GetString("SettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stability.
+        /// </summary>
+        public static string Stability {
+            get {
+                return ResourceManager.GetString("Stability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        public static string ToggleOff {
+            get {
+                return ResourceManager.GetString("ToggleOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string ToggleOn {
+            get {
+                return ResourceManager.GetString("ToggleOn", resourceCulture);
             }
         }
         

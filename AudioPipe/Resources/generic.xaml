@@ -349,10 +349,10 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ToggleSwitchKnobFillOnPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobBounds" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource ToggleSwitchFillOnPointerOver}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ToggleSwitchFillOnPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobBounds" Storyboard.TargetProperty="Stroke">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource ToggleSwitchStrokeOnPointerOver}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ToggleSwitchStrokeOnPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchAreaGrid" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ToggleSwitchContainerBackgroundPointerOver}" />
@@ -371,10 +371,10 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ToggleSwitchFillOffPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobBounds" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource ToggleSwitchFillOnPressed}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ToggleSwitchFillOnPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobBounds" Storyboard.TargetProperty="Stroke">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource ToggleSwitchStrokeOnPressed}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ToggleSwitchStrokeOnPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SwitchKnobOff" Storyboard.TargetProperty="Fill">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ToggleSwitchKnobFillOffPressed}" />
@@ -698,7 +698,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SliderContainerBackgroundPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalDecreaseRect" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource SliderTrackValueFillPressed}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SliderTrackValueFillPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -742,7 +742,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SliderContainerBackgroundPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalDecreaseRect" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{DynamicResource SliderTrackValueFillPointerOver}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SliderTrackValueFillPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

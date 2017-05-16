@@ -25,6 +25,8 @@ namespace AudioPipe
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const double SettingsWindowPadding = 40;
+
         private readonly AppViewModel _viewModel;
         private readonly PipeManager _pipeManager = new PipeManager();
 
@@ -53,7 +55,6 @@ namespace AudioPipe
                 _trayIcon = new TrayIcon();
                 _trayIcon.Invoked += TrayIcon_Invoked;
                 _trayIcon.SettingsClicked += TrayIcon_SettingsClicked;
-                _trayIcon.AboutClicked += TrayIcon_AboutClicked;
             }));
         }
 
@@ -154,11 +155,6 @@ namespace AudioPipe
             }
         }
 
-        private void TrayIcon_AboutClicked()
-        {
-            ShowSettings(SettingsWindow.Pages.About);
-        }
-
         private void TrayIcon_SettingsClicked()
         {
             ShowSettings(SettingsWindow.Pages.Settings);
@@ -183,32 +179,48 @@ namespace AudioPipe
             this.SetBlur(ThemeService.IsWindowTransparencyEnabled);
         }
 
+        private Point GetWindowPosition(double width, double height, double padding)
+        {
+            double left;
+            double top;
+
+            var taskbarState = TaskbarService.GetTaskbarState();
+            switch (taskbarState.TaskbarPosition)
+            {
+                case TaskbarPosition.Left:
+                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) + padding;
+                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - width - padding;
+                    break;
+                case TaskbarPosition.Right:
+                    left = (taskbarState.TaskbarBounds.Left / this.DpiWidthFactor()) - width - padding;
+                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - height - padding;
+                    break;
+                case TaskbarPosition.Top:
+                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - width - padding;
+                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) + padding;
+                    break;
+                case TaskbarPosition.Bottom:
+                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - width - padding;
+                    top = (taskbarState.TaskbarBounds.Top / this.DpiHeightFactor()) - height - padding;
+                    break;
+                default:
+                    left = 0;
+                    top = 0;
+                    break;
+            }
+
+            return new Point(left, top);
+        }
+
         private void UpdateWindowPosition()
         {
             LayoutRoot.UpdateLayout();
             LayoutRoot.Measure(new Size(double.PositiveInfinity, LayoutRoot.MaxHeight));
             Height = LayoutRoot.DesiredSize.Height;
 
-            var taskbarState = TaskbarService.GetTaskbarState();
-            switch (taskbarState.TaskbarPosition)
-            {
-                case TaskbarPosition.Left:
-                    Left = taskbarState.TaskbarBounds.Right / this.DpiWidthFactor();
-                    Top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - Height;
-                    break;
-                case TaskbarPosition.Right:
-                    Left = (taskbarState.TaskbarBounds.Left / this.DpiWidthFactor()) - Width;
-                    Top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - Height;
-                    break;
-                case TaskbarPosition.Top:
-                    Left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - Width;
-                    Top = taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor();
-                    break;
-                case TaskbarPosition.Bottom:
-                    Left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - Width;
-                    Top = (taskbarState.TaskbarBounds.Top / this.DpiHeightFactor()) - Height;
-                    break;
-            }
+            var position = GetWindowPosition(Width, Height, 0);
+            Left = position.X;
+            Top = position.Y;
         }
 
         private void LayoutRoot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -260,8 +272,13 @@ namespace AudioPipe
             {
                 _settingsWindow = new SettingsWindow();
                 _settingsWindow.Closed += SettingsWindow_Closed;
+
+                var position = GetWindowPosition(_settingsWindow.Width, _settingsWindow.Height, SettingsWindowPadding);
+                _settingsWindow.Left = position.X;
+                _settingsWindow.Top = position.Y;
             }
 
+            UpdateTheme();
             _settingsWindow.SetPage(page);
             _settingsWindow.Show();
         }

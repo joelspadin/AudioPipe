@@ -10,7 +10,6 @@ namespace AudioPipe
     {
         public event Action Invoked;
         public event Action SettingsClicked;
-        public event Action AboutClicked;
 
         private readonly System.Windows.Forms.NotifyIcon _trayIcon;
         private readonly System.Drawing.Icon _pipeInactiveIcon;
@@ -33,11 +32,6 @@ namespace AudioPipe
                 {
                     Text = Resources.ContextMenuSettingsTitle,
                     Click = SettingsItem_Click,
-                },
-                new MenuItem
-                {
-                    Text = Resources.ContextMenuAboutTitle,
-                    Click = AboutItem_Click,
                 },
                 new MenuItem
                 {
@@ -75,11 +69,6 @@ namespace AudioPipe
                     item.Click += itemDef.Click;
                 }
             }
-        }
-
-        private void AboutItem_Click(object sender, EventArgs e)
-        {
-            AboutClicked?.Invoke();
         }
 
         private void ExitItem_Click(object sender, EventArgs e)
