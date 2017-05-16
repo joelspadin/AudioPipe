@@ -6,10 +6,10 @@ using System.Windows;
 
 namespace AudioPipe
 {
-    public class TrayIcon : IDisposable
+    public sealed class TrayIcon : IDisposable
     {
-        public event Action Invoked;
-        public event Action SettingsClicked;
+        public event EventHandler Invoked;
+        public event EventHandler SettingsClicked;
 
         private readonly System.Windows.Forms.NotifyIcon _trayIcon;
         private readonly System.Drawing.Icon _pipeInactiveIcon;
@@ -55,7 +55,7 @@ namespace AudioPipe
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                Invoked?.Invoke();
+                Invoked?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -81,7 +81,7 @@ namespace AudioPipe
 
         private void SettingsItem_Click(object sender, EventArgs e)
         {
-            SettingsClicked?.Invoke();
+            SettingsClicked?.Invoke(this, EventArgs.Empty);
         }
 
         public void Dispose()

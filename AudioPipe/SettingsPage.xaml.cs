@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AudioPipe
 {
@@ -32,7 +21,8 @@ namespace AudioPipe
 
         public class LatencySettingCommand : ICommand
         {
-            public event EventHandler CanExecuteChanged;
+            // Command can always execute, so even will never fire.
+            public event EventHandler CanExecuteChanged { add { } remove { } }
 
             private ViewModels.Settings _settings;
 

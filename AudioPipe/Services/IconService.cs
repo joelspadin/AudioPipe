@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
-using System.Windows.Media.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -193,12 +189,6 @@ namespace AudioPipe.Services
             {
             }
         }
-
-        [DllImport("gdi32.dll", CharSet = CharSet.Auto)]
-        public static extern int SetTextCharacterExtra(
-            IntPtr hdc,    // DC handle
-            int nCharExtra // extra-space value
-        );
 
         #region Icon Structures
         [StructLayout(LayoutKind.Sequential)]

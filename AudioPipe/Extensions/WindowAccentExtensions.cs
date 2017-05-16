@@ -8,7 +8,7 @@ namespace AudioPipe.Extensions
 {
     static class WindowAccentExtensions
     {
-        static class Interop
+        static class NativeMethods
         {
             [DllImport("user32.dll")]
             internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttribData data);
@@ -61,26 +61,26 @@ namespace AudioPipe.Extensions
 
         public static void SetBlur(this Window window, bool enabled)
         {
-            Interop.AccentState state;
+            NativeMethods.AccentState state;
 
             // Blur is not useful in high contrast mode
             if (enabled && !SystemParameters.HighContrast)
             {
-                state = Interop.AccentState.ACCENT_ENABLE_BLURBEHIND;
+                state = NativeMethods.AccentState.ACCENT_ENABLE_BLURBEHIND;
             }
             else
             {
-                state = Interop.AccentState.ACCENT_DISABLED;
+                state = NativeMethods.AccentState.ACCENT_DISABLED;
             }
 
             SetAccentPolicy(window, state, GetAccentFlagsForTaskbarPosition());
         }
 
-        private static void SetAccentPolicy(Window window, Interop.AccentState accentState, Interop.AccentFlags accentFlags)
+        private static void SetAccentPolicy(Window window, NativeMethods.AccentState accentState, NativeMethods.AccentFlags accentFlags)
         {
             var windowHelper = new WindowInteropHelper(window);
 
-            var accent = new Interop.AccentPolicy();
+            var accent = new NativeMethods.AccentPolicy();
             accent.AccentState = accentState;
             accent.AccentFlags = accentFlags;
 
@@ -91,12 +91,12 @@ namespace AudioPipe.Extensions
             {
                 Marshal.StructureToPtr(accent, structPtr, false);
 
-                var data = new Interop.WindowCompositionAttribData();
-                data.Attribute = Interop.WindowCompositionAttribute.WCA_ACCENT_POLICY;
+                var data = new NativeMethods.WindowCompositionAttribData();
+                data.Attribute = NativeMethods.WindowCompositionAttribute.WCA_ACCENT_POLICY;
                 data.SizeOfData = structSize;
                 data.Data = structPtr;
 
-                Interop.SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+                NativeMethods.SetWindowCompositionAttribute(windowHelper.Handle, ref data);
             }
             finally
             {
@@ -104,26 +104,26 @@ namespace AudioPipe.Extensions
             }
         }
 
-        private static Interop.AccentFlags GetAccentFlagsForTaskbarPosition()
+        private static NativeMethods.AccentFlags GetAccentFlagsForTaskbarPosition()
         {
-            var flags = Interop.AccentFlags.DrawAllBorders;
+            var flags = NativeMethods.AccentFlags.DrawAllBorders;
 
             switch (TaskbarService.GetTaskbarState().TaskbarPosition)
             {
                 case TaskbarPosition.Top:
-                    flags &= ~Interop.AccentFlags.DrawTopBorder;
+                    flags &= ~NativeMethods.AccentFlags.DrawTopBorder;
                     break;
 
                 case TaskbarPosition.Bottom:
-                    flags &= ~Interop.AccentFlags.DrawBottomBorder;
+                    flags &= ~NativeMethods.AccentFlags.DrawBottomBorder;
                     break;
 
                 case TaskbarPosition.Left:
-                    flags &= ~Interop.AccentFlags.DrawLeftBorder;
+                    flags &= ~NativeMethods.AccentFlags.DrawLeftBorder;
                     break;
 
                 case TaskbarPosition.Right:
-                    flags &= ~Interop.AccentFlags.DrawRightBorder;
+                    flags &= ~NativeMethods.AccentFlags.DrawRightBorder;
                     break;
             }
 

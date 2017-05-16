@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -11,8 +7,6 @@ namespace AudioPipe.Extensions
 {
     public class WindowStyle : DependencyObject
     {
-
-
         public static bool GetShowIcon(DependencyObject obj)
         {
             return (bool)obj.GetValue(ShowIconProperty);
@@ -54,25 +48,27 @@ namespace AudioPipe.Extensions
         {
             var hwnd = new WindowInteropHelper(window).Handle;
 
-            var extStyle = GetWindowLong(hwnd, GwlExstyle);
-            SetWindowLong(hwnd, GwlExstyle, extStyle | WsExDlgmodalframe);
+            var extStyle = NativeMethods.GetWindowLong(hwnd, NativeMethods.GwlExstyle);
+            NativeMethods.SetWindowLong(hwnd, NativeMethods.GwlExstyle, extStyle | NativeMethods.WsExDlgmodalframe);
         }
 
 
-        private const int GwlExstyle = -20;
-        private const int WsExDlgmodalframe = 0x0001;
+        private static class NativeMethods
+        {
+            public const int GwlExstyle = -20;
+            public const int WsExDlgmodalframe = 0x0001;
 
-        [DllImport("user32.dll")]
-        private static extern int GetWindowLong(IntPtr hwnd, int index);
+            [DllImport("user32.dll")]
+            public static extern int GetWindowLong(IntPtr hwnd, int index);
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr SendMessage(IntPtr hwnd, uint msg,
-          IntPtr wParam, IntPtr lParam);
+            [DllImport("user32.dll")]
+            public static extern IntPtr SendMessage(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+            [DllImport("user32.dll")]
+            public static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
 
-        [DllImport("user32.dll")]
-        private static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int width, int height, uint flags);
+            [DllImport("user32.dll")]
+            public static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int width, int height, uint flags);
+        }
     }
 }

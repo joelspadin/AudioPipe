@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap rescap mp">
-  <Identity Name="23723JoelSpadin.AudioPipe" Publisher="CN=5FA677ED-A2AC-4796-B117-F6E9C67090A2" Version="1.1.0.0" />
+  <Identity Name="23723JoelSpadin.AudioPipe" Publisher="CN=5FA677ED-A2AC-4796-B117-F6E9C67090A2" Version="1.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="64706438-e044-41cd-a5c5-ba923fadc327" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Audio Pipe</DisplayName>
@@ -14,7 +14,7 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="AudioPipeBackgroundApp" Executable="win32\AudioPipe.exe" EntryPoint="Windows.FullTrustApplication">
+    <Application Id="AudioPipeBackgroundApp" Executable="win32\AudioRedirect.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="Audio Redirect" Description="Audio Redirect works around problems in some games where changing the system playback device causes audio to drop out until you restart the game. It mutes the default device, captures all audio sent to it, and redirects it to a different device instead, allowing you to change the playback device without breaking the game's audio." Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="Audio Redirect" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
           <uap:ShowNameOnTiles>

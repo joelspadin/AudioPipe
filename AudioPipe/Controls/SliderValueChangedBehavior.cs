@@ -12,15 +12,7 @@ namespace AudioPipe.Controls
     /// </summary>
     public class SliderValueChangedBehavior : Behavior<Slider>
     {
-        /// <summary>
-        /// Keys down.
-        /// </summary>
-        private int keysDown;
-
-        /// <summary>
-        /// Indicate whether to capture the value on latest key up.
-        /// </summary>
-        private bool applyKeyUpValue;
+        private int _keysDown;
 
         private bool _mouseCaptureBound;
 
@@ -113,11 +105,7 @@ namespace AudioPipe.Controls
                     _mouseCaptureBound = true;
                 }
             }
-            else if (keysDown != 0)
-            {
-                applyKeyUpValue = true;
-            }
-            else
+            else if (_keysDown == 0)
             {
                 ApplyValue();
             }
@@ -132,7 +120,7 @@ namespace AudioPipe.Controls
 
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            if (keysDown-- != 0)
+            if (_keysDown-- != 0)
             {
                 ApplyValue();
             }
@@ -140,7 +128,7 @@ namespace AudioPipe.Controls
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            keysDown++;
+            _keysDown++;
         }
 
         /// <summary>

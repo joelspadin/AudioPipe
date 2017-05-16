@@ -1,29 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AudioPipe.Extensions;
+using AudioPipe.Services;
+using AudioPipe.ViewModels;
+using CSCore.CoreAudioAPI;
+using System;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using AudioPipe.Extensions;
-using AudioPipe.Services;
-using AudioPipe.ViewModels;
-using System.Diagnostics;
-using CSCore.CoreAudioAPI;
 
 namespace AudioPipe
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public sealed partial class MainWindow : Window, IDisposable
     {
         private const double SettingsWindowPadding = 40;
 
@@ -43,7 +35,8 @@ namespace AudioPipe
             UpdateMuteSource();
 
             Properties.Settings.Default.PropertyChanged += Settings_PropertyChanged;
-            DeviceService.DefaultCaptureDeviceChanged += DeviceService_DefaultCaptureDeviceChanged;
+            DeviceService.DefaultCaptureDeviceChanged += DeviceService_DevicesChanged;
+            DeviceService.OutputDevicesChanged += DeviceService_DevicesChanged;
 
             _viewModel = new AppViewModel();
             DataContext = _viewModel;
@@ -75,7 +68,7 @@ namespace AudioPipe
                 UpdateViewModel();
                 UpdateWindowPosition();
 
-                var scrollviewer = LayoutRoot.FindScrollViewer();
+                var scrollviewer = LayoutRoot.FindVisualDescendant<ScrollViewer>();
 
                 Topmost = false;
                 SizeToContent = SizeToContent.Manual;
@@ -143,7 +136,7 @@ namespace AudioPipe
             }
         }
 
-        private async void TrayIcon_Invoked()
+        private async void TrayIcon_Invoked(object sender, EventArgs e)
         {
             if (Visibility == Visibility.Visible)
             {
@@ -155,7 +148,7 @@ namespace AudioPipe
             }
         }
 
-        private void TrayIcon_SettingsClicked()
+        private void TrayIcon_SettingsClicked(object sender, EventArgs e)
         {
             ShowSettings(SettingsWindow.Pages.Settings);
         }
@@ -241,7 +234,7 @@ namespace AudioPipe
             UpdateTrayIcon();
         }
 
-        private void DeviceService_DefaultCaptureDeviceChanged()
+        private void DeviceService_DevicesChanged(object sender, EventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
@@ -293,6 +286,16 @@ namespace AudioPipe
         {
             var pipeActive = _pipeManager.CurrentOutput != DeviceService.DefaultCaptureDevice;
             _trayIcon.SetPipeActive(pipeActive);
+        }
+
+        public void Dispose()
+        {
+            _pipeManager.Dispose();
+            if (_trayIcon != null)
+            {
+                _trayIcon.Dispose();
+                _trayIcon = null;
+            }
         }
     }
 }

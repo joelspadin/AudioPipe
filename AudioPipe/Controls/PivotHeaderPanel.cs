@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AudioPipe.Extensions;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Controls.Primitives;
-using AudioPipe.Extensions;
+using System.Windows.Input;
 
 namespace AudioPipe.Controls
 {

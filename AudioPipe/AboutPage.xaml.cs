@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AudioPipe.Extensions;
+using System;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AudioPipe
 {
@@ -33,7 +25,7 @@ namespace AudioPipe
 
         private void AboutPage_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var link in FindLogicalChildren<Hyperlink>(this))
+            foreach (var link in this.FindLogicalDescendants<Hyperlink>())
             {
                 link.RequestNavigate += Hyperlink_RequestNavigate;
             }
@@ -42,29 +34,6 @@ namespace AudioPipe
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             System.Diagnostics.Process.Start(e.Uri.ToString());
-        }
-
-        public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject depObj) where T : DependencyObject
-        {
-            if (depObj != null)
-            {
-                foreach (var rawChild in LogicalTreeHelper.GetChildren(depObj))
-                {
-                    if (rawChild is DependencyObject)
-                    {
-                        var child = (DependencyObject)rawChild;
-                        if (child is T)
-                        {
-                            yield return (T)child;
-                        }
-
-                        foreach (T childOfChild in FindLogicalChildren<T>(child))
-                        {
-                            yield return childOfChild;
-                        }
-                    }
-                }
-            }
         }
     }
 }

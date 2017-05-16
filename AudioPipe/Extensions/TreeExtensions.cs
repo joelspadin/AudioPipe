@@ -1,16 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace AudioPipe.Extensions
 {
-    public static class VisualExtensions
+    public static class TreeExtensions
     {
+        public static IEnumerable<T> FindLogicalDescendants<T>(this DependencyObject element) where T : DependencyObject
+        {
+            if (element != null)
+            {
+                foreach (var rawChild in LogicalTreeHelper.GetChildren(element))
+                {
+                    if (rawChild is DependencyObject)
+                    {
+                        var child = (DependencyObject)rawChild;
+                        if (child is T)
+                        {
+                            yield return (T)child;
+                        }
+
+                        foreach (T childOfChild in FindLogicalDescendants<T>(child))
+                        {
+                            yield return childOfChild;
+                        }
+                    }
+                }
+            }
+        }
+
         public static T FindVisualDescendant<T>(this Visual element) where T : Visual
         {
             if (element == null)
@@ -41,11 +59,6 @@ namespace AudioPipe.Extensions
             }
 
             return null;
-        }
-
-        public static ScrollViewer FindScrollViewer(this ListBox listbox)
-        {
-            return listbox.FindVisualDescendant<ScrollViewer>();
         }
     }
 }

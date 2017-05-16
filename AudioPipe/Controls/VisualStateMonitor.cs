@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
+#if DEBUG
 namespace AudioPipe.Controls
 {
     public class VisualStateMonitor : DependencyObject
@@ -14,10 +15,12 @@ namespace AudioPipe.Controls
         {
             return (int)obj.GetValue(IntervalProperty);
         }
+
         public static void SetInterval(DependencyObject obj, int value)
         {
             obj.SetValue(IntervalProperty, value);
         }
+
         public static readonly DependencyProperty IntervalProperty =
             DependencyProperty.RegisterAttached(
                 "Interval",
@@ -94,3 +97,4 @@ namespace AudioPipe.Controls
         }
     }
 }
+#endif

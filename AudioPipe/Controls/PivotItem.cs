@@ -13,19 +13,6 @@ namespace AudioPipe.Controls
 
         public static readonly DependencyProperty PivotHeaderProperty =
             DependencyProperty.Register(nameof(Header), typeof(object), typeof(PivotItem),
-                new FrameworkPropertyMetadata(OnPivotHeaderChanged));
-
-
-        private static void OnPivotHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var item = (PivotItem)d;
-            var oldPivotHeader = e.OldValue;
-            var newPivotHeader = item.Header;
-            item.OnPivotHeaderChanged(oldPivotHeader, newPivotHeader);
-        }
-
-        protected void OnPivotHeaderChanged(object oldPivotHeader, object newPivotHeader)
-        {
-        }
+                new FrameworkPropertyMetadata(null));
     }
 }

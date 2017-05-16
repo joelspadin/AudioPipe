@@ -1,12 +1,7 @@
 ﻿using AudioPipe.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AudioPipe.Extensions;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
 
 namespace AudioPipe.ViewModels

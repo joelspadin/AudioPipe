@@ -43,9 +43,9 @@ namespace AudioPipe.Services
             ABD.hWnd = hwnd;
             ABD.lParam = 1;
 
-            User32.GetWindowRect(hwnd, out var scaledTaskbarRect);
+            NativeMethods.GetWindowRect(hwnd, out var scaledTaskbarRect);
 
-            var taskbarNonDPIAwareSize = Shell32.SHAppBarMessage((int)ABMsg.ABM_GETTASKBARPOS, ref ABD);
+            var taskbarNonDPIAwareSize = NativeMethods.SHAppBarMessage((int)ABMsg.ABM_GETTASKBARPOS, ref ABD);
 
             var scalingAmount = (double)(scaledTaskbarRect.bottom - scaledTaskbarRect.top) / (ABD.rc.bottom - ABD.rc.top);
 
@@ -60,7 +60,7 @@ namespace AudioPipe.Services
 
         public static Rectangle GetNotificationAreaBounds()
         {
-            User32.GetWindowRect(FindNotificationArea(), out var rect);
+            NativeMethods.GetWindowRect(FindNotificationArea(), out var rect);
             // TODO: is this high DPI aware?
             return rect.ToRectangle();
         }
@@ -77,7 +77,7 @@ namespace AudioPipe.Services
 
         private static IntPtr FindTaskbar()
         {
-            return User32.FindWindow(TaskbarClassName, null);
+            return NativeMethods.FindWindow(TaskbarClassName, null);
         }
 
         private static IntPtr FindNotificationArea()
@@ -88,20 +88,57 @@ namespace AudioPipe.Services
                 return IntPtr.Zero;
             }
 
-            return User32.FindWindowEx(taskbarHandle, IntPtr.Zero, NotifyClassName, null);
+            return NativeMethods.FindWindowEx(taskbarHandle, IntPtr.Zero, NotifyClassName, null);
         }
-    }
 
-    public static class User32
-    {
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        private static class NativeMethods
+        {
+            [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+            public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+            [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+            public static extern IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+            [DllImport("user32.dll", SetLastError = true)]
+            public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+
+            [DllImport("shell32.dll")]
+            public static extern IntPtr SHAppBarMessage(uint dwMessage, [In] ref APPBARDATA pData);
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct APPBARDATA
+        {
+            public int cbSize; // initialize this field using: Marshal.SizeOf(typeof(APPBARDATA));
+            public IntPtr hWnd;
+            public uint uCallbackMessage;
+            public uint uEdge;
+            public RECT rc;
+            public int lParam;
+        }
+
+        private enum ABMsg
+        {
+            ABM_NEW = 0,
+            ABM_REMOVE,
+            ABM_QUERYPOS,
+            ABM_SETPOS,
+            ABM_GETSTATE,
+            ABM_GETTASKBARPOS,
+            ABM_ACTIVATE,
+            ABM_GETAUTOHIDEBAR,
+            ABM_SETAUTOHIDEBAR,
+            ABM_WINDOWPOSCHANGED,
+            ABM_SETSTATE
+        }
+
+        private enum ABEdge
+        {
+            ABE_LEFT = 0,
+            ABE_TOP = 1,
+            ABE_RIGHT = 2,
+            ABE_BOTTOM = 3
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -116,46 +153,6 @@ namespace AudioPipe.Services
         {
             return new Rectangle(new Point(left, top), new Size(right - left, bottom - top));
         }
-    }
-
-    public static class Shell32
-    {
-        [DllImport("shell32.dll")]
-        public static extern IntPtr SHAppBarMessage(uint dwMessage, [In] ref APPBARDATA pData);
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct APPBARDATA
-    {
-        public int cbSize; // initialize this field using: Marshal.SizeOf(typeof(APPBARDATA));
-        public IntPtr hWnd;
-        public uint uCallbackMessage;
-        public uint uEdge;
-        public RECT rc;
-        public int lParam;
-    }
-
-    public enum ABMsg
-    {
-        ABM_NEW = 0,
-        ABM_REMOVE,
-        ABM_QUERYPOS,
-        ABM_SETPOS,
-        ABM_GETSTATE,
-        ABM_GETTASKBARPOS,
-        ABM_ACTIVATE,
-        ABM_GETAUTOHIDEBAR,
-        ABM_SETAUTOHIDEBAR,
-        ABM_WINDOWPOSCHANGED,
-        ABM_SETSTATE
-    }
-
-    public enum ABEdge
-    {
-        ABE_LEFT = 0,
-        ABE_TOP = 1,
-        ABE_RIGHT = 2,
-        ABE_BOTTOM = 3
     }
 
     [StructLayout(LayoutKind.Sequential)]

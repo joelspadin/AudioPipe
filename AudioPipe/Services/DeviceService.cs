@@ -1,18 +1,15 @@
 ﻿using CSCore.CoreAudioAPI;
+using CSCore.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CSCore.Win32;
 using System.Diagnostics;
 
 namespace AudioPipe.Services
 {
-    public sealed class DeviceService : IMMNotificationClient
+    public sealed class DeviceService : IMMNotificationClient, IDisposable
     {
-        public static event Action DefaultCaptureDeviceChanged;
-        public static event Action OutputDevicesChanged;
+        public static event EventHandler DefaultCaptureDeviceChanged;
+        public static event EventHandler OutputDevicesChanged;
 
         public static MMDevice DefaultCaptureDevice => Instance.GetDefaultCaptureDevice();
 
@@ -37,17 +34,20 @@ namespace AudioPipe.Services
 
         public void OnDeviceStateChanged(string deviceId, DeviceState deviceState)
         {
-            // TODO: output devices changed?
+            // TODO: check that this is actually an output first.
+            OutputDevicesChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnDeviceAdded(string deviceId)
         {
-            // TODO: output devices changed?
+            // TODO: check that this is actually an output first.
+            OutputDevicesChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnDeviceRemoved(string deviceId)
         {
-            // TODO: output devices changed?
+            // TODO: check that this is actually an output first.
+            OutputDevicesChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void OnDefaultDeviceChanged(DataFlow dataFlow, Role role, string deviceId)
@@ -55,7 +55,7 @@ namespace AudioPipe.Services
             if (dataFlow == CaptureDeviceDataFlow && role == CaptureDeviceRole)
             {
                 UpdateDefaultDevice();
-                DefaultCaptureDeviceChanged?.Invoke();
+                DefaultCaptureDeviceChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -85,6 +85,12 @@ namespace AudioPipe.Services
             {
                 return _defaultCaptureDevice;
             }
+        }
+
+        public void Dispose()
+        {
+            _defaultCaptureDevice?.Dispose();
+            _deviceEnum.Dispose();
         }
     }
 
