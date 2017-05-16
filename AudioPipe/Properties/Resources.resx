@@ -171,4 +171,8 @@
   <data name="ToggleOn" xml:space="preserve">
     <value>On</value>
   </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version {0}</value>
+    <comment>{0} is a placeholder for the version number.</comment>
+  </data>
 </root>

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:p="clr-namespace:AudioPipe.Properties"
              mc:Ignorable="d"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="300"
              d:DesignWidth="300">
     <UserControl.Resources>
@@ -19,6 +20,9 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
+        <Grid Style="{StaticResource AboutSection}">
+            <TextBlock Text="{Binding VersionText}" />
+        </Grid>
         <StackPanel Style="{StaticResource AboutSection}">
             <TextBlock Text="{x:Static p:Resources.AboutText}" />
             <TextBlock>

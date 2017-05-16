@@ -221,5 +221,14 @@ namespace AudioPipe.Properties {
                 return ResourceManager.GetString("TrayIconText", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
     }
 }

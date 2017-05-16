@@ -62,7 +62,7 @@
     <FontWeight x:Key="SliderHeaderThemeFontWeight">Normal</FontWeight>
 
     <!-- This value is updated dynamically by ThemeService. -->
-    <Color x:Key="SystemAccentColor">#FFFF0000</Color>
+    <Color x:Key="SystemAccentColor">#FFFFFFFF</Color>
 
     <!--
     ******************************************************************
