@@ -70,7 +70,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AudioPipe is open source software provided under the MIT license..
+        ///   Looks up a localized string similar to Audio Redirect is open source software provided under the MIT license..
         /// </summary>
         public static string AboutText {
             get {
@@ -106,7 +106,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No Pipe.
+        ///   Looks up a localized string similar to Use default device.
         /// </summary>
         public static string DefaultDeviceText {
             get {
@@ -133,7 +133,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot Create Pipe.
+        ///   Looks up a localized string similar to Cannot Redirect.
         /// </summary>
         public static string ErrorTitleCannotCreatePipe {
             get {
@@ -151,7 +151,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mute source device when pipe is active.
+        ///   Looks up a localized string similar to Mute source device when redirect is active.
         /// </summary>
         public static string MuteSourceWhenPipeIsActive {
             get {
@@ -178,7 +178,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AudioPipe.
+        ///   Looks up a localized string similar to Audio Redirect.
         /// </summary>
         public static string SettingsTitle {
             get {
@@ -214,7 +214,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AudioPipe.
+        ///   Looks up a localized string similar to Audio Redirect.
         /// </summary>
         public static string TrayIconText {
             get {

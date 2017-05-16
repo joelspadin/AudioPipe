@@ -124,7 +124,7 @@
     <value>Exit</value>
   </data>
   <data name="DefaultDeviceText" xml:space="preserve">
-    <value>No Pipe</value>
+    <value>Use default device</value>
   </data>
   <data name="ErrorDestinationDeviceBusy" xml:space="preserve">
     <value>Failed to connect to destination device. Is another program using it?</value>
@@ -133,16 +133,16 @@
     <value>Failed to connect to source device. Is another program using it?</value>
   </data>
   <data name="ErrorTitleCannotCreatePipe" xml:space="preserve">
-    <value>Cannot Create Pipe</value>
+    <value>Cannot Redirect</value>
   </data>
   <data name="TrayIconText" xml:space="preserve">
-    <value>AudioPipe</value>
+    <value>Audio Redirect</value>
   </data>
   <data name="AboutHeader" xml:space="preserve">
     <value>About</value>
   </data>
   <data name="AboutText" xml:space="preserve">
-    <value>AudioPipe is open source software provided under the MIT license.</value>
+    <value>Audio Redirect is open source software provided under the MIT license.</value>
   </data>
   <data name="Credits" xml:space="preserve">
     <value>Credits</value>
@@ -151,7 +151,7 @@
     <value>Latency</value>
   </data>
   <data name="MuteSourceWhenPipeIsActive" xml:space="preserve">
-    <value>Mute source device when pipe is active</value>
+    <value>Mute source device when redirect is active</value>
   </data>
   <data name="Performance" xml:space="preserve">
     <value>Performance</value>
@@ -160,7 +160,7 @@
     <value>Settings</value>
   </data>
   <data name="SettingsTitle" xml:space="preserve">
-    <value>AudioPipe</value>
+    <value>Audio Redirect</value>
   </data>
   <data name="Stability" xml:space="preserve">
     <value>Stability</value>
