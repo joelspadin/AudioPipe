@@ -39,6 +39,9 @@
     <Reference Include="CSCore, Version=1.2.1.1, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <HintPath>..\packages\CSCore.1.2.1.1\lib\net35-client\CSCore.dll</HintPath>
     </Reference>
+    <Reference Include="DesktopBridge.Helpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DesktopBridge.Helpers.1.0.0\lib\net45\DesktopBridge.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Toolkit.Uwp.Notifications, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Toolkit.Uwp.Notifications.1.4.1\lib\dotnet\Microsoft.Toolkit.Uwp.Notifications.dll</HintPath>
     </Reference>

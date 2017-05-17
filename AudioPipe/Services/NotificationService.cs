@@ -2,18 +2,36 @@
 using AudioPipe.Properties;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Collections.Generic;
+using System.Windows;
 using Windows.UI.Notifications;
 
 namespace AudioPipe.Services
 {
     public static class NotificationService
     {
-        private const string ApplicationId = "AudioPipe";
+        private const string ApplicationId = "AudioRedirect";
         private const string ErrorImagePath = "NotifyError.png";
 
         private static bool _iconCreated = false;
 
         public static void NotifyError(string message)
+        {
+            if (new DesktopBridge.Helpers().IsRunningAsUwp())
+            {
+                NotifyErrorUwp(message);
+            }
+            else
+            {
+                NotifyErrorWin32(message);
+            }
+        }
+
+        private static void NotifyErrorWin32(string message)
+        {
+            MessageBox.Show(message, Resources.ErrorTitleCannotCreatePipe, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        }
+
+        private static void NotifyErrorUwp(string message)
         {
             if (!_iconCreated)
             {
