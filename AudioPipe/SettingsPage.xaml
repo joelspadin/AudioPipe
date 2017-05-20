@@ -30,16 +30,6 @@
     </UserControl.Resources>
     <StackPanel>
         <Grid Style="{StaticResource SettingItem}">
-            <controls:ToggleSwitch
-                x:Name="MuteSource"
-                Header="{x:Static p:Resources.MuteSourceWhenPipeIsActive}"
-                OnContent="{x:Static p:Resources.ToggleOn}"
-                OffContent="{x:Static p:Resources.ToggleOff}"
-                VerticalContentAlignment="Center"
-                IsOn="{Binding Settings.MuteSource}" />
-        </Grid>
-
-        <Grid Style="{StaticResource SettingItem}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -93,6 +83,29 @@
                 Text="{x:Static p:Resources.Stability}"
                 Style="{StaticResource SubTextBlockStyle}"
                 HorizontalAlignment="Right" />
+        </Grid>
+
+        <Grid Style="{StaticResource SettingItem}">
+            <controls:ToggleSwitch
+                x:Name="MuteSourceToggle"
+                Header="{x:Static p:Resources.MuteSourceWhenPipeIsActive}"
+                OnContent="{x:Static p:Resources.ToggleOn}"
+                OffContent="{x:Static p:Resources.ToggleOff}"
+                VerticalContentAlignment="Center"
+                IsOn="{Binding Settings.MuteSource}" />
+        </Grid>
+
+        <Grid Style="{StaticResource SettingItem}">
+            <controls:ToggleSwitch
+                x:Name="RunAtStartupToggle"
+                Header="{x:Static p:Resources.RunAtStartup}"
+                OnContent="{x:Static p:Resources.ToggleOn}"
+                OffContent="{x:Static p:Resources.ToggleOff}"
+                VerticalContentAlignment="Center"
+                IsOn="false"
+                IsEnabled="{Binding RunAtStartupEnabled}"
+                PreviewMouseUp="RunAtStartupToggle_PreviewMouseUp"
+                PreviewTouchUp="RunAtStartupToggle_PreviewTouchUp" />
         </Grid>
     </StackPanel>
 </UserControl>

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace AudioPipe.ViewModels
 {
-    public class DeviceViewModelComparer : IComparer<DeviceViewModel>
+    public class DeviceViewModelComparer : IComparer<IDeviceViewModel>
     {
         public static DeviceViewModelComparer Instance = new DeviceViewModelComparer();
 
-        public int Compare(DeviceViewModel x, DeviceViewModel y)
+        public int Compare(IDeviceViewModel x, IDeviceViewModel y)
         {
             if (x.IsDefault)
             {

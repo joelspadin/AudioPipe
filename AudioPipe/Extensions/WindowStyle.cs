@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AudioPipe.Services;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -38,37 +39,10 @@ namespace AudioPipe.Extensions
                 {
                     window.SourceInitialized += delegate
                     {
-                        HideIcon(window);
+                        WindowFrameService.HideIcon(window);
                     };
                 }
             }
-        }
-
-        private static void HideIcon(Window window)
-        {
-            var hwnd = new WindowInteropHelper(window).Handle;
-
-            var extStyle = NativeMethods.GetWindowLong(hwnd, NativeMethods.GwlExstyle);
-            NativeMethods.SetWindowLong(hwnd, NativeMethods.GwlExstyle, extStyle | NativeMethods.WsExDlgmodalframe);
-        }
-
-
-        private static class NativeMethods
-        {
-            public const int GwlExstyle = -20;
-            public const int WsExDlgmodalframe = 0x0001;
-
-            [DllImport("user32.dll")]
-            public static extern int GetWindowLong(IntPtr hwnd, int index);
-
-            [DllImport("user32.dll")]
-            public static extern IntPtr SendMessage(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-            [DllImport("user32.dll")]
-            public static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
-
-            [DllImport("user32.dll")]
-            public static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int width, int height, uint flags);
         }
     }
 }

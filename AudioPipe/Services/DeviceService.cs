@@ -74,8 +74,16 @@ namespace AudioPipe.Services
         {
             lock (_lock)
             {
-                _defaultCaptureDevice = _deviceEnum.GetDefaultAudioEndpoint(CaptureDeviceDataFlow, CaptureDeviceRole);
-                Debug.WriteLine("Default device changed to {0}", _defaultCaptureDevice.FriendlyName);
+                try
+                {
+                    _defaultCaptureDevice = _deviceEnum.GetDefaultAudioEndpoint(CaptureDeviceDataFlow, CaptureDeviceRole);
+                    Debug.WriteLine("Default device changed to {0}", _defaultCaptureDevice.FriendlyName);
+                }
+                catch (CoreAudioAPIException ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    _defaultCaptureDevice = null;
+                }
             }
         }
 

@@ -18,6 +18,8 @@
         Closing="Window_Closing"
         Foreground="{DynamicResource GlassWindowForeground}"
         Background="{DynamicResource GlassWindowBackground}"
+        BorderBrush="{DynamicResource GlassWindowBorder}"
+        BorderThickness="{DynamicResource GlassWindowBorderThickness}"
         ResizeMode="NoResize"
         x:Name="TrayWindow"
         SizeToContent="WidthAndHeight"

@@ -391,6 +391,10 @@
     <!-- Tray window colors (dynamically replaced by ThemeService.cs -->
     <SolidColorBrush x:Key="GlassWindowForeground" Color="{DynamicResource SystemBaseHighColor}" />
     <SolidColorBrush x:Key="GlassWindowBackground" Color="{DynamicResource SystemChromeBlackMediumLowColor}" />
+    <SolidColorBrush x:Key="GlassWindowBorder" Color="Transparent" />
+    <Thickness x:Key="GlassWindowBorderThickness">0</Thickness>
+
     <SolidColorBrush x:Key="DeviceItemHighlight" Color="{DynamicResource SystemListLowColor}" />
     <SolidColorBrush x:Key="DeviceItemSelected" Color="{DynamicResource SystemAccentColor}" Opacity="0.8" />
+    <SolidColorBrush x:Key="DeviceItemSelectedText" Color="{DynamicResource SystemBaseHighColor}" />
 </ResourceDictionary>

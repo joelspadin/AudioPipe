@@ -46,6 +46,9 @@
                                 <vsm:VisualState x:Name="Selected">
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="selectFill" Storyboard.TargetProperty="Opacity" Duration="0" To="1" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="(TextElement.Foreground)">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource DeviceItemSelectedText}" />
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </vsm:VisualState>
                             </vsm:VisualStateGroup>

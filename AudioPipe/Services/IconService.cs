@@ -1,21 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace AudioPipe.Services
 {
     public static class IconService
     {
+        /// <summary>
+        /// Pre-rendered icons to use on Windows 7.
+        /// </summary>
+        private static readonly Dictionary<int, string> LegacyIcons = new Dictionary<int, string>
+        {
+            [(int)Symbol.Headphone] = "Resources/Headphone.ico",
+            [(int)Symbol.Speaker] = "Resources/Speaker.ico",
+        };
+
         private const string SegoeSymbolFont = "Segoe MDL2 Assets";
+        private static bool IsSymbolFontInstalled => new InstalledFontCollection().Families.Any(family => family.Name == SegoeSymbolFont);
 
         public static Bitmap CreateBitmap(IconInfo icon)
         {
             var bitmap = new Bitmap(icon.ImageSize, icon.ImageSize);
             var g = Graphics.FromImage(bitmap);
             g.Clear(icon.Background);
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
             foreach (var symbol in icon.Symbols)
             {
@@ -76,6 +88,11 @@ namespace AudioPipe.Services
         /// <returns></returns>
         public static Icon CreateIcon(int charCode, int imageSize = 16, int symbolSize = 0)
         {
+            if (UseLegacyIcon(charCode, out var filename))
+            {
+                return Icon.ExtractAssociatedIcon(filename);
+            }
+
             using (var bitmap = CreateBitmap(charCode, imageSize, symbolSize))
             {
                 return CreateIconFromBitmap(bitmap);
@@ -128,8 +145,25 @@ namespace AudioPipe.Services
 
         public static Color GetForegroundColor()
         {
-            var color = AccentColorService.ActiveSet["ApplicationTextDarkTheme"];
+            var color = ColorService.GetColor("ApplicationTextDarkTheme");
             return Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+
+        /// <summary>
+        /// Checks whether there is a legacy icon for the given symbol.
+        /// </summary>
+        /// <param name="charCode"></param>
+        /// <param name="filename">If successful, the filename of the icon.</param>
+        /// <returns>true if successful</returns>
+        private static bool UseLegacyIcon(int charCode, out string filename)
+        {
+            filename = null;
+            if (IsSymbolFontInstalled)
+            {
+                return false;
+            }
+
+            return LegacyIcons.TryGetValue(charCode, out filename);
         }
 
         // https://docs.microsoft.com/en-us/windows/uwp/style/segoe-ui-symbol-font

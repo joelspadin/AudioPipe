@@ -175,4 +175,7 @@
     <value>Version {0}</value>
     <comment>{0} is a placeholder for the version number.</comment>
   </data>
+  <data name="RunAtStartup" xml:space="preserve">
+    <value>Run at startup</value>
+  </data>
 </root>

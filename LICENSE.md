@@ -48,6 +48,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+## Wpf Exception Viewer
+https://www.codeproject.com/Tips/469452/WPF-ExceptionViewer
+
+Code Project Open License (https://www.codeproject.com/info/cpol10.aspx)
+
 ## CSCore
 https://github.com/filoe/cscore
 

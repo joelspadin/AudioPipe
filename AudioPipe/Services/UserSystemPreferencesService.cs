@@ -4,26 +4,18 @@ namespace AudioPipe.Services
 {
     public static class UserSystemPreferencesService
     {
-        public static bool IsTransparencyEnabled
+        private const string SubKeyName = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+
+        private static int GetIntValue(string name, int defaultValue)
         {
-            get
+            using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
             {
-                using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
-                {
-                    return (int)baseKey.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize").GetValue("EnableTransparency", 0) > 0;
-                }
+                return (int?)baseKey?.OpenSubKey(SubKeyName)?.GetValue(name, defaultValue) ?? defaultValue;
             }
         }
 
-        public static bool UseAccentColor
-        {
-            get
-            {
-                using (var baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
-                {
-                    return (int)baseKey.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize").GetValue("ColorPrevalence", 0) > 0;
-                }
-            }
-        }
+        public static bool IsTransparencyEnabled => GetIntValue("EnableTransparency", 0) > 0;
+
+        public static bool UseAccentColor => GetIntValue("ColorPrevalence", 0) > 0;
     }
 }

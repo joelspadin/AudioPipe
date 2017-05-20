@@ -45,22 +45,29 @@
     <Reference Include="Microsoft.Toolkit.Uwp.Notifications, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Toolkit.Uwp.Notifications.1.4.1\lib\dotnet\Microsoft.Toolkit.Uwp.Notifications.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>c:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="VioletTape.WpfExceptionViewer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bfd09609f6784d58, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfExceptionViewer.1.0.0.0\lib\VioletTape.WpfExceptionViewer.dll</HintPath>
+    </Reference>
     <Reference Include="Windows">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
+      <HintPath>c:\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -88,17 +95,27 @@
     <Compile Include="Extensions\ObservableCollectionExtensions.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Services\HitTestService.cs" />
+    <Compile Include="Services\WindowFrameService.cs" />
     <Compile Include="Extensions\WindowStyle.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="PipeInitException.cs" />
     <Compile Include="PipeManager.cs" />
     <Compile Include="Services\AccentColorService.cs" />
+    <Compile Include="Services\ColorService.cs" />
     <Compile Include="Services\DeviceService.cs" />
+    <Compile Include="Services\IColorService.cs" />
     <Compile Include="Services\IconService.cs" />
+    <Compile Include="Services\ImportService.cs" />
+    <Compile Include="Services\LegacyColorService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\TaskbarService.cs" />
     <Compile Include="Services\ThemeService.cs" />
     <Compile Include="Services\UserSystemPreferencesService.cs" />
+    <Compile Include="ViewModels\IAppViewModel.cs" />
+    <Compile Include="ViewModels\IDeviceViewModel.cs" />
+    <Compile Include="ViewModels\MockDeviceViewModel.cs" />
+    <Compile Include="ViewModels\MockAppViewModel.cs" />
     <Compile Include="ViewModels\Settings.cs" />
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -178,6 +195,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Headphone.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Speaker.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">

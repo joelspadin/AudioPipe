@@ -5,10 +5,12 @@ using CSCore.CoreAudioAPI;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace AudioPipe
 {
@@ -19,7 +21,7 @@ namespace AudioPipe
     {
         private const double SettingsWindowPadding = 40;
 
-        private readonly AppViewModel _viewModel;
+        private readonly IAppViewModel _viewModel;
         private readonly PipeManager _pipeManager = new PipeManager();
 
         private TrayIcon _trayIcon;
@@ -28,6 +30,12 @@ namespace AudioPipe
         public MainWindow()
         {
             InitializeComponent();
+
+            if (ColorService.IsLegacyTheme)
+            {
+                AllowsTransparency = false;
+            }
+
             CreateAndHideWindow();
 
             UpdateTheme();
@@ -92,7 +100,6 @@ namespace AudioPipe
 
         private void UpdateLatency()
         {
-            // TODO: may need to throttle updates to prevent things from breaking.
             _pipeManager.Latency = Properties.Settings.Default.Latency;
         }
 
@@ -172,29 +179,68 @@ namespace AudioPipe
             this.SetBlur(ThemeService.IsWindowTransparencyEnabled);
         }
 
+        /// <summary>
+        /// Updates whether the aero glass window border is shown.
+        /// </summary>
+        private void UpdateLegacyWindowBorder()
+        {
+            if (ColorService.IsLegacyTheme)
+            {
+                if (WindowFrameService.IsDwmCompositionEnabled)
+                {
+                    WindowFrameService.ShowGlassBorder(this);
+                }
+                else
+                {
+                    WindowFrameService.HideGlassBorder(this);
+                }
+            }
+        }
+
         private Point GetWindowPosition(double width, double height, double padding)
         {
             double left;
             double top;
+            double barOffset = 0;
+            double edgeOffset = 0;
+
+            if (ColorService.IsLegacyTheme)
+            {
+                if (WindowFrameService.IsDwmCompositionEnabled)
+                {
+                    barOffset = 3 * WindowFrameService.GlassBorderWidth;
+                    edgeOffset = WindowFrameService.GlassBorderWidth;
+                }
+                else
+                {
+                    barOffset = 2 * BorderThickness.Left;
+                    if (SystemParameters.HighContrast)
+                    {
+                        // For some reason the border changes horizontal positioning
+                        // depending on high contrast mode.
+                        edgeOffset = barOffset;
+                    }
+                }
+            }
 
             var taskbarState = TaskbarService.GetTaskbarState();
             switch (taskbarState.TaskbarPosition)
             {
                 case TaskbarPosition.Left:
-                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) + padding;
-                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - width - padding;
+                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) + padding + barOffset;
+                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - width - padding - edgeOffset;
                     break;
                 case TaskbarPosition.Right:
-                    left = (taskbarState.TaskbarBounds.Left / this.DpiWidthFactor()) - width - padding;
-                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - height - padding;
+                    left = (taskbarState.TaskbarBounds.Left / this.DpiWidthFactor()) - width - padding - barOffset;
+                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) - height - padding - edgeOffset;
                     break;
                 case TaskbarPosition.Top:
-                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - width - padding;
-                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) + padding;
+                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - width - padding - edgeOffset;
+                    top = (taskbarState.TaskbarBounds.Bottom / this.DpiHeightFactor()) + padding + barOffset;
                     break;
                 case TaskbarPosition.Bottom:
-                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - width - padding;
-                    top = (taskbarState.TaskbarBounds.Top / this.DpiHeightFactor()) - height - padding;
+                    left = (taskbarState.TaskbarBounds.Right / this.DpiWidthFactor()) - width - padding - edgeOffset;
+                    top = (taskbarState.TaskbarBounds.Top / this.DpiHeightFactor()) - height - padding - barOffset;
                     break;
                 default:
                     left = 0;
@@ -296,6 +342,63 @@ namespace AudioPipe
                 _trayIcon.Dispose();
                 _trayIcon = null;
             }
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            UpdateLegacyWindowBorder();
+
+            // Install the Win32 message hook.
+            var source = PresentationSource.FromVisual(this) as HwndSource;
+            source?.AddHook(WindowHook);
+        }
+
+        /// <summary>
+        /// Win32 message handler
+        /// </summary>
+        private IntPtr WindowHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case NativeMethods.WM_DWMCOMPOSITIONCHANGED:
+                    // Windows 7 aero glass enabled or disabled
+                    UpdateLegacyWindowBorder();
+                    handled = true;
+                    break;
+
+                case NativeMethods.WM_DWMCOLORIZATIONCOLORCHANGED:
+                    if (ColorService.IsLegacyTheme)
+                    {
+                        // Windows 7 aero glass color changed
+                        UpdateTheme();
+                        handled = true;
+                    }
+                    break;
+
+                case NativeMethods.WM_SETTINGCHANGE:
+                    if (lParam != IntPtr.Zero && Marshal.PtrToStringAuto(lParam) == "ImmersiveColorSet")
+                    {
+                        // Windows 8+ theme changed
+                        UpdateTheme();
+                        handled = true;
+                    }
+                    break;
+
+                case NativeMethods.WM_NCHITTEST:
+                    return HitTestService.DoHitTest(this, lParam, out handled);
+            }
+
+            return IntPtr.Zero;
+        }
+
+        private static class NativeMethods
+        {
+            public const int WM_SETTINGCHANGE = 0x001A;
+            public const int WM_NCHITTEST = 0x0084;
+            public const int WM_DWMCOMPOSITIONCHANGED = 0x31E;
+            public const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x0320;
         }
     }
 }

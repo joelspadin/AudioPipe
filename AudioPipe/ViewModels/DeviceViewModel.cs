@@ -3,7 +3,7 @@ using CSCore.CoreAudioAPI;
 
 namespace AudioPipe.ViewModels
 {
-    public class DeviceViewModel : BindableBase
+    public class DeviceViewModel : BindableBase, IDeviceViewModel
     {
         private MMDevice _device;
 

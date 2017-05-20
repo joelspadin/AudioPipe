@@ -31,16 +31,39 @@ namespace AudioPipe.Services
 
         public static void UpdateThemeColors(ResourceDictionary dictionary)
         {
-            dictionary["SystemAccentColor"] = AccentColorService.ActiveSet["SystemAccent"];
+            dictionary["SystemAccentColor"] = ColorService.GetColor("SystemAccent");
 
-            dictionary["GlassWindowBackground"] = new SolidColorBrush(GetWindowBackgroundColor());
-            ReplaceBrush(dictionary, "GlassWindowForeground", "ApplicationTextDarkTheme");
-            ReplaceBrush(dictionary, "DeviceItemHighlight", "DarkListLow");
-            ReplaceBrush(dictionary, "DeviceItemSelected", "SystemAccent", 0.8);
+            if (ColorService.IsLegacyTheme)
+            {
+                if (WindowFrameService.IsDwmCompositionEnabled)
+                {
+                    // If aero glass is enabled, it provides its own border so
+                    // don't add a border inside the window.
+                    dictionary["GlassWindowBorderThickness"] = new Thickness(0);
+                    dictionary["GlassWindowBorder"] = Brushes.Transparent;
+                }
+                else
+                {
+                    dictionary["GlassWindowBorderThickness"] = new Thickness(1);
+                    dictionary["GlassWindowBorder"] = new SolidColorBrush(ColorService.GetColor("GlassWindowBorder"));
+                }
 
-            //System.IO.File.WriteAllLines(@"C:\Users\Joel\Desktop\ThemeColors.txt",
-            //    AccentColorService.ActiveSet.GetAllColorNames().Select((name) => $"{AccentColorService.ActiveSet[name]}, {name}")
-            //    );
+                ReplaceBrush(dictionary, "GlassWindowBackground", "ApplicationBackground");
+                ReplaceBrush(dictionary, "GlassWindowForeground", "ApplicationTextDarkTheme");
+
+                ReplaceBrush(dictionary, "DeviceItemHighlight", "DeviceItemHighlight");
+                ReplaceBrush(dictionary, "DeviceItemSelected", "DeviceItemSelected");
+                ReplaceBrush(dictionary, "DeviceItemSelectedText", "DeviceItemSelectedText");
+            }
+            else
+            {
+                dictionary["GlassWindowBackground"] = new SolidColorBrush(GetWindowBackgroundColor());
+                ReplaceBrush(dictionary, "GlassWindowForeground", "ApplicationTextDarkTheme");
+
+                ReplaceBrush(dictionary, "DeviceItemHighlight", "DarkListLow");
+                ReplaceBrush(dictionary, "DeviceItemSelected", "SystemAccent", 0.8);
+                ReplaceBrush(dictionary, "DeviceItemSelectedText", "ApplicationTextDarkTheme");
+            }
         }
 
         private static Color GetWindowBackgroundColor()
@@ -59,7 +82,7 @@ namespace AudioPipe.Services
                 resource = "DarkChromeMediumLow";
             }
 
-            var color = AccentColorService.ActiveSet[resource];
+            var color = ColorService.GetColor(resource);
             color.A = (byte)(IsWindowTransparencyEnabled ? 0xCC : 0xFF);
             return color;
         }
@@ -71,7 +94,7 @@ namespace AudioPipe.Services
 
         private static void ReplaceBrush(ResourceDictionary dictionary, string name, string immersiveAccentName, double opacity)
         {
-            var color = AccentColorService.ActiveSet[immersiveAccentName];
+            var color = ColorService.GetColor(immersiveAccentName);
             dictionary[name] = new SolidColorBrush(color)
             {
                 Opacity = opacity

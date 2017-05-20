@@ -1,12 +1,17 @@
 ﻿using AudioPipe.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using System;
 
 namespace AudioPipe.ViewModels
 {
-    public class AppViewModel : BindableBase, IAppViewModel
+    /// <summary>
+    /// IAppViewModel that shows a list of fake devices.
+    /// </summary>
+    public class MockAppViewModel : BindableBase, IAppViewModel
     {
         public ICollectionView DevicesView { get; }
         public ObservableCollection<IDeviceViewModel> Devices { get; }
@@ -23,7 +28,7 @@ namespace AudioPipe.ViewModels
             }
         }
 
-        public AppViewModel()
+        public MockAppViewModel()
         {
             Devices = new ObservableCollection<IDeviceViewModel>();
             DevicesView = CollectionViewSource.GetDefaultView(Devices);
@@ -33,14 +38,20 @@ namespace AudioPipe.ViewModels
 
         public void Refresh()
         {
-            var deviceModels = DeviceService.GetOutputDevices().Select(d => new DeviceViewModel(d));
+            var deviceModels = new List<IDeviceViewModel>
+            {
+                new MockDeviceViewModel("Device 1", true),
+                new MockDeviceViewModel("Device 2", false),
+                new MockDeviceViewModel("Device 3", false),
+                new MockDeviceViewModel("Device 4", false),
+            };
 
-            foreach (var removedItem in Devices.Except(deviceModels, DeviceViewModelEqualityComparer.Instance).ToList())
+            foreach (var removedItem in Devices.Except(deviceModels, new DeviceComparer()).ToList())
             {
                 Devices.Remove(removedItem);
             }
 
-            foreach (var addedItem in deviceModels.Except(Devices, DeviceViewModelEqualityComparer.Instance).ToList())
+            foreach (var addedItem in deviceModels.Except(Devices, new DeviceComparer()).ToList())
             {
                 Devices.Add(addedItem);
             }
@@ -66,7 +77,20 @@ namespace AudioPipe.ViewModels
                 var deviceX = x as IDeviceViewModel;
                 var deviceY = y as IDeviceViewModel;
 
-                return DeviceViewModelComparer.Instance.Compare(deviceX, deviceY);
+                return string.CompareOrdinal(deviceX.DeviceName, deviceY.DeviceName);
+            }
+        }
+
+        private class DeviceComparer : IEqualityComparer<IDeviceViewModel>
+        {
+            public bool Equals(IDeviceViewModel x, IDeviceViewModel y)
+            {
+                return x.DeviceName == y.DeviceName;
+            }
+
+            public int GetHashCode(IDeviceViewModel obj)
+            {
+                return obj.DeviceName.GetHashCode();
             }
         }
     }

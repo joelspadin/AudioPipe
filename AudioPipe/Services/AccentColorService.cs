@@ -7,12 +7,12 @@ using System.Windows.Media;
 
 namespace AudioPipe.Services
 {
-    // TODO: Add a listener for WM_SETTINGCHANGE to detect changes of the active color scheme automatically.
-    //   Add a listener for WM_SETTINGCHANGE and trigger an event, like ActiveSetChanged.
     public static class AccentColorService
     {
         static AccentColorSet[] _allSets;
         static AccentColorSet _activeSet;
+
+        public static bool IsSupported => ImportService.EntryPointExists("uxtheme.dll", "GetImmersiveUserColorSetPreference");
 
         public static AccentColorSet[] AllSets
         {
@@ -22,7 +22,7 @@ namespace AudioPipe.Services
                 {
                     UInt32 colorSetCount = NativeMethods.GetImmersiveColorSetCount();
 
-                    List<AccentColorSet> colorSets = new List<AccentColorSet>();
+                    var colorSets = new List<AccentColorSet>();
                     for (UInt32 i = 0; i < colorSetCount; i++)
                     {
                         colorSets.Add(new AccentColorSet(i, false));
@@ -43,7 +43,7 @@ namespace AudioPipe.Services
         {
             get
             {
-                UInt32 activeSet = NativeMethods.GetImmersiveUserColorSetPreference(false, false);
+                uint activeSet = NativeMethods.GetImmersiveUserColorSetPreference(false, false);
                 ActiveSet = AllSets[Math.Min(activeSet, AllSets.Length - 1)];
                 return _activeSet;
             }
@@ -56,24 +56,27 @@ namespace AudioPipe.Services
             }
         }
 
-        public class AccentColorSet
+        public class AccentColorSet : IColorService
         {
-            private UInt32 _colorSet;
+            private uint _colorSet;
 
-            public Boolean Active { get; internal set; }
+            public bool Active { get; internal set; }
 
             public Color this[String colorName]
             {
                 get
                 {
                     IntPtr name = IntPtr.Zero;
-                    UInt32 colorType;
+                    uint colorType;
 
                     try
                     {
                         name = Marshal.StringToHGlobalUni("Immersive" + colorName);
                         colorType = NativeMethods.GetImmersiveColorTypeFromName(name);
-                        if (colorType == 0xFFFFFFFF) throw new InvalidOperationException();
+                        if (colorType == 0xFFFFFFFF)
+                        {
+                            throw new InvalidOperationException();
+                        }
                     }
                     finally
                     {
@@ -88,11 +91,11 @@ namespace AudioPipe.Services
                 }
             }
 
-            public Color this[UInt32 colorType]
+            public Color this[uint colorType]
             {
                 get
                 {
-                    UInt32 nativeColor = NativeMethods.GetImmersiveColorFromColorSetEx(this._colorSet, colorType, false, 0);
+                    uint nativeColor = NativeMethods.GetImmersiveColorFromColorSetEx(_colorSet, colorType, false, 0);
                     //if (nativeColor == 0)
                     //    throw new InvalidOperationException();
                     return Color.FromArgb(
@@ -104,10 +107,10 @@ namespace AudioPipe.Services
                 }
             }
 
-            internal AccentColorSet(UInt32 colorSet, Boolean active)
+            internal AccentColorSet(uint colorSet, bool active)
             {
-                this._colorSet = colorSet;
-                this.Active = active;
+                _colorSet = colorSet;
+                Active = active;
             }
 
             // HACK: GetAllColorNames collects the available color names by brute forcing the OS function.
@@ -115,13 +118,13 @@ namespace AudioPipe.Services
             //   the method below just tries all indices from 0 to 0xFFF ignoring errors.
             public List<String> GetAllColorNames()
             {
-                List<String> allColorNames = new List<String>();
-                for (UInt32 i = 0; i < 0xFFF; i++)
+                var allColorNames = new List<String>();
+                for (uint i = 0; i < 0xFFF; i++)
                 {
                     IntPtr typeNamePtr = NativeMethods.GetImmersiveColorNamedTypeByIndex(i);
                     if (typeNamePtr != IntPtr.Zero)
                     {
-                        IntPtr typeName = (IntPtr)Marshal.PtrToStructure(typeNamePtr, typeof(IntPtr));
+                        var typeName = (IntPtr)Marshal.PtrToStructure(typeNamePtr, typeof(IntPtr));
                         allColorNames.Add(Marshal.PtrToStringUni(typeName));
                     }
                 }
@@ -149,7 +152,4 @@ namespace AudioPipe.Services
             public static extern IntPtr GetImmersiveColorNamedTypeByIndex(UInt32 index);
         }
     }
-
-
-
 }

@@ -169,6 +169,15 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Run at startup.
+        /// </summary>
+        public static string RunAtStartup {
+            get {
+                return ResourceManager.GetString("RunAtStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string SettingsHeader {
