@@ -63,9 +63,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="VioletTape.WpfExceptionViewer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bfd09609f6784d58, processorArchitecture=MSIL">
-      <HintPath>..\packages\WpfExceptionViewer.1.0.0.0\lib\VioletTape.WpfExceptionViewer.dll</HintPath>
-    </Reference>
     <Reference Include="Windows">
       <HintPath>c:\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
       <Private>False</Private>
@@ -79,10 +76,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AboutPage.xaml.cs">
+    <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ControlHeader.cs" />
+    <Compile Include="Pages\ExceptionViewer.xaml.cs">
+      <DependentUpon>ExceptionViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Pivot.cs" />
     <Compile Include="Controls\PivotHeaderItem.cs" />
     <Compile Include="Controls\PivotHeaderPanel.cs" />
@@ -99,8 +99,8 @@
     <Compile Include="Services\WindowFrameService.cs" />
     <Compile Include="Extensions\WindowStyle.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="PipeInitException.cs" />
-    <Compile Include="PipeManager.cs" />
+    <Compile Include="Audio\PipeInitException.cs" />
+    <Compile Include="Audio\PipeManager.cs" />
     <Compile Include="Services\AccentColorService.cs" />
     <Compile Include="Services\ColorService.cs" />
     <Compile Include="Services\DeviceService.cs" />
@@ -117,7 +117,7 @@
     <Compile Include="ViewModels\MockDeviceViewModel.cs" />
     <Compile Include="ViewModels\MockAppViewModel.cs" />
     <Compile Include="ViewModels\Settings.cs" />
-    <Compile Include="SettingsPage.xaml.cs">
+    <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsWindow.xaml.cs">
@@ -130,9 +130,13 @@
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModelComparer.cs" />
     <Compile Include="ViewModels\DeviceViewModelEqualityComparer.cs" />
-    <Page Include="AboutPage.xaml">
+    <Page Include="Pages\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ExceptionViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -142,7 +146,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pipe.cs" />
+    <Compile Include="Audio\Pipe.cs" />
     <Compile Include="Extensions\WindowAccentExtensions.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -160,7 +164,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPage.xaml">
+    <Page Include="Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

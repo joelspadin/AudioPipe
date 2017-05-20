@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Navigation;
 
-namespace AudioPipe
+namespace AudioPipe.Pages
 {
     /// <summary>
     /// Interaction logic for AboutPage.xaml

@@ -1,4 +1,5 @@
-﻿using AudioPipe.Extensions;
+﻿using AudioPipe.Audio;
+using AudioPipe.Extensions;
 using AudioPipe.Services;
 using AudioPipe.ViewModels;
 using CSCore.CoreAudioAPI;
@@ -76,17 +77,24 @@ namespace AudioPipe
                 UpdateViewModel();
                 UpdateWindowPosition();
 
-                var scrollviewer = LayoutRoot.FindVisualDescendant<ScrollViewer>();
+                if (ColorService.IsLegacyTheme)
+                {
+                    Show();
+                }
+                else
+                {
+                    var scrollviewer = LayoutRoot.FindVisualDescendant<ScrollViewer>();
 
-                Topmost = false;
-                SizeToContent = SizeToContent.Manual;
-                scrollviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+                    Topmost = false;
+                    SizeToContent = SizeToContent.Manual;
+                    scrollviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
 
-                await this.ShowWithAnimation();
+                    await this.ShowWithAnimation();
 
-                Topmost = true;
-                SizeToContent = SizeToContent.WidthAndHeight;
-                scrollviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                    Topmost = true;
+                    SizeToContent = SizeToContent.WidthAndHeight;
+                    scrollviewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                }
             }
         }
 
@@ -94,7 +102,14 @@ namespace AudioPipe
         {
             if (Visibility == Visibility.Visible)
             {
-                await this.HideWithAnimation();
+                if (ColorService.IsLegacyTheme)
+                {
+                    Hide();
+                }
+                else
+                {
+                    await this.HideWithAnimation();
+                }
             }
         }
 

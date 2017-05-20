@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:AudioPipe"
+    xmlns:pages="clr-namespace:AudioPipe.Pages"
     xmlns:controls="clr-namespace:AudioPipe.Controls"
     xmlns:ext="clr-namespace:AudioPipe.Extensions"
     xmlns:p="clr-namespace:AudioPipe.Properties"
@@ -24,10 +25,10 @@
     <Grid>
         <controls:Pivot x:Name="Pivot">
             <controls:PivotItem Header="{x:Static p:Resources.SettingsHeader}">
-                <local:SettingsPage />
+                <pages:SettingsPage />
             </controls:PivotItem>
             <controls:PivotItem Header="{x:Static p:Resources.AboutHeader}">
-                <local:AboutPage />
+                <pages:AboutPage />
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>

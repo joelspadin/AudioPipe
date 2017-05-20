@@ -26,8 +26,10 @@ namespace AudioPipe
 
         private void ShowException(Exception ex)
         {
-            var viewer = new WpfExceptionViewer.ExceptionViewer("An unhandled exception occurred.", ex, MainWindow);
-            viewer.Title = "Audio Redirect";
+            var viewer = new VioletTape.WpfExceptionViewer.ExceptionViewer("An unhandled exception occurred.", ex, MainWindow)
+            {
+                Title = "Audio Redirect"
+            };
             viewer.ShowDialog();
         }
     }

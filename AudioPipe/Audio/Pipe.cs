@@ -6,7 +6,7 @@ using CSCore.SoundOut;
 using CSCore.Streams;
 using System;
 
-namespace AudioPipe
+namespace AudioPipe.Audio
 {
     public class Pipe : IDisposable
     {

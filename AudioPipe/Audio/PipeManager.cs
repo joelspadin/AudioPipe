@@ -2,7 +2,7 @@
 using CSCore.CoreAudioAPI;
 using System;
 
-namespace AudioPipe
+namespace AudioPipe.Audio
 {
     public sealed class PipeManager : IDisposable
     {

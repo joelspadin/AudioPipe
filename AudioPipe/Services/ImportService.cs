@@ -26,15 +26,17 @@ namespace AudioPipe.Services
 
         private static class NativeMethods
         {
-            [DllImport("kernel32", SetLastError = true)]
+            [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
             public static extern IntPtr LoadLibrary(string lpFileName);
 
             [DllImport("kernel32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool FreeLibrary(IntPtr hModule);
 
-            [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-            public static extern UIntPtr GetProcAddress(IntPtr hModule, string procName);
+            [DllImport("kernel32", ExactSpelling = true, SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+            public static extern UIntPtr GetProcAddress(
+                IntPtr hModule,
+                [MarshalAs(UnmanagedType.LPStr)] string procName);
         }
     }
 }

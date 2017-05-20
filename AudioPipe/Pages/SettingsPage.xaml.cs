@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace AudioPipe
+namespace AudioPipe.Pages
 {
     /// <summary>
     /// Interaction logic for SettingsPage.xaml

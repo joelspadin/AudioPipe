@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AudioPipe
+namespace AudioPipe.Audio
 {
     [Serializable]
     public class PipeInitException : Exception
