@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" IgnorableNamespaces="uap rescap mp">
-  <Identity Name="23723JoelSpadin.AudioRedirect" Publisher="CN=5FA677ED-A2AC-4796-B117-F6E9C67090A2" Version="1.4.0.0" />
+  <Identity Name="23723JoelSpadin.AudioRedirect" Publisher="CN=5FA677ED-A2AC-4796-B117-F6E9C67090A2" Version="1.5.3.0" />
   <mp:PhoneIdentity PhoneProductId="a511cd5a-7c2c-4792-9f38-e951d3bb52dc" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Audio Redirect</DisplayName>

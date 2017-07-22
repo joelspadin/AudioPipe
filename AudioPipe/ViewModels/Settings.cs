@@ -32,6 +32,12 @@ namespace AudioPipe.ViewModels
                 typeof(Settings),
                 new FrameworkPropertyMetadata(Properties.Settings.Default.MuteSource, OnMuteSourceChanged));
 
+        public Settings()
+        {
+            Latency = Properties.Settings.Default.Latency;
+            MuteSource = Properties.Settings.Default.MuteSource;
+        }
+
         private static void OnLatencyChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             // Updating latency setting causes audio pipe to restart.

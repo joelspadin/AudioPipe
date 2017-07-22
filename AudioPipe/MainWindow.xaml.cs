@@ -73,7 +73,6 @@ namespace AudioPipe
         {
             if (Visibility != Visibility.Visible)
             {
-                UpdateTheme();
                 UpdateViewModel();
                 UpdateWindowPosition();
 
@@ -297,11 +296,16 @@ namespace AudioPipe
 
         private void DeviceService_DevicesChanged(object sender, EventArgs e)
         {
-            Dispatcher.Invoke(() =>
+            // This must be done asynchronously, or UpdateViewModel() will deadlock
+            // if it tries to remove the pipe's current device from the list, which
+            // then causes the pipe manager to dispose an audio stream while still
+            // in the audio device enumerator's devices changed event.
+            Dispatcher.BeginInvoke(new Action(() =>
             {
                 UpdateViewModel();
+                UpdateWindowPosition();
                 UpdateTrayIcon();
-            });
+            }));
         }
 
         private void Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
