@@ -66,10 +66,14 @@
                             HorizontalContentAlignment="Stretch"
                             Content="{TemplateBinding Header}" />
 
-                        <ContentControl
-                            x:Name="PivotItemPresenter"
+                        <ScrollViewer
                             Grid.Row="1"
-                            Content="{TemplateBinding SelectedItem}" />
+                            CanContentScroll="True"
+                            VerticalScrollBarVisibility="Auto">
+                            <ContentControl
+                                x:Name="PivotItemPresenter"
+                                Content="{TemplateBinding SelectedItem}" />
+                        </ScrollViewer>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -799,6 +803,7 @@
 
     <!-- FRAMEWORK STYLES -->
     <Style x:Key="BaseTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="FontFamily" Value="XamlAutoFontFamily" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="FontSize" Value="15" />

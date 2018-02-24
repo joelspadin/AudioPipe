@@ -11,12 +11,9 @@ namespace AudioPipe.Pages
     /// <summary>
     /// Interaction logic for AboutPage.xaml
     /// </summary>
-    public partial class AboutPage : UserControl
+    public partial class HelpPage : UserControl
     {
-        public Version AssemblyVersion => Assembly.GetEntryAssembly().GetName().Version;
-        public string VersionText => string.Format(Properties.Resources.Version, AssemblyVersion);
-
-        public AboutPage()
+        public HelpPage()
         {
             InitializeComponent();
 

@@ -10,7 +10,6 @@
         Topmost="True"
         ShowInTaskbar="False"
         AllowsTransparency="True"
-        SnapsToDevicePixels="True"
         UseLayoutRounding="True"
         WindowStyle="None"
         Deactivated="Window_Deactivated"
@@ -50,7 +49,9 @@
                     FontSize="15"
                     FontFamily="Segoe UI"
                     FontWeight="Normal"
-                    TextTrimming="WordEllipsis" />
+                    TextTrimming="WordEllipsis"
+                    TextOptions.TextFormattingMode="Display"
+                    />
             </DataTemplate>
         </ListBox.ItemTemplate>
     </ListBox>

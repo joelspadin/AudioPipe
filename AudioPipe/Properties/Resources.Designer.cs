@@ -19,7 +19,7 @@ namespace AudioPipe.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -115,6 +115,42 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My device isn&apos;t in the list!.
+        /// </summary>
+        public static string DeviceMissingCaption {
+            get {
+                return ResourceManager.GetString("DeviceMissingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is it your default playback device? Audio Redirect can only redirect from your default device to a different one. Try clicking Windows&apos; volume icon in the taskbar and changing the playback device to something else..
+        /// </summary>
+        public static string DeviceMissingText {
+            get {
+                return ResourceManager.GetString("DeviceMissingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My device still isn&apos;t in the list!.
+        /// </summary>
+        public static string DeviceStillMissingCaption {
+            get {
+                return ResourceManager.GetString("DeviceStillMissingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio Redirect needs your audio drivers to support WASAPI. If your device has something like an ASIO or &quot;advanced driver&quot; mode, try turning it off..
+        /// </summary>
+        public static string DeviceStillMissingText {
+            get {
+                return ResourceManager.GetString("DeviceStillMissingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to connect to destination device. Is another program using it?.
         /// </summary>
         public static string ErrorDestinationDeviceBusy {
@@ -142,6 +178,15 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string HelpHeader {
+            get {
+                return ResourceManager.GetString("HelpHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Latency.
         /// </summary>
         public static string Latency {
@@ -165,6 +210,15 @@ namespace AudioPipe.Properties {
         public static string Performance {
             get {
                 return ResourceManager.GetString("Performance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please report any bugs you find on GitHub:.
+        /// </summary>
+        public static string PleaseReportBugs {
+            get {
+                return ResourceManager.GetString("PleaseReportBugs", resourceCulture);
             }
         }
         

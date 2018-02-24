@@ -178,4 +178,23 @@
   <data name="RunAtStartup" xml:space="preserve">
     <value>Run at startup</value>
   </data>
+  <data name="PleaseReportBugs" xml:space="preserve">
+    <value>Please report any bugs you find on GitHub:</value>
+    <comment>A Hyperlink to the GitHub issues page follows this text.</comment>
+  </data>
+  <data name="DeviceMissingCaption" xml:space="preserve">
+    <value>My device isn't in the list!</value>
+  </data>
+  <data name="DeviceMissingText" xml:space="preserve">
+    <value>Is it your default playback device? Audio Redirect can only redirect from your default device to a different one. Try clicking Windows' volume icon in the taskbar and changing the playback device to something else.</value>
+  </data>
+  <data name="DeviceStillMissingCaption" xml:space="preserve">
+    <value>My device still isn't in the list!</value>
+  </data>
+  <data name="DeviceStillMissingText" xml:space="preserve">
+    <value>Audio Redirect needs your audio drivers to support WASAPI. If your device has something like an ASIO or "advanced driver" mode, try turning it off.</value>
+  </data>
+  <data name="HelpHeader" xml:space="preserve">
+    <value>Help</value>
+  </data>
 </root>

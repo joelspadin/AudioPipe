@@ -14,11 +14,16 @@
                 <Setter Property="Margin" Value="0,0,0,16" />
             </Style>
 
-            <Style TargetType="TextBlock">
-                <Setter Property="TextWrapping" Value="Wrap" />
+            <Style x:Key="Header" TargetType="TextBlock" BasedOn="{StaticResource SubtitleTextBlockStyle}">
+                <Setter Property="Margin" Value="0,20,0,12" />
+            </Style>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
+
     <StackPanel>
         <Grid Style="{StaticResource AboutSection}">
             <TextBlock Text="{Binding VersionText}" />
@@ -33,7 +38,7 @@
         <StackPanel Style="{StaticResource AboutSection}">
             <TextBlock
                 Text="{x:Static p:Resources.Credits}"
-                Style="{StaticResource SubtitleTextBlockStyle}" />
+                Style="{StaticResource Header}" />
             <TextBlock>
                 <Hyperlink NavigateUri="https://github.com/filoe/cscore">CSCore .NET Audio Library</Hyperlink> (Ms-PL license)
             </TextBlock>

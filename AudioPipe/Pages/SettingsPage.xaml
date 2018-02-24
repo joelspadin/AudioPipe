@@ -29,7 +29,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel>
-        <Grid Style="{StaticResource SettingItem}">
+        <Grid
+            Style="{StaticResource SettingItem}"
+            Margin="0,0,0,20">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

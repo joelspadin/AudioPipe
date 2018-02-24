@@ -15,8 +15,7 @@
     Height="350"
     MinWidth="400"
     MinHeight="250"
-    UseLayoutRounding="False"
-    SnapsToDevicePixels="True"
+    UseLayoutRounding="True"
     ext:WindowStyle.ShowIcon="False">
     <!--
     This page and all its contents are designed to work as similarly as
@@ -29,6 +28,9 @@
             </controls:PivotItem>
             <controls:PivotItem Header="{x:Static p:Resources.AboutHeader}">
                 <pages:AboutPage />
+            </controls:PivotItem>
+            <controls:PivotItem Header="{x:Static p:Resources.HelpHeader}">
+                <pages:HelpPage />
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>
