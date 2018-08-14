@@ -7,11 +7,13 @@
              mc:Ignorable="d"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              d:DesignHeight="300"
-             d:DesignWidth="300">
+             d:DesignWidth="400">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="HelpSection" TargetType="FrameworkElement">
                 <Setter Property="Margin" Value="0,0,0,40" />
+                <Setter Property="MaxWidth" Value="500" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
             </Style>
 
             <Style x:Key="Header" TargetType="TextBlock" BasedOn="{StaticResource SubtitleTextBlockStyle}">
@@ -19,7 +21,7 @@
             </Style>
 
             <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
-
+                <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>

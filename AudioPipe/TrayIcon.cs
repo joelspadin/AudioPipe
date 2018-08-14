@@ -26,13 +26,14 @@ namespace AudioPipe
             _pipeActiveIcon = IconService.CreateIcon((int)IconService.Symbol.Headphone);
             _pipeInactiveIcon = IconService.CreateIcon((int)IconService.Symbol.Speaker);
 
-            AddMenuItems(new List<MenuItem>
+            AddMenuItems(new List<IMenuItem>
             {
                 new MenuItem
                 {
                     Text = Resources.ContextMenuSettingsTitle,
                     Click = SettingsItem_Click,
                 },
+                new Separator(),
                 new MenuItem
                 {
                     Text = Resources.ContextMenuExitTitle,
@@ -59,7 +60,7 @@ namespace AudioPipe
             }
         }
 
-        private void AddMenuItems(IEnumerable<MenuItem> items)
+        private void AddMenuItems(IEnumerable<IMenuItem> items)
         {
             foreach (var itemDef in items)
             {
@@ -89,10 +90,22 @@ namespace AudioPipe
             _trayIcon.Dispose();
         }
 
-        private struct MenuItem
+        private interface IMenuItem
+        {
+            string Text { get; }
+            EventHandler Click { get; }
+        }
+
+        private struct MenuItem : IMenuItem
         {
             public string Text { get; set; }
             public EventHandler Click { get; set; }
+        }
+
+        private class Separator : IMenuItem
+        {
+            public string Text => "-";
+            public EventHandler Click => null;
         }
     }
 }

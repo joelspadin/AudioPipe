@@ -371,7 +371,7 @@
     <!--<StaticResource x:Key="PivotHeaderItemBackgroundDisabled" ResourceKey="SystemControlTransparentBrush" />-->
     <SolidColorBrush x:Key="PivotHeaderItemBackgroundDisabled" Color="Transparent" />
     <!--<StaticResource x:Key="PivotHeaderItemForegroundUnselected" ResourceKey="SystemControlForegroundBaseMediumBrush" />-->
-    <SolidColorBrush x:Key="PivotHeaderItemForegroundUnselected" Color="{StaticResource SystemBaseMediumColor}" />
+    <SolidColorBrush x:Key="PivotHeaderItemForegroundUnselected" Color="{StaticResource SystemBaseMediumLowColor}" />
     <!--<StaticResource x:Key="PivotHeaderItemForegroundUnselectedPointerOver" ResourceKey="SystemControlHighlightAltBaseMediumHighBrush" />-->
     <SolidColorBrush x:Key="PivotHeaderItemForegroundUnselectedPointerOver" Color="{StaticResource SystemBaseMediumHighColor}" />
     <!--<StaticResource x:Key="PivotHeaderItemForegroundUnselectedPressed" ResourceKey="SystemControlHighlightAltBaseMediumHighBrush" />-->

@@ -803,7 +803,6 @@
 
     <!-- FRAMEWORK STYLES -->
     <Style x:Key="BaseTextBlockStyle" TargetType="TextBlock">
-        <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
         <Setter Property="FontFamily" Value="XamlAutoFontFamily" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="FontSize" Value="15" />

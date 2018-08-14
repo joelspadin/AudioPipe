@@ -121,16 +121,16 @@
     <value>Settings</value>
   </data>
   <data name="ContextMenuExitTitle" xml:space="preserve">
-    <value>Exit</value>
+    <value>Quit Audio Redirect</value>
   </data>
   <data name="DefaultDeviceText" xml:space="preserve">
     <value>Use default device</value>
   </data>
   <data name="ErrorDestinationDeviceBusy" xml:space="preserve">
-    <value>Failed to connect to destination device. Is another program using it?</value>
+    <value>Failed to connect to destination device. Is another program using it in exclusive mode?</value>
   </data>
   <data name="ErrorSourceDeviceBusy" xml:space="preserve">
-    <value>Failed to connect to source device. Is another program using it?</value>
+    <value>Failed to connect to source device. Is another program using it in exclusive mode?</value>
   </data>
   <data name="ErrorTitleCannotCreatePipe" xml:space="preserve">
     <value>Cannot Redirect</value>
@@ -180,19 +180,19 @@
   </data>
   <data name="PleaseReportBugs" xml:space="preserve">
     <value>Please report any bugs you find on GitHub:</value>
-    <comment>A Hyperlink to the GitHub issues page follows this text.</comment>
+    <comment>A link to the GitHub issues page follows this text.</comment>
   </data>
   <data name="DeviceMissingCaption" xml:space="preserve">
     <value>My device isn't in the list!</value>
   </data>
   <data name="DeviceMissingText" xml:space="preserve">
-    <value>Is it your default playback device? Audio Redirect can only redirect from your default device to a different one. Try clicking Windows' volume icon in the taskbar and changing the playback device to something else.</value>
+    <value>Is it your default playback device? Audio Redirect can only redirect from your default device to a different one, so try changing your default playback device to something else first.</value>
   </data>
   <data name="DeviceStillMissingCaption" xml:space="preserve">
     <value>My device still isn't in the list!</value>
   </data>
   <data name="DeviceStillMissingText" xml:space="preserve">
-    <value>Audio Redirect needs your audio drivers to support WASAPI. If your device has something like an ASIO or "advanced driver" mode, try turning it off.</value>
+    <value>Some devices support an alternate, low-latency driver mode that may not work with Audio Redirect. If your device has something like an ASIO or "advanced driver" mode, try turning it off.</value>
   </data>
   <data name="HelpHeader" xml:space="preserve">
     <value>Help</value>

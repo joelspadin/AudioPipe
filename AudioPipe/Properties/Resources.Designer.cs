@@ -79,7 +79,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exit.
+        ///   Looks up a localized string similar to Quit Audio Redirect.
         /// </summary>
         public static string ContextMenuExitTitle {
             get {
@@ -124,7 +124,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is it your default playback device? Audio Redirect can only redirect from your default device to a different one. Try clicking Windows&apos; volume icon in the taskbar and changing the playback device to something else..
+        ///   Looks up a localized string similar to Is it your default playback device? Audio Redirect can only redirect from your default device to a different one, so try changing your default playback device to something else first..
         /// </summary>
         public static string DeviceMissingText {
             get {
@@ -142,7 +142,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Audio Redirect needs your audio drivers to support WASAPI. If your device has something like an ASIO or &quot;advanced driver&quot; mode, try turning it off..
+        ///   Looks up a localized string similar to Some devices support an alternate, low-latency driver mode that may not work with Audio Redirect. If your device has something like an ASIO or &quot;advanced driver&quot; mode, try turning it off..
         /// </summary>
         public static string DeviceStillMissingText {
             get {
@@ -151,7 +151,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to connect to destination device. Is another program using it?.
+        ///   Looks up a localized string similar to Failed to connect to destination device. Is another program using it in exclusive mode?.
         /// </summary>
         public static string ErrorDestinationDeviceBusy {
             get {
@@ -160,7 +160,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to connect to source device. Is another program using it?.
+        ///   Looks up a localized string similar to Failed to connect to source device. Is another program using it in exclusive mode?.
         /// </summary>
         public static string ErrorSourceDeviceBusy {
             get {

@@ -170,8 +170,10 @@ namespace AudioPipe.Services
         public enum Symbol
         {
             Bluetooth = 0xE702,
+            TVMonitor = 0xE7F4,
             Speaker = 0xE7F5,
             Headphone = 0xE7F6,
+            Game = 0xE7FC,
             IncidentTriangle = 0xE814,
             Audio = 0xE8D6,
             Streaming = 0xE93E,

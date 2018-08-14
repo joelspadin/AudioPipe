@@ -50,7 +50,6 @@
                     FontFamily="Segoe UI"
                     FontWeight="Normal"
                     TextTrimming="WordEllipsis"
-                    TextOptions.TextFormattingMode="Display"
                     />
             </DataTemplate>
         </ListBox.ItemTemplate>
