@@ -9,7 +9,7 @@ namespace AudioPipe.Extensions
     /// <summary>
     /// Extensions for <see cref="FrameworkElement"/> to add hyperlink navigation.
     /// </summary>
-    public static class NaivgationExtensions
+    public static class NavigationExtensions
     {
         /// <summary>
         /// Makes all Hyperlink descendants of an element open links in the
@@ -44,6 +44,7 @@ namespace AudioPipe.Extensions
             {
                 foreach (var link in root.FindLogicalDescendants<Hyperlink>())
                 {
+                    link.RequestNavigate -= Hyperlink_RequestNavigate;
                     link.RequestNavigate += Hyperlink_RequestNavigate;
                 }
             }
