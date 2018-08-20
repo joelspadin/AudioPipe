@@ -14,10 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioPipe.Settings", "AudioPipe.Settings\AudioPipe.Settings.csproj", "{3279F34B-760B-49C0-9EA8-7E772446D927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioPipe.Package", "AudioPipe.Package\AudioPipe.Package.csproj", "{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634} = {DA9FC8FF-DC35-425D-9E94-E9A3DF0B3634}
-	EndProjectSection
+Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "AudioPipe.Package", "AudioPipe.Package\AudioPipe.Package.wapproj", "{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,20 +66,35 @@ Global
 		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x86.ActiveCfg = Release|x86
 		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x86.Build.0 = Release|x86
 		{3279F34B-760B-49C0-9EA8-7E772446D927}.Release|x86.Deploy.0 = Release|x86
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Debug|ARM.ActiveCfg = Debug|ARM
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Debug|x64.ActiveCfg = Debug|x64
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Debug|x86.ActiveCfg = Debug|x86
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Release|Any CPU.ActiveCfg = Release|x86
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Release|ARM.ActiveCfg = Release|ARM
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Release|x64.ActiveCfg = Release|x64
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Release|x64.Build.0 = Release|x64
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Release|x64.Deploy.0 = Release|x64
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Release|x86.ActiveCfg = Release|x86
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Release|x86.Build.0 = Release|x86
-		{7C1B656C-3C1F-4A50-92EB-FA7C187E5963}.Release|x86.Deploy.0 = Release|x86
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|ARM.Deploy.0 = Debug|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|x64.ActiveCfg = Debug|x64
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|x64.Build.0 = Debug|x64
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|x64.Deploy.0 = Debug|x64
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|x86.ActiveCfg = Debug|x86
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|x86.Build.0 = Debug|x86
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Debug|x86.Deploy.0 = Debug|x86
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|ARM.Build.0 = Release|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|ARM.Deploy.0 = Release|Any CPU
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|x64.ActiveCfg = Release|x64
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|x64.Build.0 = Release|x64
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|x64.Deploy.0 = Release|x64
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|x86.ActiveCfg = Release|x86
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|x86.Build.0 = Release|x86
+		{B8D604E6-693F-488C-AFE9-FB0E1DD6EFE8}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59CEAE2A-3A1D-4975-838F-E6680A5E28E7}
 	EndGlobalSection
 EndGlobal
