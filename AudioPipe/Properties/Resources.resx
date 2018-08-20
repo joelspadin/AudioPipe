@@ -148,7 +148,7 @@
     <value>Credits</value>
   </data>
   <data name="Latency" xml:space="preserve">
-    <value>Latency</value>
+    <value>Buffer size</value>
   </data>
   <data name="MuteSourceWhenPipeIsActive" xml:space="preserve">
     <value>Mute source device when redirect is active</value>

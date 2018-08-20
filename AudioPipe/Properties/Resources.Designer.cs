@@ -196,7 +196,7 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Latency.
+        ///   Looks up a localized string similar to Buffer size.
         /// </summary>
         public static string Latency {
             get {
