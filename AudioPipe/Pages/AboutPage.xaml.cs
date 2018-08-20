@@ -1,10 +1,7 @@
 ﻿using AudioPipe.Extensions;
 using System;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Navigation;
 
 namespace AudioPipe.Pages
 {
@@ -13,14 +10,24 @@ namespace AudioPipe.Pages
     /// </summary>
     public partial class AboutPage : UserControl
     {
-        public Version AssemblyVersion => Assembly.GetEntryAssembly().GetName().Version;
-        public string VersionText => string.Format(Properties.Resources.Version, AssemblyVersion);
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AboutPage"/> class.
+        /// </summary>
         public AboutPage()
         {
             InitializeComponent();
 
             this.EnableHyperlinks();
         }
+
+        /// <summary>
+        /// Gets the application's assembly version.
+        /// </summary>
+        public Version AssemblyVersion => Assembly.GetEntryAssembly().GetName().Version;
+
+        /// <summary>
+        /// Gets a string describing the application's assembly version.
+        /// </summary>
+        public string VersionText => string.Format(Properties.Resources.Version, AssemblyVersion);
     }
 }

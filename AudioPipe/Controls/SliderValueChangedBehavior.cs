@@ -1,9 +1,8 @@
-﻿using System.Windows;
+﻿// Adapted from https://gist.github.com/anonymous/4326429
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-
-// https://gist.github.com/anonymous/4326429
 
 namespace AudioPipe.Controls
 {
@@ -12,51 +11,47 @@ namespace AudioPipe.Controls
     /// </summary>
     public class SliderValueChangedBehavior : Behavior<Slider>
     {
-        private int _keysDown;
-
-        private bool _mouseCaptureBound;
-
-        #region Dependency property Value
-
         /// <summary>
-        /// DataBindable value.
+        /// Identifes the <see cref="Command"/> dependency property.
         /// </summary>
-        public double Value
-        {
-            get { return (double)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
-        }
-
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
-            "Value",
-            typeof(double),
-            typeof(SliderValueChangedBehavior),
-            new PropertyMetadata(default(double), OnValuePropertyChanged));
-
-        #endregion
-
-        #region Dependency property Value
-
-        /// <summary>
-        /// DataBindable Command
-        /// </summary>
-        public ICommand Command
-        {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
-
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
-            "Command",
+            nameof(Command),
             typeof(ICommand),
             typeof(SliderValueChangedBehavior),
             new PropertyMetadata(null));
 
-        #endregion
+        /// <summary>
+        /// Identifies the <see cref="Value"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+            nameof(Value),
+            typeof(double),
+            typeof(SliderValueChangedBehavior),
+            new PropertyMetadata(default(double), OnValuePropertyChanged));
+
+        private int keysDown;
+
+        private bool mouseCaptureBound;
 
         /// <summary>
-        /// On behavior attached.
+        /// Gets or sets a command to execute when the value changes.
         /// </summary>
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the slider value.
+        /// </summary>
+        public double Value
+        {
+            get => (double)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
+        }
+
+        /// <inheritdoc/>
         protected override void OnAttached()
         {
             AssociatedObject.KeyUp += OnKeyUp;
@@ -66,9 +61,7 @@ namespace AudioPipe.Controls
             base.OnAttached();
         }
 
-        /// <summary>
-        /// On behavior detaching.
-        /// </summary>
+        /// <inheritdoc/>
         protected override void OnDetaching()
         {
             base.OnDetaching();
@@ -78,9 +71,6 @@ namespace AudioPipe.Controls
             AssociatedObject.ValueChanged -= OnValueChanged;
         }
 
-        /// <summary>
-        /// On Value dependency property change.
-        /// </summary>
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var me = (SliderValueChangedBehavior)d;
@@ -91,21 +81,23 @@ namespace AudioPipe.Controls
         }
 
         /// <summary>
-        /// Occurs when the slider's value change.
+        /// Applies the current value in the Value dependency property and raises the command.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void ApplyValue()
         {
-            if (Mouse.Captured != null)
-            {
-                if (!_mouseCaptureBound)
-                {
-                    AssociatedObject.LostMouseCapture += OnLostMouseCapture;
-                    _mouseCaptureBound = true;
-                }
-            }
-            else if (_keysDown == 0)
+            Value = AssociatedObject.Value;
+
+            Command?.Execute(Value);
+        }
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            keysDown++;
+        }
+
+        private void OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (keysDown-- != 0)
             {
                 ApplyValue();
             }
@@ -113,32 +105,25 @@ namespace AudioPipe.Controls
 
         private void OnLostMouseCapture(object sender, MouseEventArgs e)
         {
-            _mouseCaptureBound = false;
+            mouseCaptureBound = false;
             AssociatedObject.LostMouseCapture -= OnLostMouseCapture;
             ApplyValue();
         }
 
-        private void OnKeyUp(object sender, KeyEventArgs e)
+        private void OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (_keysDown-- != 0)
+            if (Mouse.Captured != null)
+            {
+                if (!mouseCaptureBound)
+                {
+                    AssociatedObject.LostMouseCapture += OnLostMouseCapture;
+                    mouseCaptureBound = true;
+                }
+            }
+            else if (keysDown == 0)
             {
                 ApplyValue();
             }
-        }
-
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            _keysDown++;
-        }
-
-        /// <summary>
-        /// Applies the current value in the Value dependency property and raises the command.
-        /// </summary>
-        private void ApplyValue()
-        {
-            this.Value = this.AssociatedObject.Value;
-
-            this.Command?.Execute(this.Value);
         }
     }
 }

@@ -1,14 +1,24 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace AudioPipe.ViewModels
 {
+    /// <summary>
+    /// Provides an implementation of <see cref="INotifyPropertyChanged"/>
+    /// which may be used by derived classes.
+    /// </summary>
     public class BindableBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChanged(string name)
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event for the given property.
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed.</param>
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

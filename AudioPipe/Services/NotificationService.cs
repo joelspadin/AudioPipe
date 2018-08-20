@@ -7,13 +7,21 @@ using Windows.UI.Notifications;
 
 namespace AudioPipe.Services
 {
+    /// <summary>
+    /// Provides an interface to either UWP or Win32 notifications,
+    /// depending on how the application is being run.
+    /// </summary>
     public static class NotificationService
     {
         private const string ApplicationId = "AudioRedirect";
         private const string ErrorImagePath = "NotifyError.png";
 
-        private static bool _iconCreated = false;
+        private static bool iconCreated;
 
+        /// <summary>
+        /// Displays an error notification with a given message.
+        /// </summary>
+        /// <param name="message">The text to display.</param>
         public static void NotifyError(string message)
         {
             if (new DesktopBridge.Helpers().IsRunningAsUwp())
@@ -33,7 +41,7 @@ namespace AudioPipe.Services
 
         private static void NotifyErrorUwp(string message)
         {
-            if (!_iconCreated)
+            if (!iconCreated)
             {
                 CreateErrorIcon();
             }
@@ -73,8 +81,8 @@ namespace AudioPipe.Services
         private static void CreateErrorIcon()
         {
             // TODO: DPI aware?
-            int imageSize = 44;
-            int symbolSize = 30;
+            const int imageSize = 44;
+            const int symbolSize = 30;
 
             var iconInfo = new IconService.IconInfo
             {
@@ -96,6 +104,8 @@ namespace AudioPipe.Services
             {
                 bitmap.Save(ErrorImagePath, System.Drawing.Imaging.ImageFormat.Png);
             }
+
+            iconCreated = true;
         }
     }
 }

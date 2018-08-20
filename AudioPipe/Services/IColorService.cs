@@ -1,14 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Media;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AudioPipe.Services
 {
+    /// <summary>
+    /// A service that provides named colors.
+    /// </summary>
     public interface IColorService
     {
-        Color this[String colorName] { get; }
+        /// <summary>
+        /// Gets the color with the given name.
+        /// </summary>
+        /// <param name="colorName">The name of the accent color.</param>
+        /// <returns>The color associated with the given name.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the given name is invalid.</exception>
+        Color this[string colorName] { get; }
     }
 }

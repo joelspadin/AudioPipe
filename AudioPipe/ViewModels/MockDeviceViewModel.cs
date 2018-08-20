@@ -1,30 +1,42 @@
-﻿using AudioPipe.Services;
-using CSCore.CoreAudioAPI;
+﻿using CSCore.CoreAudioAPI;
 
 namespace AudioPipe.ViewModels
 {
+    /// <summary>
+    /// <see cref="IDeviceViewModel"/> that shows a fake device.
+    /// </summary>
     public class MockDeviceViewModel : BindableBase, IDeviceViewModel
     {
-        private string _name;
+        private readonly string name;
 
-        public MMDevice Device
-        {
-            get => null;
-            set => RaisePropertyChanged(nameof(Device));
-        }
-
-        public string DeviceName => IsDefault ? Properties.Resources.DefaultDeviceText : _name;
-        public bool IsDefault { get; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockDeviceViewModel"/> class.
+        /// </summary>
+        /// <param name="name">The name of the device.</param>
+        /// <param name="isDefault">Is this the default device?</param>
         public MockDeviceViewModel(string name, bool isDefault)
         {
-            _name = name;
+            this.name = name;
             IsDefault = isDefault;
         }
 
+        /// <inheritdoc/>
+        public MMDevice Device
+        {
+            get => null;
+            set => NotifyPropertyChanged();
+        }
+
+        /// <inheritdoc/>
+        public string DeviceName => IsDefault ? Properties.Resources.DefaultDeviceText : name;
+
+        /// <inheritdoc/>
+        public bool IsDefault { get; }
+
+        /// <inheritdoc/>
         public void RefreshName()
         {
-            RaisePropertyChanged(nameof(DeviceName));
+            NotifyPropertyChanged(nameof(DeviceName));
         }
     }
 }

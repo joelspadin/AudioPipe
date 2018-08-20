@@ -4,9 +4,13 @@ using System.Windows.Input;
 
 namespace AudioPipe.Controls
 {
-    //[TemplateVisualState(GroupName = "SelectionStates", Name = "Disabled")]
+    // [TemplateVisualState(GroupName = "SelectionStates", Name = "Disabled")]
+    // [TemplateVisualState(GroupName = "SelectionStates", Name = "UnselectedLockled")]
+
+    /// <summary>
+    /// Represents one header of a <see cref="Pivot"/>.
+    /// </summary>
     [TemplateVisualState(GroupName = "SelectionStates", Name = "Unselected")]
-    //[TemplateVisualState(GroupName = "SelectionStates", Name = "UnselectedLockled")]
     [TemplateVisualState(GroupName = "SelectionStates", Name = "UnselectedPointerOver")]
     [TemplateVisualState(GroupName = "SelectionStates", Name = "UnselectedPressed")]
     [TemplateVisualState(GroupName = "SelectionStates", Name = "Selected")]
@@ -16,108 +20,138 @@ namespace AudioPipe.Controls
     [TemplateVisualState(GroupName = "FocusStates", Name = "Focused")]
     public class PivotHeaderItem : ContentControl
     {
-        private bool _isSelected;
-        private bool _isPressed;
+        private bool isPressed;
+        private bool isSelected;
 
-        internal bool IsPressed
-        {
-            get => _isPressed;
-            set
-            {
-                if (value != _isPressed)
-                {
-                    _isPressed = value;
-                    UpdateSelectionState();
-                }
-            }
-        }
-
-
-        internal bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                if (value != _isSelected)
-                {
-                    _isSelected = value;
-                    UpdateSelectionState();
-                }
-            }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PivotHeaderItem"/> class.
+        /// </summary>
         public PivotHeaderItem()
         {
             UpdateFocusState();
             UpdateSelectionState();
         }
 
-        protected override void OnMouseEnter(MouseEventArgs e)
+        private enum SelectionStates
         {
-            base.OnMouseEnter(e);
-            UpdateSelectionState();
+            Unselected,
+            UnselectedPointerOver,
+            UnselectedPressed,
+            Selected,
+            SelectedPointerOver,
+            SelectedPressed,
         }
 
-        protected override void OnMouseLeave(MouseEventArgs e)
+        /// <summary>
+        /// Gets or sets a value indicating whether the header is currently being pressed.
+        /// </summary>
+        internal bool IsPressed
         {
-            base.OnMouseLeave(e);
-            UpdateSelectionState();
+            get => isPressed;
+            set
+            {
+                if (value != isPressed)
+                {
+                    isPressed = value;
+                    UpdateSelectionState();
+                }
+            }
         }
 
-        protected override void OnStylusEnter(StylusEventArgs e)
+        /// <summary>
+        /// Gets or sets a value indicating whether this header is for the selected
+        /// item in a <see cref="Pivot"/>.
+        /// </summary>
+        internal bool IsSelected
         {
-            base.OnStylusEnter(e);
-            UpdateSelectionState();
+            get => isSelected;
+            set
+            {
+                if (value != isSelected)
+                {
+                    isSelected = value;
+                    UpdateSelectionState();
+                }
+            }
         }
 
-        protected override void OnStylusLeave(StylusEventArgs e)
-        {
-            base.OnStylusLeave(e);
-            UpdateSelectionState();
-        }
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            IsPressed = true;
-        }
-
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonUp(e);
-            IsPressed = false;
-        }
-
-        protected override void OnStylusDown(StylusDownEventArgs e)
-        {
-            base.OnStylusDown(e);
-            IsPressed = true;
-        }
-
-        protected override void OnStylusUp(StylusEventArgs e)
-        {
-            base.OnStylusUp(e);
-            IsPressed = false;
-        }
-
-        protected override void OnGotFocus(RoutedEventArgs e)
-        {
-            base.OnGotFocus(e);
-            UpdateFocusState();
-        }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            base.OnLostFocus(e);
-            UpdateFocusState();
-        }
-
+        /// <inheritdoc/>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             UpdateFocusState();
             UpdateDefaultStyle();
             UpdateSelectionState();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnGotFocus(RoutedEventArgs e)
+        {
+            base.OnGotFocus(e);
+            UpdateFocusState();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+            UpdateFocusState();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnMouseEnter(MouseEventArgs e)
+        {
+            base.OnMouseEnter(e);
+            UpdateSelectionState();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnMouseLeave(MouseEventArgs e)
+        {
+            base.OnMouseLeave(e);
+            UpdateSelectionState();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            IsPressed = true;
+        }
+
+        /// <inheritdoc/>
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+            IsPressed = false;
+        }
+
+        /// <inheritdoc/>
+        protected override void OnStylusDown(StylusDownEventArgs e)
+        {
+            base.OnStylusDown(e);
+            IsPressed = true;
+        }
+
+        /// <inheritdoc/>
+        protected override void OnStylusEnter(StylusEventArgs e)
+        {
+            base.OnStylusEnter(e);
+            UpdateSelectionState();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnStylusLeave(StylusEventArgs e)
+        {
+            base.OnStylusLeave(e);
+            UpdateSelectionState();
+        }
+
+        /// <inheritdoc/>
+        protected override void OnStylusUp(StylusEventArgs e)
+        {
+            base.OnStylusUp(e);
+            IsPressed = false;
         }
 
         private void UpdateFocusState()
@@ -161,17 +195,6 @@ namespace AudioPipe.Controls
             }
 
             VisualStateManager.GoToState(this, newState.ToString(), true);
-        }
-
-
-        private enum SelectionStates
-        {
-            Unselected,
-            UnselectedPointerOver,
-            UnselectedPressed,
-            Selected,
-            SelectedPointerOver,
-            SelectedPressed,
         }
     }
 }

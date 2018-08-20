@@ -8,8 +8,13 @@ using System.Runtime.InteropServices;
 
 namespace AudioPipe.Services
 {
-    public static class IconService
+    /// <summary>
+    /// Provides <see cref="Bitmap"/> and <see cref="Icon"/> objects from symbols.
+    /// </summary>
+    public static partial class IconService
     {
+        private const string SegoeSymbolFont = "Segoe MDL2 Assets";
+
         /// <summary>
         /// Pre-rendered icons to use on Windows 7.
         /// </summary>
@@ -19,9 +24,13 @@ namespace AudioPipe.Services
             [(int)Symbol.Speaker] = "Resources/Speaker.ico",
         };
 
-        private const string SegoeSymbolFont = "Segoe MDL2 Assets";
         private static bool IsSymbolFontInstalled => new InstalledFontCollection().Families.Any(family => family.Name == SegoeSymbolFont);
 
+        /// <summary>
+        /// Creates a bitmap from one or more Segoe MDL2 Assets glyphs.
+        /// </summary>
+        /// <param name="icon">An object describing the icon to create.</param>
+        /// <returns>The created bitmap.</returns>
         public static Bitmap CreateBitmap(IconInfo icon)
         {
             var bitmap = new Bitmap(icon.ImageSize, icon.ImageSize);
@@ -46,12 +55,12 @@ namespace AudioPipe.Services
         }
 
         /// <summary>
-        /// Creates a bitmap using a Segoe MDL2 Assets character.
+        /// Creates a bitmap using a Segoe MDL2 Assets glpyh.
         /// </summary>
         /// <param name="charCode">The character code of a Segoe MDL2 Assets character</param>
         /// <param name="imageSize">The size of the image in pixels</param>
         /// <param name="symbolSize">The size of the symbol in pixels. Use 0 to match the image size.</param>
-        /// <returns></returns>
+        /// <returns>The created bitmap.</returns>
         public static Bitmap CreateBitmap(int charCode, int imageSize = 16, int symbolSize = 0)
         {
             if (symbolSize == 0)
@@ -71,6 +80,11 @@ namespace AudioPipe.Services
             });
         }
 
+        /// <summary>
+        /// Creates an icon from one or more Segoe MDL2 Assets glyphs.
+        /// </summary>
+        /// <param name="icon">An object describing the icon to create.</param>
+        /// <returns>The created icon.</returns>
         public static Icon CreateIcon(IconInfo icon)
         {
             using (var bitmap = CreateBitmap(icon))
@@ -80,12 +94,12 @@ namespace AudioPipe.Services
         }
 
         /// <summary>
-        /// Creates an icon using a Segoe MDL2 Assets character.
+        /// Creates an icon using a Segoe MDL2 Assets glyph.
         /// </summary>
         /// <param name="charCode">The character code of a Segoe MDL2 Assets character</param>
         /// <param name="imageSize">The size of the image in pixels</param>
         /// <param name="symbolSize">The size of the symbol in pixels. Use 0 to match the image size.</param>
-        /// <returns></returns>
+        /// <returns>The created icon.</returns>
         public static Icon CreateIcon(int charCode, int imageSize = 16, int symbolSize = 0)
         {
             if (UseLegacyIcon(charCode, out var filename))
@@ -99,16 +113,28 @@ namespace AudioPipe.Services
             }
         }
 
+        /// <summary>
+        /// The the application's foreground color.
+        /// </summary>
+        /// <returns>The foreground color.</returns>
+        public static Color GetForegroundColor()
+        {
+            var color = ColorService.GetColor("ApplicationTextDarkTheme");
+            return Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+
         private static Icon CreateIconFromBitmap(Bitmap bitmap)
         {
             if (bitmap.Width != bitmap.Height)
             {
                 throw new ArgumentException($"Cannot create icon of size ({bitmap.Width}, {bitmap.Height}). Bitmap must be square.", nameof(bitmap));
             }
+
             if (bitmap.Width < 16)
             {
                 throw new ArgumentException("Bitmap size must be >= 16", nameof(bitmap));
             }
+
             if (bitmap.Width > 256)
             {
                 throw new ArgumentException("Bitmap size must be <= 256", nameof(bitmap));
@@ -143,16 +169,10 @@ namespace AudioPipe.Services
             }
         }
 
-        public static Color GetForegroundColor()
-        {
-            var color = ColorService.GetColor("ApplicationTextDarkTheme");
-            return Color.FromArgb(color.A, color.R, color.G, color.B);
-        }
-
         /// <summary>
         /// Checks whether there is a legacy icon for the given symbol.
         /// </summary>
-        /// <param name="charCode"></param>
+        /// <param name="charCode">The character code of a Segoe MDL2 Assets character</param>
         /// <param name="filename">If successful, the filename of the icon.</param>
         /// <returns>true if successful</returns>
         private static bool UseLegacyIcon(int charCode, out string filename)
@@ -166,112 +186,11 @@ namespace AudioPipe.Services
             return LegacyIcons.TryGetValue(charCode, out filename);
         }
 
-        // https://docs.microsoft.com/en-us/windows/uwp/style/segoe-ui-symbol-font
-        public enum Symbol
-        {
-            Bluetooth = 0xE702,
-            TVMonitor = 0xE7F4,
-            Speaker = 0xE7F5,
-            Headphone = 0xE7F6,
-            Game = 0xE7FC,
-            IncidentTriangle = 0xE814,
-            Audio = 0xE8D6,
-            Streaming = 0xE93E,
-            Headset = 0xE95B,
-            Error = 0xEA39,
-            CircleFill = 0xEA3B,
-        }
-
-        public struct SymbolInfo
-        {
-            public int CharCode;
-            public Color Color;
-
-            public SymbolInfo(int charCode)
-            {
-                CharCode = charCode;
-                Color = GetForegroundColor();
-            }
-
-            public SymbolInfo(Symbol symbol)
-                : this((int)symbol)
-            {
-            }
-        }
-
-        public struct IconInfo
-        {
-            public List<SymbolInfo> Symbols;
-            public Color Background;
-            public int ImageSize;
-            public int SymbolSize;
-
-            public IconInfo(int size = 16)
-            {
-                Symbols = new List<SymbolInfo>();
-                Background = Color.Transparent;
-                ImageSize = size;
-                SymbolSize = size;
-            }
-
-            public IconInfo(int charCode, int size = 16)
-                : this(size)
-            {
-                Symbols.Add(new SymbolInfo(charCode));
-            }
-
-            public IconInfo(Symbol symbol, int size = 16)
-                : this((int)symbol, size)
-            {
-            }
-        }
-
-        #region Icon Structures
-        [StructLayout(LayoutKind.Sequential)]
-        private struct ICONDIR
-        {
-            public readonly ushort idReserved;  // Reserved (must be 0)
-            public readonly ushort idType;      // Resource type (1 for icons)
-            public ushort idCount;              // How many images?
-
-            public ICONDIR(ushort count)
-            {
-                idReserved = 0;
-                idType = 1;
-                idCount = count;
-            }
-        }
-
         private static void Write(this BinaryWriter writer, ICONDIR dir)
         {
             writer.Write(dir.idReserved);
             writer.Write(dir.idType);
             writer.Write(dir.idCount);
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct ICONDIRENTRY
-        {
-            public byte bWidth;                 // Width, in pixels, of the image
-            public byte bHeight;                // Height, in pixels, of the image
-            public byte bColorCount;            // Number of colors in image (0 if >= 8bpp)
-            public readonly byte bReserved;     // Reserved (must be 0)
-            public ushort wPlanes;              // Color planes
-            public ushort wBitCount;            // Bits per pixel
-            public uint dwBytesInRes;           // How many bytes in this resource?
-            public readonly uint dwImageOffset; // Where in the file is this image?
-
-            public ICONDIRENTRY(int width, int height, int pngBytes, int offsetBytes)
-            {
-                bWidth = Convert.ToByte(width >= 256 ? 0 : width);
-                bHeight = Convert.ToByte(height >= 256 ? 0 : height);
-                bColorCount = 0;
-                bReserved = 0;
-                wPlanes = 1;
-                wBitCount = 24; // 8-bit RGBA
-                dwBytesInRes = Convert.ToUInt32(pngBytes);
-                dwImageOffset = Convert.ToUInt16(offsetBytes);// 22;
-            }
         }
 
         private static void Write(this BinaryWriter writer, ICONDIRENTRY entry)
@@ -285,6 +204,5 @@ namespace AudioPipe.Services
             writer.Write(entry.dwBytesInRes);
             writer.Write(entry.dwImageOffset);
         }
-        #endregion
     }
 }

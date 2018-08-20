@@ -6,27 +6,19 @@ using System.Windows.Navigation;
 
 namespace AudioPipe.Extensions
 {
+    /// <summary>
+    /// Extensions for <see cref="FrameworkElement"/> to add hyperlink navigation.
+    /// </summary>
     public static class NaivgationExtensions
     {
         /// <summary>
         /// Makes all Hyperlink descendants of an element open links in the
         /// default web browser.
         /// </summary>
-        /// <param name="elem"></param>
+        /// <param name="elem">The element for which hyperlinks should be enabled.</param>
         public static void EnableHyperlinks(this FrameworkElement elem)
         {
             elem.Loaded += HyperlinkContainer_Loaded;
-        }
-
-        private static void HyperlinkContainer_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (sender is FrameworkElement root)
-            {
-                foreach (var link in root.FindLogicalDescendants<Hyperlink>())
-                {
-                    link.RequestNavigate += Hyperlink_RequestNavigate;
-                }
-            }
         }
 
         private static void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -43,6 +35,17 @@ namespace AudioPipe.Extensions
                 default:
                     Debug.WriteLine($"Unknown Uri type for {e.Uri}");
                     break;
+            }
+        }
+
+        private static void HyperlinkContainer_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement root)
+            {
+                foreach (var link in root.FindLogicalDescendants<Hyperlink>())
+                {
+                    link.RequestNavigate += Hyperlink_RequestNavigate;
+                }
             }
         }
     }

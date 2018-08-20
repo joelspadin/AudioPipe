@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Controls;
 
 namespace AudioPipe.Settings
 {
@@ -20,6 +7,9 @@ namespace AudioPipe.Settings
     /// </summary>
     public sealed partial class AboutPage : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AboutPage"/> class.
+        /// </summary>
         public AboutPage()
         {
             this.InitializeComponent();

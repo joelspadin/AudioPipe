@@ -13,6 +13,9 @@ namespace AudioPipe.Pages
     /// </summary>
     public partial class HelpPage : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HelpPage"/> class.
+        /// </summary>
         public HelpPage()
         {
             InitializeComponent();

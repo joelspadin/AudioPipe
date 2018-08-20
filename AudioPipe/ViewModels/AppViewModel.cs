@@ -6,23 +6,16 @@ using System.Windows.Data;
 
 namespace AudioPipe.ViewModels
 {
+    /// <summary>
+    /// View model for the main application window.
+    /// </summary>
     public class AppViewModel : BindableBase, IAppViewModel
     {
-        public ICollectionView DevicesView { get; }
-        public ObservableCollection<IDeviceViewModel> Devices { get; }
+        private IDeviceViewModel selectedDevice;
 
-        private IDeviceViewModel _selectedDevice;
-
-        public IDeviceViewModel SelectedDevice
-        {
-            get => _selectedDevice;
-            set
-            {
-                _selectedDevice = value;
-                RaisePropertyChanged(nameof(SelectedDevice));
-            }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppViewModel"/> class.
+        /// </summary>
         public AppViewModel()
         {
             Devices = new ObservableCollection<IDeviceViewModel>();
@@ -31,6 +24,24 @@ namespace AudioPipe.ViewModels
             Sort();
         }
 
+        /// <inheritdoc/>
+        public ObservableCollection<IDeviceViewModel> Devices { get; }
+
+        /// <inheritdoc/>
+        public ICollectionView DevicesView { get; }
+
+        /// <inheritdoc/>
+        public IDeviceViewModel SelectedDevice
+        {
+            get => selectedDevice;
+            set
+            {
+                selectedDevice = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <inheritdoc/>
         public void Refresh()
         {
             var deviceModels = DeviceService.GetOutputDevices().Select(d => new DeviceViewModel(d));
@@ -55,8 +66,8 @@ namespace AudioPipe.ViewModels
 
         private void Sort()
         {
-            var _deviceView = DevicesView as ListCollectionView;
-            _deviceView.CustomSort = new DeviceSorter();
+            var deviceView = DevicesView as ListCollectionView;
+            deviceView.CustomSort = new DeviceSorter();
         }
 
         private class DeviceSorter : System.Collections.IComparer

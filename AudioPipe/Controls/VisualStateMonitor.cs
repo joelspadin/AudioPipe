@@ -9,44 +9,28 @@ using System.Windows.Media;
 #if DEBUG
 namespace AudioPipe.Controls
 {
+    /// <summary>
+    /// Debugging helper that periodically logs the visual state of a control.
+    /// </summary>
     public class VisualStateMonitor : DependencyObject
     {
-        public static int GetInterval(DependencyObject obj)
-        {
-            return (int)obj.GetValue(IntervalProperty);
-        }
-
-        public static void SetInterval(DependencyObject obj, int value)
-        {
-            obj.SetValue(IntervalProperty, value);
-        }
-
+        /// <summary>
+        /// Identifies the <see cref="Interval"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IntervalProperty =
             DependencyProperty.RegisterAttached(
-                "Interval",
+                nameof(Interval),
                 typeof(int),
                 typeof(VisualStateMonitor),
                 new FrameworkPropertyMetadata(0, OnIntervalChanged));
 
-        private static void OnIntervalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Gets or sets the logging interval in milliseconds.
+        /// </summary>
+        public int Interval
         {
-            var element = d as FrameworkElement;
-            if (element == null)
-                return;
-
-            var interval = (int)e.NewValue;
-            if (interval <= 0)
-                return;
-
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    element.Dispatcher.Invoke(() => CheckVisualState(element));
-
-                    await Task.Delay(TimeSpan.FromSeconds(interval));
-                }
-            });
+            get => (int)GetValue(IntervalProperty);
+            set => SetValue(IntervalProperty, value);
         }
 
         private static void CheckVisualState(FrameworkElement element)
@@ -55,28 +39,18 @@ namespace AudioPipe.Controls
             if (groups != null)
             {
                 foreach (var group in groups)
+                {
                     Debug.WriteLine($"Element: {element.Name} -> Group: {group.Name} -> State: {group.CurrentState?.Name}");
+                }
             }
-        }
-
-        private static IEnumerable<VisualStateGroup> GetVisualStateGroups(FrameworkElement element)
-        {
-            if (VisualTreeHelper.GetChildrenCount(element) <= 0) // If the ControlTemplate has not been applied yet
-                return null;
-
-            foreach (var descendant in GetDescendants(element).OfType<FrameworkElement>())
-            {
-                var groups = VisualStateManager.GetVisualStateGroups(descendant)?.Cast<VisualStateGroup>();
-                if (groups != null && groups.Any())
-                    return groups;
-            }
-            return null;
         }
 
         private static IEnumerable<DependencyObject> GetDescendants(DependencyObject reference)
         {
             if (reference == null)
+            {
                 yield break;
+            }
 
             var queue = new Queue<DependencyObject>();
 
@@ -95,6 +69,49 @@ namespace AudioPipe.Controls
             }
             while (queue.Count > 0);
         }
+
+        private static IEnumerable<VisualStateGroup> GetVisualStateGroups(FrameworkElement element)
+        {
+            // If the ControlTemplate has not been applied yet
+            if (VisualTreeHelper.GetChildrenCount(element) <= 0)
+            {
+                return null;
+            }
+
+            foreach (var descendant in GetDescendants(element).OfType<FrameworkElement>())
+            {
+                var groups = VisualStateManager.GetVisualStateGroups(descendant)?.Cast<VisualStateGroup>();
+                if (groups?.Any() == true)
+                {
+                    return groups;
+                }
+            }
+
+            return null;
+        }
+
+        private static void OnIntervalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FrameworkElement element)
+            {
+                var interval = (int)e.NewValue;
+                if (interval <= 0)
+                {
+                    return;
+                }
+
+                Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        element.Dispatcher.Invoke(() => CheckVisualState(element));
+
+                        await Task.Delay(TimeSpan.FromSeconds(interval));
+                    }
+                });
+            }
+        }
     }
 }
+
 #endif

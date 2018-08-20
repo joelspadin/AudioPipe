@@ -1,47 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace AudioPipe.Services
 {
+    /// <summary>
+    /// Wraps <see cref="AccentColorService"/> or <see cref="LegacyColorService"/>
+    /// depending on which OS version is used.
+    /// </summary>
     public static class ColorService
     {
-        private static IColorService _instance;
-        private static object _lock = new object();
+        private static readonly object Lock = new object();
+        private static IColorService instance;
 
+        /// <summary>
+        /// Gets the singleton instance of <see cref="IColorService"/>.
+        /// </summary>
+        public static IColorService Instance
+        {
+            get
+            {
+                lock (Lock)
+                {
+                    return instance ?? (instance = InitService());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether Windows 7 colors should be used
+        /// instead of immersive theme colors.
+        /// </summary>
+        public static bool IsLegacyTheme => Instance is LegacyColorService;
+
+        /// <summary>
+        /// Gets the color with the given name from <see cref="Instance"/>.
+        /// </summary>
+        /// <param name="colorName">The name of the accent color.</param>
+        /// <returns>The color associated with the given name.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the given name is invalid.</exception>
         public static Color GetColor(string colorName)
         {
             return Instance[colorName];
         }
 
-        /// <summary>
-        /// True if using Windows 7 colors instead of immersive theme colors.
-        /// </summary>
-        public static bool IsLegacyTheme => Instance is LegacyColorService;
-
-        public static IColorService Instance
+        private static IColorService InitService()
         {
-            get
+            if (AccentColorService.IsSupported)
             {
-                lock (_lock)
-                {
-                    if (_instance == null)
-                    {
-                        if (AccentColorService.IsSupported)
-                        {
-                            _instance = AccentColorService.ActiveSet;
-                        }
-                        else
-                        {
-                            _instance = new LegacyColorService();
-                        }
-                    }
-
-                    return _instance;
-                }
+                return AccentColorService.ActiveSet;
+            }
+            else
+            {
+                return new LegacyColorService();
             }
         }
     }

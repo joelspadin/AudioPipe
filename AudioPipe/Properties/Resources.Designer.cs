@@ -88,6 +88,15 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string ContextMenuHelpTitle {
+            get {
+                return ResourceManager.GetString("ContextMenuHelpTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string ContextMenuSettingsTitle {

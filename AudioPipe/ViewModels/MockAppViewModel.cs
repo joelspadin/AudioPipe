@@ -1,33 +1,21 @@
-﻿using AudioPipe.Services;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
-using System;
 
 namespace AudioPipe.ViewModels
 {
     /// <summary>
-    /// IAppViewModel that shows a list of fake devices.
+    /// <see cref="IAppViewModel"/> that shows a list of fake devices.
     /// </summary>
     public class MockAppViewModel : BindableBase, IAppViewModel
     {
-        public ICollectionView DevicesView { get; }
-        public ObservableCollection<IDeviceViewModel> Devices { get; }
+        private IDeviceViewModel selectedDevice;
 
-        private IDeviceViewModel _selectedDevice;
-
-        public IDeviceViewModel SelectedDevice
-        {
-            get => _selectedDevice;
-            set
-            {
-                _selectedDevice = value;
-                RaisePropertyChanged(nameof(SelectedDevice));
-            }
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockAppViewModel"/> class.
+        /// </summary>
         public MockAppViewModel()
         {
             Devices = new ObservableCollection<IDeviceViewModel>();
@@ -36,6 +24,24 @@ namespace AudioPipe.ViewModels
             Sort();
         }
 
+        /// <inheritdoc/>
+        public ObservableCollection<IDeviceViewModel> Devices { get; }
+
+        /// <inheritdoc/>
+        public ICollectionView DevicesView { get; }
+
+        /// <inheritdoc/>
+        public IDeviceViewModel SelectedDevice
+        {
+            get => selectedDevice;
+            set
+            {
+                selectedDevice = value;
+                NotifyPropertyChanged(nameof(SelectedDevice));
+            }
+        }
+
+        /// <inheritdoc/>
         public void Refresh()
         {
             var deviceModels = new List<IDeviceViewModel>
@@ -66,19 +72,8 @@ namespace AudioPipe.ViewModels
 
         private void Sort()
         {
-            var _deviceView = DevicesView as ListCollectionView;
-            _deviceView.CustomSort = new DeviceSorter();
-        }
-
-        private class DeviceSorter : System.Collections.IComparer
-        {
-            public int Compare(object x, object y)
-            {
-                var deviceX = x as IDeviceViewModel;
-                var deviceY = y as IDeviceViewModel;
-
-                return string.CompareOrdinal(deviceX.DeviceName, deviceY.DeviceName);
-            }
+            var deviceView = DevicesView as ListCollectionView;
+            deviceView.CustomSort = new DeviceSorter();
         }
 
         private class DeviceComparer : IEqualityComparer<IDeviceViewModel>
@@ -91,6 +86,17 @@ namespace AudioPipe.ViewModels
             public int GetHashCode(IDeviceViewModel obj)
             {
                 return obj.DeviceName.GetHashCode();
+            }
+        }
+
+        private class DeviceSorter : System.Collections.IComparer
+        {
+            public int Compare(object x, object y)
+            {
+                var deviceX = x as IDeviceViewModel;
+                var deviceY = y as IDeviceViewModel;
+
+                return string.CompareOrdinal(deviceX.DeviceName, deviceY.DeviceName);
             }
         }
     }

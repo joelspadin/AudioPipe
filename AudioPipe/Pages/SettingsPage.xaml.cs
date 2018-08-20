@@ -11,24 +11,19 @@ namespace AudioPipe.Pages
     /// </summary>
     public partial class SettingsPage : UserControl
     {
+        /// <summary>
+        /// Identifies the <see cref="IsRunAtStartupEnabled"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsRunAtStartupEnabledProperty =
+            DependencyProperty.Register(nameof(IsRunAtStartupEnabled), typeof(bool), typeof(SettingsPage), new PropertyMetadata(false));
+
         private const string StartupTaskName = "AudioRedirectTask";
 
-        public ViewModels.Settings Settings { get; } = new ViewModels.Settings();
+        private readonly bool isUwp = new DesktopBridge.Helpers().IsRunningAsUwp();
 
-        public ICommand LatencyChangedCommand { get; }
-
-        public bool RunAtStartupEnabled
-        {
-            get => (bool)GetValue(RunAtStartupEnabledProperty);
-            set => SetValue(RunAtStartupEnabledProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for RunAtStartupEnabled.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RunAtStartupEnabledProperty =
-            DependencyProperty.Register(nameof(RunAtStartupEnabled), typeof(bool), typeof(SettingsPage), new PropertyMetadata(false));
-
-        private readonly bool _isUwp = new DesktopBridge.Helpers().IsRunningAsUwp();
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsPage"/> class.
+        /// </summary>
         public SettingsPage()
         {
             LatencyChangedCommand = new LatencySettingCommand(Settings);
@@ -37,16 +32,59 @@ namespace AudioPipe.Pages
             Loaded += SettingsPage_Loaded;
         }
 
-        private async void SettingsPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        /// <summary>
+        /// Gets or sets a value indicating whether the application should run at Windows' startup.
+        /// </summary>
+        public bool IsRunAtStartupEnabled
         {
-            if (_isUwp)
+            get => (bool)GetValue(IsRunAtStartupEnabledProperty);
+            set => SetValue(IsRunAtStartupEnabledProperty, value);
+        }
+
+        /// <summary>
+        /// Gets a command that executes when <see cref="ViewModels.Settings.Latency"/> changes.
+        /// </summary>
+        public ICommand LatencyChangedCommand { get; }
+
+        /// <summary>
+        /// Gets the settings view model for the page.
+        /// </summary>
+        public ViewModels.Settings Settings { get; } = new ViewModels.Settings();
+
+        private Microsoft.Win32.RegistryKey GetStartupRegistryKey()
+        {
+            return Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+        }
+
+        private async Task InitRunAtStartupUwp()
+        {
+            var task = await Windows.ApplicationModel.StartupTask.GetAsync(StartupTaskName);
+            switch (task.State)
             {
-                await InitRunAtStartupUwp();
+                case Windows.ApplicationModel.StartupTaskState.Disabled:
+                    RunAtStartupToggle.IsOn = false;
+                    IsRunAtStartupEnabled = true;
+                    break;
+
+                case Windows.ApplicationModel.StartupTaskState.DisabledByUser:
+                    RunAtStartupToggle.IsOn = false;
+                    IsRunAtStartupEnabled = false;
+                    break;
+
+                case Windows.ApplicationModel.StartupTaskState.Enabled:
+                    RunAtStartupToggle.IsOn = true;
+                    IsRunAtStartupEnabled = true;
+                    break;
             }
-            else
-            {
-                InitRunAtStartupWin32();
-            }
+        }
+
+        private void InitRunAtStartupWin32()
+        {
+            var key = GetStartupRegistryKey();
+            var value = key.GetValue(StartupTaskName);
+
+            RunAtStartupToggle.IsOn = value != null;
+            IsRunAtStartupEnabled = true;
         }
 
         private async void RunAtStartupToggle_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -59,40 +97,21 @@ namespace AudioPipe.Pages
             await ToggleRunAtStartup();
         }
 
-        private async Task InitRunAtStartupUwp()
+        private async void SettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            var task = await Windows.ApplicationModel.StartupTask.GetAsync(StartupTaskName);
-            switch (task.State)
+            if (isUwp)
             {
-                case Windows.ApplicationModel.StartupTaskState.Disabled:
-                    RunAtStartupToggle.IsOn = false;
-                    RunAtStartupEnabled = true;
-                    break;
-
-                case Windows.ApplicationModel.StartupTaskState.DisabledByUser:
-                    RunAtStartupToggle.IsOn = false;
-                    RunAtStartupEnabled = false;
-                    break;
-
-                case Windows.ApplicationModel.StartupTaskState.Enabled:
-                    RunAtStartupToggle.IsOn = true;
-                    RunAtStartupEnabled = true;
-                    break;
+                await InitRunAtStartupUwp();
             }
-        }
-
-        private void InitRunAtStartupWin32()
-        {
-            var key = GetStartupRegistryKey();
-            var value = key.GetValue(StartupTaskName);
-
-            RunAtStartupToggle.IsOn = value != null;
-            RunAtStartupEnabled = true;
+            else
+            {
+                InitRunAtStartupWin32();
+            }
         }
 
         private async Task ToggleRunAtStartup()
         {
-            if (_isUwp)
+            if (isUwp)
             {
                 await ToggleRunAtStartupUwp();
             }
@@ -116,7 +135,7 @@ namespace AudioPipe.Pages
                 {
                     case Windows.ApplicationModel.StartupTaskState.DisabledByUser:
                         RunAtStartupToggle.IsOn = false;
-                        RunAtStartupEnabled = false;
+                        IsRunAtStartupEnabled = false;
                         break;
 
                     case Windows.ApplicationModel.StartupTaskState.Enabled:
@@ -143,32 +162,40 @@ namespace AudioPipe.Pages
             }
         }
 
-        private Microsoft.Win32.RegistryKey GetStartupRegistryKey()
-        {
-            return Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-        }
-
-
+        /// <summary>
+        /// Command that executes when <see cref="ViewModels.Settings.Latency"/> changes.
+        /// </summary>
         public class LatencySettingCommand : ICommand
         {
-            // Command can always execute, so even will never fire.
-            public event EventHandler CanExecuteChanged { add { } remove { } }
+            private readonly ViewModels.Settings settings;
 
-            private ViewModels.Settings _settings;
-
+            /// <summary>
+            /// Initializes a new instance of the <see cref="LatencySettingCommand"/> class.
+            /// </summary>
+            /// <param name="settings">Settings view model to which this command is attached.</param>
             public LatencySettingCommand(ViewModels.Settings settings)
             {
-                _settings = settings;
+                this.settings = settings;
             }
 
+            /// <summary>
+            /// Occurs when <see cref="CanExecute(object)"/> changes.
+            /// This command can always execute, so this will never fire.
+            /// </summary>
+            public event EventHandler CanExecuteChanged
+            {
+                add { }
+                remove { }
+            }
+
+            /// <inheritdoc/>
             public bool CanExecute(object parameter) => true;
 
+            /// <inheritdoc/>
             public void Execute(object parameter)
             {
-                Properties.Settings.Default.Latency = _settings.Latency;
+                Properties.Settings.Default.Latency = settings.Latency;
             }
         }
-
-
     }
 }

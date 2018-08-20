@@ -7,12 +7,53 @@ using System.Windows.Media.Animation;
 
 namespace AudioPipe.Extensions
 {
+    /// <summary>
+    /// Extensions for <see cref="Window"/>.
+    /// </summary>
     internal static class WindowExtensions
     {
+        private const double HideDuration = 0.1;
         private const int ShiftAmount = 66;
         private const double ShowDuration = 0.2;
-        private const double HideDuration = 0.1;
 
+        /// <summary>
+        /// Gets a matrix describing the 2D scaling factors for the screen's DPI.
+        /// </summary>
+        /// <param name="window">The window to query.</param>
+        /// <returns>A matrix describing the 2D scaling factors for the screen's DPI.</returns>
+        public static Matrix CalculateDpiFactors(this Window window)
+        {
+            var mainWindowPresentationSource = PresentationSource.FromVisual(window);
+            return mainWindowPresentationSource?.CompositionTarget.TransformToDevice ?? new Matrix() { M11 = 1, M22 = 1 };
+        }
+
+        /// <summary>
+        /// Gets the height factor of <see cref="CalculateDpiFactors(Window)"/>.
+        /// </summary>
+        /// <param name="window">The window to query.</param>
+        /// <returns>The height factor of <see cref="CalculateDpiFactors(Window)"/>.</returns>
+        public static double DpiHeightFactor(this Window window)
+        {
+            var m = CalculateDpiFactors(window);
+            return m.M22;
+        }
+
+        /// <summary>
+        /// Gets the width factor of <see cref="CalculateDpiFactors(Window)"/>.
+        /// </summary>
+        /// <param name="window">The window to query.</param>
+        /// <returns>The width factor of <see cref="CalculateDpiFactors(Window)"/>.</returns>
+        public static double DpiWidthFactor(this Window window)
+        {
+            var m = CalculateDpiFactors(window);
+            return m.M11;
+        }
+
+        /// <summary>
+        /// Hides the window with an animation of sliding into the taskbar.
+        /// </summary>
+        /// <param name="window">The window to hide.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task HideWithAnimation(this Window window)
         {
             var duration = new Duration(TimeSpan.FromSeconds(HideDuration));
@@ -39,6 +80,11 @@ namespace AudioPipe.Extensions
             window.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Shows the window with an animation of sliding from the taskbar.
+        /// </summary>
+        /// <param name="window">The window to show.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task ShowWithAnimation(this Window window)
         {
             var originalTop = window.Top;
@@ -98,7 +144,6 @@ namespace AudioPipe.Extensions
 
             clipAnimation.From = clipAnimation.To - ShiftAmount;
 
-
             var storyboard = new Storyboard();
             storyboard.Children.Add(moveAnimation);
             storyboard.Children.Add(clipAnimation);
@@ -134,43 +179,6 @@ namespace AudioPipe.Extensions
             window.Focus();
         }
 
-        public static Matrix CalculateDpiFactors(this Window window)
-        {
-            var mainWindowPresentationSource = PresentationSource.FromVisual(window);
-            return mainWindowPresentationSource == null ? new Matrix() { M11 = 1, M22 = 1 } : mainWindowPresentationSource.CompositionTarget.TransformToDevice;
-        }
-
-        public static double DpiHeightFactor(this Window window)
-        {
-            var m = CalculateDpiFactors(window);
-            return m.M22;
-        }
-
-        public static double DpiWidthFactor(this Window window)
-        {
-            var m = CalculateDpiFactors(window);
-            return m.M11;
-        }
-
-        private class AntiExponentialEase : ExponentialEase
-        {
-            public AntiExponentialEase()
-            {
-
-            }
-
-            public AntiExponentialEase(ExponentialEase baseEase)
-            {
-                Exponent = baseEase.Exponent;
-                EasingMode = baseEase.EasingMode;
-            }
-
-            protected override double EaseInCore(double normalizedTime)
-            {
-                return 1 - base.EaseInCore(normalizedTime);
-            }
-        }
-
         private static async Task PlayStoryboard(Storyboard board, FrameworkElement containingObject)
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -184,5 +192,22 @@ namespace AudioPipe.Extensions
             board.Remove(containingObject);
         }
 
+        private class AntiExponentialEase : ExponentialEase
+        {
+            public AntiExponentialEase()
+            {
+            }
+
+            public AntiExponentialEase(ExponentialEase baseEase)
+            {
+                Exponent = baseEase.Exponent;
+                EasingMode = baseEase.EasingMode;
+            }
+
+            protected override double EaseInCore(double normalizedTime)
+            {
+                return 1 - base.EaseInCore(normalizedTime);
+            }
+        }
     }
 }

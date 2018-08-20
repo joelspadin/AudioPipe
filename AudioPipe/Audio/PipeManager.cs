@@ -4,87 +4,112 @@ using System;
 
 namespace AudioPipe.Audio
 {
+    /// <summary>
+    /// Manages a <see cref="Pipe"/> from the default playback device to another device.
+    /// </summary>
     public sealed class PipeManager : IDisposable
     {
+        private int latency = Pipe.DefaultLatency;
+        private bool muteInputWhenPiped;
+        private Pipe pipe;
+
+        /// <summary>
+        /// Gets or sets the latency of the pipe in milliseconds.
+        /// </summary>
         public int Latency
         {
-            get => _latency;
+            get => latency;
             set
             {
                 var newLatency = Math.Max(value, Pipe.MinLatency);
-                if (newLatency != _latency)
+                if (newLatency != latency)
                 {
-                    _latency = newLatency;
+                    latency = newLatency;
                     Restart();
                 }
             }
         }
 
-        public bool MuteSource
+        /// <summary>
+        /// Gets or sets a value indicating whether the input device will be muted
+        /// when the pipe is active.
+        /// </summary>
+        public bool MuteInputWhenPiped
         {
-            get => _muteSource;
+            get => muteInputWhenPiped;
             set
             {
-                _muteSource = value;
-                if (_pipe != null)
+                muteInputWhenPiped = value;
+                if (pipe != null)
                 {
-                    _pipe.MuteSource = _muteSource;
+                    pipe.MuteInputWhenPiped = muteInputWhenPiped;
                 }
             }
         }
 
-        private int _latency = Pipe.DefaultLatency;
-        private bool _muteSource;
-        private Pipe _pipe;
-
-        public MMDevice CurrentOutput
+        /// <summary>
+        /// Gets or sets the audio device to which audio will be piped.
+        /// </summary>
+        public MMDevice OutputDevice
         {
-            get => _pipe?.OutputDevice ?? DeviceService.DefaultCaptureDevice;
+            get => pipe?.OutputDevice ?? DeviceService.DefaultPlaybackDevice;
             set => SetOutputDevice(value);
         }
 
-        public void Start()
+        /// <inheritdoc/>
+        public void Dispose()
         {
-            _pipe?.Start();
+            pipe?.Dispose();
         }
 
-        public void Stop()
-        {
-            _pipe?.Stop();
-        }
-
+        /// <summary>
+        /// Reinitializes the pipe.
+        /// </summary>
         public void Restart()
         {
-            var device = CurrentOutput;
+            var device = OutputDevice;
             SetOutputDevice(null);
             SetOutputDevice(device);
-            _pipe?.Start();
+            pipe?.Start();
         }
 
-        public void SetOutputDevice(MMDevice output)
+        /// <summary>
+        /// Begins piping audio from the default playback device to <see cref="OutputDevice"/>.
+        /// </summary>
+        public void Start()
         {
-            if (!DeviceService.Equals(output, CurrentOutput))
-            {
-                _pipe?.Dispose();
+            pipe?.Start();
+        }
 
-                var defaultDevice = DeviceService.DefaultCaptureDevice;
+        /// <summary>
+        /// Stops piping audio from the default playback device to <see cref="OutputDevice"/>.
+        /// </summary>
+        public void Stop()
+        {
+            pipe?.Stop();
+        }
+
+        private void SetOutputDevice(MMDevice output)
+        {
+            if (!DeviceService.Equals(output, OutputDevice))
+            {
+                pipe?.Dispose();
+
+                var defaultDevice = DeviceService.DefaultPlaybackDevice;
                 if (output == null || DeviceService.Equals(output, defaultDevice))
                 {
-                    _pipe = null;
+                    // If there is no output or the output is the default device,
+                    // we don't need to pipe anything.
+                    pipe = null;
                 }
                 else
                 {
-                    _pipe = new Pipe(defaultDevice, output, Latency)
+                    pipe = new Pipe(defaultDevice, output, Latency)
                     {
-                        MuteSource = MuteSource,
+                        MuteInputWhenPiped = MuteInputWhenPiped,
                     };
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            _pipe?.Dispose();
         }
     }
 }

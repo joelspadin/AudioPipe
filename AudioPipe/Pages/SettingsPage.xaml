@@ -106,7 +106,7 @@
                 OffContent="{x:Static p:Resources.ToggleOff}"
                 VerticalContentAlignment="Center"
                 IsOn="false"
-                IsEnabled="{Binding RunAtStartupEnabled}"
+                IsEnabled="{Binding IsRunAtStartupEnabled}"
                 PreviewMouseUp="RunAtStartupToggle_PreviewMouseUp"
                 PreviewTouchUp="RunAtStartupToggle_PreviewTouchUp" />
         </Grid>

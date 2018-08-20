@@ -1,15 +1,19 @@
-﻿using AudioPipe.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Windows;
 using System.Windows.Media;
 
 namespace AudioPipe.Services
 {
+    /// <summary>
+    /// Implements <see cref="IColorService"/> for Windows 7 and earlier,
+    /// providing the colors that should be used in equivalent contexts
+    /// for the accent colors used by Windows 8+.
+    /// </summary>
     public class LegacyColorService : IColorService
     {
         private const byte DarkThreshold = 127;
 
+        /// <inheritdoc/>
         public Color this[string colorName]
         {
             get
@@ -58,7 +62,5 @@ namespace AudioPipe.Services
                 }
             }
         }
-
-
     }
 }

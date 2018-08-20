@@ -3,13 +3,22 @@ using System.Windows.Media;
 
 namespace AudioPipe.Services
 {
+    /// <summary>
+    /// Provides utilities for accessing Windows' themes.
+    /// </summary>
     public static class ThemeService
     {
-        public static bool IsWindowTransparencyEnabled
-        {
-            get { return !SystemParameters.HighContrast && UserSystemPreferencesService.IsTransparencyEnabled; }
-        }
+        /// <summary>
+        /// Gets a value indicating whether the window background may be transparent.
+        /// </summary>
+        public static bool IsWindowTransparencyEnabled => !SystemParameters.HighContrast && UserSystemPreferencesService.IsTransparencyEnabled;
 
+        /// <summary>
+        /// Finds a descendant of a <see cref="ResourceDictionary"/> with a given name.
+        /// </summary>
+        /// <param name="root">The root <see cref="ResourceDictionary"/> for the search.</param>
+        /// <param name="filename">The name of the dictionary to find.</param>
+        /// <returns>The found dictionary, or null if no such dictionary could be found.</returns>
         public static ResourceDictionary FindResourceDictionary(ResourceDictionary root, string filename)
         {
             if (root.Source?.OriginalString.EndsWith(filename) ?? false)
@@ -29,6 +38,11 @@ namespace AudioPipe.Services
             return null;
         }
 
+        /// <summary>
+        /// Updates theme color resources in the given <see cref="ResourceDictionary"/>
+        /// to match Windows' current colors.
+        /// </summary>
+        /// <param name="dictionary">The theme dictionary to update.</param>
         public static void UpdateThemeColors(ResourceDictionary dictionary)
         {
             dictionary["SystemAccentColor"] = ColorService.GetColor("SystemAccent");
