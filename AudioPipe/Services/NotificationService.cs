@@ -2,6 +2,7 @@
 using AudioPipe.Properties;
 using Microsoft.Toolkit.Uwp.Notifications;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using Windows.UI.Notifications;
 
@@ -14,9 +15,13 @@ namespace AudioPipe.Services
     public static class NotificationService
     {
         private const string ApplicationId = "AudioRedirect";
-        private const string ErrorImagePath = "NotifyError.png";
+        private const string ErrorImageFileName = "NotifyError.png";
 
-        private static bool iconCreated;
+        private static string DataDirectory => Path.GetTempPath();
+
+        private static string ErrorImagePath => Path.Combine(DataDirectory, ErrorImageFileName);
+
+        private static bool IsUwp => new DesktopBridge.Helpers().IsRunningAsUwp();
 
         /// <summary>
         /// Displays an error notification with a given message.
@@ -24,7 +29,7 @@ namespace AudioPipe.Services
         /// <param name="message">The text to display.</param>
         public static void NotifyError(string message)
         {
-            if (new DesktopBridge.Helpers().IsRunningAsUwp())
+            if (IsUwp)
             {
                 NotifyErrorUwp(message);
             }
@@ -34,14 +39,36 @@ namespace AudioPipe.Services
             }
         }
 
-        private static void NotifyErrorWin32(string message)
+        private static void CreateErrorIcon()
         {
-            MessageBox.Show(message, Resources.ErrorTitleCannotCreatePipe, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            // TODO: DPI aware?
+            const int imageSize = 44;
+            const int symbolSize = 30;
+
+            var iconInfo = new IconService.IconInfo
+            {
+                Symbols = new List<IconService.SymbolInfo>
+                {
+                    new IconService.SymbolInfo
+                    {
+                        CharCode = (int)IconService.Symbol.IncidentTriangle,
+                        Color = System.Drawing.Color.Yellow,
+                    }
+                },
+                Background = System.Drawing.Color.Transparent,
+                ImageSize = imageSize,
+                SymbolSize = symbolSize,
+            };
+
+            using (var bitmap = IconService.CreateBitmap(iconInfo))
+            {
+                bitmap.Save(ErrorImagePath, System.Drawing.Imaging.ImageFormat.Png);
+            }
         }
 
         private static void NotifyErrorUwp(string message)
         {
-            if (!iconCreated)
+            if (!File.Exists(ErrorImagePath))
             {
                 CreateErrorIcon();
             }
@@ -68,7 +95,7 @@ namespace AudioPipe.Services
 
                         AppLogoOverride = new ToastGenericAppLogo()
                         {
-                            Source = $"file:///{System.IO.Directory.GetCurrentDirectory()}/{ErrorImagePath}",
+                            Source = $"file:///{ErrorImagePath}",
                         }
                     }
                 }
@@ -78,34 +105,9 @@ namespace AudioPipe.Services
             ToastNotificationManager.CreateToastNotifier(ApplicationId).Show(toast);
         }
 
-        private static void CreateErrorIcon()
+        private static void NotifyErrorWin32(string message)
         {
-            // TODO: DPI aware?
-            const int imageSize = 44;
-            const int symbolSize = 30;
-
-            var iconInfo = new IconService.IconInfo
-            {
-                Symbols = new List<IconService.SymbolInfo>
-                {
-                    new IconService.SymbolInfo
-                    {
-                        CharCode = (int)IconService.Symbol.IncidentTriangle,
-
-                        Color = System.Drawing.Color.Yellow,
-                    }
-                },
-                Background = System.Drawing.Color.Transparent,
-                ImageSize = imageSize,
-                SymbolSize = symbolSize,
-            };
-
-            using (var bitmap = IconService.CreateBitmap(iconInfo))
-            {
-                bitmap.Save(ErrorImagePath, System.Drawing.Imaging.ImageFormat.Png);
-            }
-
-            iconCreated = true;
+            MessageBox.Show(message, Resources.ErrorTitleCannotCreatePipe, MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
     }
 }
