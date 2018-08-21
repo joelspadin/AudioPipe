@@ -16,7 +16,11 @@
   <Applications>
     <Application Id="AudioRedirect" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
       <uap:VisualElements DisplayName="Audio Redirect" Description="Audio Redirect works around problems in some games where changing the system playback device causes audio to drop out until you restart the game. It mutes the default device, captures all audio sent to it, and redirects it to a different device instead, allowing you to change the playback device without breaking the game's audio." BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" ShortName="Audio Redirect">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+            <uap:ShowOn Tile="wide310x150Logo" />
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
       </uap:VisualElements>
       <Extensions>
