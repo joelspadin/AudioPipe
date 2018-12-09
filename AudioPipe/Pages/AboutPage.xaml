@@ -40,7 +40,7 @@
                 Text="{x:Static p:Resources.Credits}"
                 Style="{StaticResource Header}" />
             <TextBlock>
-                <Hyperlink NavigateUri="https://github.com/filoe/cscore">CSCore .NET Audio Library</Hyperlink> (Ms-PL license)
+                <Hyperlink NavigateUri="https://github.com/naudio/NAudio">NAudio .NET Audio Library</Hyperlink> (Ms-PL license)
             </TextBlock>
             <TextBlock>
                 <Hyperlink NavigateUri="https://github.com/File-New-Project/EarTrumpet">Ear Trumpet</Hyperlink> (MIT license)
