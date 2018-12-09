@@ -99,6 +99,7 @@
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Services\AccentColorService.NativeMethods.cs" />
     <Compile Include="Services\HitTestService.cs" />
+    <Compile Include="Services\HResultService.cs" />
     <Compile Include="Services\IconService.ICONDIR.cs" />
     <Compile Include="Services\IconService.ICONDIRENTRY.cs" />
     <Compile Include="Services\IconService.IconInfo.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Services\RECT.cs" />
     <Compile Include="Services\TaskbarPosition.cs" />
     <Compile Include="Services\TaskbarState.cs" />
+    <Compile Include="Services\ThreadHelper.cs" />
     <Compile Include="Services\WindowFrameService.cs" />
     <Compile Include="Extensions\WindowStyle.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -226,9 +228,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CSCore">
-      <Version>1.2.1.2</Version>
-    </PackageReference>
     <PackageReference Include="DesktopBridge.Helpers">
       <Version>1.1.0</Version>
     </PackageReference>
@@ -240,6 +239,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Primitives">
       <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="NAudio">
+      <Version>1.8.5</Version>
     </PackageReference>
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>

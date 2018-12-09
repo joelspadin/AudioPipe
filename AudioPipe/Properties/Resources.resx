@@ -126,11 +126,8 @@
   <data name="DefaultDeviceText" xml:space="preserve">
     <value>Use default device</value>
   </data>
-  <data name="ErrorDestinationDeviceBusy" xml:space="preserve">
-    <value>Failed to connect to destination device. Is another program using it in exclusive mode?</value>
-  </data>
-  <data name="ErrorSourceDeviceBusy" xml:space="preserve">
-    <value>Failed to connect to source device. Is another program using it in exclusive mode?</value>
+  <data name="ErrorDeviceBusy" xml:space="preserve">
+    <value>{0} is busy. Is another program using it in exclusive mode?</value>
   </data>
   <data name="ErrorTitleCannotCreatePipe" xml:space="preserve">
     <value>Cannot Redirect</value>
@@ -199,5 +196,8 @@
   </data>
   <data name="ContextMenuHelpTitle" xml:space="preserve">
     <value>Help</value>
+  </data>
+  <data name="ErrorUnknownHresult" xml:space="preserve">
+    <value>Unknown error. HRESULT: {0:X8}</value>
   </data>
 </root>

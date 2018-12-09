@@ -15,13 +15,13 @@ namespace AudioPipe.ViewModels
         /// <inheritdoc/>
         public bool Equals(IDeviceViewModel x, IDeviceViewModel y)
         {
-            return x?.Device?.DeviceID == y?.Device?.DeviceID;
+            return x?.Device?.ID == y?.Device?.ID;
         }
 
         /// <inheritdoc/>
         public int GetHashCode(IDeviceViewModel obj)
         {
-            return obj?.Device?.DeviceID.GetHashCode() ?? 0;
+            return obj?.Device?.ID.GetHashCode() ?? 0;
         }
     }
 }

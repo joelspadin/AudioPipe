@@ -1,7 +1,10 @@
-﻿using CSCore.CoreAudioAPI;
-using CSCore.Win32;
+﻿using AudioPipe.Extensions;
+using NAudio.CoreAudioApi;
+using NAudio.CoreAudioApi.Interfaces;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace AudioPipe.Services
 {
@@ -14,7 +17,6 @@ namespace AudioPipe.Services
 
         private const Role CaptureDeviceRole = Role.Console;
 
-        private readonly object @lock = new object();
         private readonly MMDeviceEnumerator deviceEnum = new MMDeviceEnumerator();
         private MMDevice defaultCaptureDevice;
 
@@ -58,7 +60,9 @@ namespace AudioPipe.Services
         /// <returns>A list of available output audio devices.</returns>
         public static MMDeviceCollection GetOutputDevices()
         {
-            return Instance.deviceEnum.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active);
+            ThreadHelper.AssertOnUIThread();
+
+            return Instance.deviceEnum.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
         }
 
         /// <inheritdoc/>
@@ -69,17 +73,20 @@ namespace AudioPipe.Services
         }
 
         /// <inheritdoc/>
-        public void OnDefaultDeviceChanged(DataFlow dataFlow, Role role, string deviceId)
+        public void OnDefaultDeviceChanged(DataFlow flow, Role role, string defaultDeviceId)
         {
-            if (dataFlow == CaptureDeviceDataFlow && role == CaptureDeviceRole)
+            if (flow == CaptureDeviceDataFlow && role == CaptureDeviceRole)
             {
-                UpdateDefaultDevice();
-                DefaultPlaybackDeviceChanged?.Invoke(this, EventArgs.Empty);
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    UpdateDefaultDevice();
+                    DefaultPlaybackDeviceChanged?.Invoke(this, EventArgs.Empty);
+                }));
             }
         }
 
         /// <inheritdoc/>
-        public void OnDeviceAdded(string deviceId)
+        public void OnDeviceAdded(string pwstrDeviceId)
         {
             // TODO: check that this is actually an output first.
             OutputDevicesChanged?.Invoke(this, EventArgs.Empty);
@@ -93,41 +100,29 @@ namespace AudioPipe.Services
         }
 
         /// <inheritdoc/>
-        public void OnDeviceStateChanged(string deviceId, DeviceState deviceState)
+        public void OnDeviceStateChanged(string deviceId, DeviceState newState)
         {
             // TODO: check that this is actually an output first.
             OutputDevicesChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <inheritdoc/>
-        public void OnPropertyValueChanged(string deviceId, PropertyKey key)
+        public void OnPropertyValueChanged(string pwstrDeviceId, PropertyKey key)
         {
             // Nothing to do.
         }
 
         private MMDevice GetDefaultPlaybackDevice()
         {
-            lock (@lock)
-            {
-                return defaultCaptureDevice;
-            }
+            return defaultCaptureDevice;
         }
 
         private void UpdateDefaultDevice()
         {
-            lock (@lock)
-            {
-                try
-                {
-                    defaultCaptureDevice = deviceEnum.GetDefaultAudioEndpoint(CaptureDeviceDataFlow, CaptureDeviceRole);
-                    Debug.WriteLine("Default device changed to {0}", defaultCaptureDevice.FriendlyName);
-                }
-                catch (CoreAudioAPIException ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                    defaultCaptureDevice = null;
-                }
-            }
+            ThreadHelper.AssertOnUIThread();
+
+            defaultCaptureDevice = deviceEnum.GetDefaultAudioEndpoint(CaptureDeviceDataFlow, CaptureDeviceRole);
+            Debug.WriteLine("Default device changed to {0}", defaultCaptureDevice.FriendlyName);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CSCore.CoreAudioAPI;
+﻿using NAudio.CoreAudioApi;
 using System.Collections.Generic;
 
 namespace AudioPipe.Services
@@ -16,13 +16,13 @@ namespace AudioPipe.Services
         /// <inheritdoc/>
         public bool Equals(MMDevice x, MMDevice y)
         {
-            return x?.DeviceID == y?.DeviceID;
+            return x?.ID == y?.ID;
         }
 
         /// <inheritdoc/>
         public int GetHashCode(MMDevice obj)
         {
-            return obj.DeviceID.GetHashCode();
+            return obj.ID.GetHashCode();
         }
     }
 }

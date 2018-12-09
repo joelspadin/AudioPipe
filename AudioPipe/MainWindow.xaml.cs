@@ -2,7 +2,7 @@
 using AudioPipe.Extensions;
 using AudioPipe.Services;
 using AudioPipe.ViewModels;
-using CSCore.CoreAudioAPI;
+using NAudio.CoreAudioApi;
 using System;
 using System.Diagnostics;
 using System.Linq;

@@ -160,20 +160,11 @@ namespace AudioPipe.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to connect to destination device. Is another program using it in exclusive mode?.
+        ///   Looks up a localized string similar to {0} is busy. Is another program using it in exclusive mode?.
         /// </summary>
-        public static string ErrorDestinationDeviceBusy {
+        public static string ErrorDeviceBusy {
             get {
-                return ResourceManager.GetString("ErrorDestinationDeviceBusy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to connect to source device. Is another program using it in exclusive mode?.
-        /// </summary>
-        public static string ErrorSourceDeviceBusy {
-            get {
-                return ResourceManager.GetString("ErrorSourceDeviceBusy", resourceCulture);
+                return ResourceManager.GetString("ErrorDeviceBusy", resourceCulture);
             }
         }
         
@@ -183,6 +174,15 @@ namespace AudioPipe.Properties {
         public static string ErrorTitleCannotCreatePipe {
             get {
                 return ResourceManager.GetString("ErrorTitleCannotCreatePipe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown error. HRESULT: {0:X8}.
+        /// </summary>
+        public static string ErrorUnknownHresult {
+            get {
+                return ResourceManager.GetString("ErrorUnknownHresult", resourceCulture);
             }
         }
         

@@ -1,10 +1,8 @@
-﻿using AudioPipe.Properties;
-using AudioPipe.Services;
-using CSCore.CoreAudioAPI;
-using CSCore.SoundIn;
-using CSCore.SoundOut;
-using CSCore.Streams;
+﻿using AudioPipe.Services;
+using NAudio.CoreAudioApi;
+using NAudio.Wave;
 using System;
+using System.Runtime.InteropServices;
 
 namespace AudioPipe.Audio
 {
@@ -24,7 +22,7 @@ namespace AudioPipe.Audio
         public const int MinLatency = 2;
 
         private WasapiLoopbackCapture inputCapture;
-        private AudioEndpointVolume inputVolume;
+        private BufferedWaveProvider buffer;
 
         /// <summary>
         /// To detect redundant <see cref="Dispose()"/> calls.
@@ -57,34 +55,29 @@ namespace AudioPipe.Audio
 
             try
             {
-                inputCapture = new WasapiLoopbackCapture(latency / 2)
-                {
-                    Device = InputDevice
-                };
-                inputCapture.Initialize();
+                inputCapture = new WasapiLoopbackCapture(InputDevice);
             }
-            catch (CoreAudioAPIException ex)
+            catch (COMException ex)
             {
-                throw new PipeInitException(Resources.ErrorSourceDeviceBusy, ex);
+                throw new PipeInitException(ex.HResult, InputDevice);
             }
+
+            buffer = new BufferedWaveProvider(inputCapture.WaveFormat);
+
+            inputCapture.DataAvailable += (sender, e) =>
+            {
+                buffer.AddSamples(e.Buffer, 0, e.BytesRecorded);
+            };
 
             try
             {
-                var source = new SoundInSource(inputCapture) { FillWithZeros = true };
-
-                // Todo: test performance when eventSync = true.
-                outputDevice = new WasapiOut(false, AudioClientShareMode.Shared, latency / 2)
-                {
-                    Device = OutputDevice
-                };
-                outputDevice.Initialize(source);
+                outputDevice = new WasapiOut(OutputDevice, AudioClientShareMode.Shared, true, latency);
+                outputDevice.Init(buffer);
             }
-            catch (CoreAudioAPIException ex)
+            catch (COMException ex)
             {
-                throw new PipeInitException(Resources.ErrorDestinationDeviceBusy, ex);
+                throw new PipeInitException(ex.HResult, OutputDevice);
             }
-
-            inputVolume = AudioEndpointVolume.FromDevice(InputDevice);
         }
 
         /// <summary>
@@ -104,7 +97,7 @@ namespace AudioPipe.Audio
                 muteInputWhenPiped = value;
                 if (PlaybackState == PlaybackState.Playing)
                 {
-                    inputVolume.IsMuted = muteInputWhenPiped;
+                    InputDevice.AudioEndpointVolume.Mute = muteInputWhenPiped;
                 }
             }
         }
@@ -139,9 +132,9 @@ namespace AudioPipe.Audio
 
             if (PlaybackState != PlaybackState.Playing)
             {
-                inputCapture.Start();
+                inputCapture.StartRecording();
                 outputDevice.Play();
-                inputVolume.IsMuted = MuteInputWhenPiped;
+                InputDevice.AudioEndpointVolume.Mute = MuteInputWhenPiped;
             }
         }
 
@@ -159,8 +152,8 @@ namespace AudioPipe.Audio
             if (PlaybackState == PlaybackState.Playing)
             {
                 outputDevice.Stop();
-                inputCapture.Stop();
-                inputVolume.IsMuted = false;
+                inputCapture.StopRecording();
+                InputDevice.AudioEndpointVolume.Mute = false;
             }
         }
 
@@ -181,9 +174,6 @@ namespace AudioPipe.Audio
 
                     outputDevice?.Dispose();
                     outputDevice = null;
-
-                    inputVolume?.Dispose();
-                    inputVolume = null;
                 }
 
                 isDisposed = true;

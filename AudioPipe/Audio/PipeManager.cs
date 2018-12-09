@@ -1,5 +1,5 @@
 ﻿using AudioPipe.Services;
-using CSCore.CoreAudioAPI;
+using NAudio.CoreAudioApi;
 using System;
 
 namespace AudioPipe.Audio
@@ -91,7 +91,7 @@ namespace AudioPipe.Audio
 
         private void SetOutputDevice(MMDevice output)
         {
-            if (!DeviceService.Equals(output, OutputDevice))
+            if (!Equals(output, OutputDevice))
             {
                 pipe?.Dispose();
 

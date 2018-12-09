@@ -1,4 +1,4 @@
-﻿using CSCore.CoreAudioAPI;
+﻿using NAudio.CoreAudioApi;
 using System.ComponentModel;
 
 namespace AudioPipe.ViewModels

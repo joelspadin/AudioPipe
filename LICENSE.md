@@ -53,8 +53,8 @@ https://www.codeproject.com/Tips/469452/WPF-ExceptionViewer
 
 Code Project Open License (https://www.codeproject.com/info/cpol10.aspx)
 
-## CSCore
-https://github.com/filoe/cscore
+## NAudio
+https://github.com/naudio/NAudio
 
 ### Microsoft Public License (Ms-PL) ###
 

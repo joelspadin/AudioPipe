@@ -41,7 +41,7 @@ default playback device if you want audio to play from both devices.
 ![Settings window](Graphics/Screenshot4.png)
 
 ## Credits
-* Audio Redirect uses WASAPI capture via [CSCore](https://github.com/filoe/cscore).
-* The UI code is based on [EarTrumpet](https://github.com/File-New-Project/EarTrumpet).
+* Audio handling uses [NAudio](https://github.com/naudio/NAudio).
+* The UI code is loosely based on [EarTrumpet](https://github.com/File-New-Project/EarTrumpet).
 * The error dialog uses [WPF Exception Viewer](https://www.codeproject.com/Tips/469452/WPF-ExceptionViewer).
 * [The icon](https://thenounproject.com/term/audio-to-audio/914488/) is by Oliviu Stoian.

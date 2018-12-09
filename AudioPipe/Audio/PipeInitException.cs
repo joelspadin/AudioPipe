@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AudioPipe.Services;
+using NAudio.CoreAudioApi;
+using System;
 using System.Runtime.Serialization;
 
 namespace AudioPipe.Audio
@@ -28,6 +30,17 @@ namespace AudioPipe.Audio
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (<see langword="Nothing" /> in Visual Basic) if no inner exception is specified. </param>
         public PipeInitException(string message, Exception innerException)
             : base(message, innerException)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PipeInitException" /> class with a message determined
+        /// by an HRESULT.
+        /// </summary>
+        /// <param name="hresult">HRESULT of the failed operation.</param>
+        /// <param name="device">Audio device relevant to the operation.</param>
+        public PipeInitException(int hresult, MMDevice device)
+            : this(HResultService.GetAudioDeviceError(hresult, device))
         {
         }
 

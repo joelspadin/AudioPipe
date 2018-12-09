@@ -1,5 +1,5 @@
 ﻿using AudioPipe.Services;
-using CSCore.CoreAudioAPI;
+using NAudio.CoreAudioApi;
 
 namespace AudioPipe.ViewModels
 {
